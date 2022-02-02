@@ -21,7 +21,7 @@ function Cart() {
             <small>Items:</small>
           </div>
           <div>
-            {cart.items
+            {cart?.items
               ? cart.items.map((item) => {
                   if (item.quantity > 0) {
                     return (
