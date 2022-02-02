@@ -3,22 +3,62 @@ import Head from "next/head"
 import "../assets/css/style.css"
 import { fetchAPI } from "../lib/api"
 import { getStrapiMedia } from "../lib/media"
-import GlobalContext from "../context/GlobalContext";
+import { GlobalContext } from "../context/GlobalContext";
+import { useState, useEffect } from "react"
 
 // Store Strapi Global object in context
 
 const MyApp = ({ Component, pageProps }) => {
   const { global } = pageProps
+  let [user, setUser] = useState(null)
 
+  useEffect(() => {
+    // grab token value from cookie
+    const token = Cookie.get("token");
+
+    if (token) {
+      // authenticate the token on the server and place set user object
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(async (res) => {
+        // if res comes back not valid, token is not valid
+        // delete the token and log the user out on client
+        if (!res.ok) {
+          Cookie.remove("token");
+          setUser({ user: null });
+          return null;
+        }
+        const user = await res.json();
+        setUser(user);
+      });
+    }
+  }, [])
+  
   return (
     <>
-      <Head>
-        <link
-          rel="shortcut icon"
-          href={getStrapiMedia(global.attributes.favicon)}
-        />
-      </Head>
-      <GlobalContext.Provider value={global.attributes}>
+      <GlobalContext.Provider
+        value={{
+          user: user,
+          isAuthenticated: !!user,
+          setUser,
+        }, global.attributes}
+      >
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossOrigin="anonymous"
+          />
+        </Head>
+        <Head>
+          <link
+            rel="shortcut icon"
+            href={getStrapiMedia(global.attributes.favicon)}
+          />
+        </Head>
         <Component {...pageProps} />
       </GlobalContext.Provider>
     </>
