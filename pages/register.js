@@ -28,7 +28,7 @@ const Register = () => {
             </div>
             <section className="wrapper">
               {Object.entries(error).length !== 0 &&
-                error.constructor === Object &&
+                error.constructor === Object && error.message?.length &&
                 error.message.map((error) => {
                   return (
                     <div
@@ -95,11 +95,13 @@ const Register = () => {
                         registerUser(data.username, data.email, data.password)
                           .then((res) => {
                             // set authed user in global context object
+                            console.log('res', res)
                             globalContext.setUser(res.data.user);
                             setLoading(false);
                           })
                           .catch((error) => {
-                            setError(error.response.data);
+                            console.log('error', Object.entries(error))
+                            setError(error.response.data.error.message);
                             setLoading(false);
                           });
                       }}
