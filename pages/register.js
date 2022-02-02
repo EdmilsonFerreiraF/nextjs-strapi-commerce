@@ -27,7 +27,7 @@ const Register = () => {
               <img src="https://strapi.io/assets/images/logo.png" />
             </div>
             <section className="wrapper">
-              {Object.entries(error).length !== 0 &&
+              {error && Object.entries(error).length !== 0 &&
                 error.constructor === Object && error.message?.length &&
                 error.message.map((error) => {
                   return (
@@ -95,13 +95,11 @@ const Register = () => {
                         registerUser(data.username, data.email, data.password)
                           .then((res) => {
                             // set authed user in global context object
-                            console.log('res', res)
                             globalContext.setUser(res.data.user);
                             setLoading(false);
                           })
                           .catch((error) => {
-                            console.log('error', Object.entries(error))
-                            setError(error.response.data.error.message);
+                            setError(error.response?.data.error.message);
                             setLoading(false);
                           });
                       }}
