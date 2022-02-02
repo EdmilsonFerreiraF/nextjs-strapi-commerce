@@ -6,16 +6,32 @@ import { getStrapiMedia } from "../lib/media"
 import GlobalContext from "../context/GlobalContext";
 import { useState, useEffect } from "react"
 import Cookie from "js-cookie";
+import fetch from "isomorphic-fetch";
 
 // Store Strapi Global object in context
 
 const MyApp = ({ Component, pageProps }) => {
   const { global } = pageProps
   let [user, setUser] = useState(null)
+  let [cart, setCart] = useState({ items: [], total: 0 })
 
   useEffect(() => {
     // grab token value from cookie
     const token = Cookie.get("token");
+
+    // restore cart from cookie, this could also be tracked in a db
+    const cart = Cookie.get("cart");
+    //if items in cart, set items and total from cookie
+    console.log(cart);
+
+    if (typeof cart === "string" && cart !== "undefined") {
+      console.log("foyd");
+      JSON.parse(cart).forEach((item) => {
+        setCart({
+          cart: { items: JSON.parse(cart), total: item.price * item.quantity },
+        });
+      });
+    }
 
     if (token) {
       // authenticate the token on the server and place set user object
@@ -36,6 +52,76 @@ const MyApp = ({ Component, pageProps }) => {
       });
     }
   }, [])
+
+  const handleSetUser = (user) => {
+    setUser({ user });
+  };
+
+  const addItem = (item) => {
+    let { items } = cart;
+    //check for item already in cart
+    //if not in cart, add item if item is found increase quanity ++
+    const newItem = items.find((i) => i.id === item.id);
+    // if item is not new, add to cart, set quantity to 1
+    if (!newItem) {
+      //set quantity property to 1
+      item.quantity = 1;
+      console.log(cart.total, item.price);
+      setCart(
+        {
+          cart: {
+            items: [...items, item],
+            total: cart.total + item.price,
+          },
+        },
+        () => Cookie.set("cart", cart.items)
+      );
+    } else {
+      setCart(
+        {
+          cart: {
+            items: cart.items.map((item) =>
+              item.id === newItem.id
+                ? Object.assign({}, item, { quantity: item.quantity + 1 })
+                : item
+            ),
+            total: cart.total + item.price,
+          },
+        },
+        () => Cookie.set("cart", cart.items)
+      );
+    }
+  };
+  const removeItem = (item) => {
+    let { items } = cart;
+    //check for item already in cart
+    //if not in cart, add item if item is found increase quanity ++
+    const newItem = items.find((i) => i.id === item.id);
+    if (newItem.quantity > 1) {
+      setCart(
+        {
+          cart: {
+            items: cart.items.map((item) =>
+              item.id === newItem.id
+                ? Object.assign({}, item, { quantity: item.quantity - 1 })
+                : item
+            ),
+            total: cart.total - item.price,
+          },
+        },
+        () => Cookie.set("cart", items)
+      );
+    } else {
+      const items = [...cart.items];
+      const index = items.findIndex((i) => i.id === newItem.id);
+
+      items.splice(index, 1);
+      setCart(
+        { cart: { items, total: cart.total - item.price } },
+        () => Cookie.set("cart", items)
+      );
+    }
+  };
   
   return (
     <>
@@ -43,7 +129,10 @@ const MyApp = ({ Component, pageProps }) => {
         value={{
           user: user,
           isAuthenticated: !!user,
-          setUser,
+          handleSetUser,
+          cart: cart,
+          addItem,
+          removeItem,
         }, global.attributes}
       >
         <Head>
