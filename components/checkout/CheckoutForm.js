@@ -6,7 +6,7 @@ import fetch from "isomorphic-fetch";
 import Cookies from "js-cookie";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-// import CardSection from "./CardSection";
+import CardSection from "./CardSection";
 import GlobalContext from "../../context/GlobalContext";
 
 
@@ -93,7 +93,7 @@ function CheckoutForm() {
         </div>
       </FormGroup>
 
-      {/* <CardSection data={data} stripeError={error} submitOrder={submitOrder} /> */}
+      <CardSection data={data} stripeError={error} submitOrder={submitOrder} />
 
       <style jsx global>
         {`
