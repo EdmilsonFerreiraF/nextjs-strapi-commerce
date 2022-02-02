@@ -5,6 +5,7 @@ import { fetchAPI } from "../lib/api"
 import { getStrapiMedia } from "../lib/media"
 import GlobalContext from "../context/GlobalContext";
 import { useState, useEffect } from "react"
+import Cookie from "js-cookie";
 
 // Store Strapi Global object in context
 
