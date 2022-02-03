@@ -18,9 +18,9 @@ const ProductCard = ({ product }) => {
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
-            {product.attributes.image.data.map(image => {
+            {/* {product.attributes.image.data.map(image => {
               return (<NextImage image={{data: image}} />)
-            })}
+            })} */}
             
           </div>
           <div className="uk-card-body">

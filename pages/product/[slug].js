@@ -27,7 +27,8 @@ const Product = ({ product, categories }) => {
 
   return (
     <Layout categories={categories.data}>
-      <Seo seo={seo} />
+      {/* <Seo seo={seo} /> */}
+      {console.log('product', product)}
       {product.attributes.image.data.map(image => {
   const imageUrl = getStrapiMedia({data: image})
 
@@ -71,7 +72,7 @@ const Product = ({ product, categories }) => {
                   <Button
                     outline
                     color="primary"
-                    onClick={() => appContext.addItem(res)}
+                    onClick={() => globalContext.addItem(res)}
                   >
                     + Add To Cart
                   </Button>
@@ -113,6 +114,7 @@ const Product = ({ product, categories }) => {
 
 export async function getStaticPaths() {
   const productsRes = await fetchAPI("/products", { fields: ["slug"] })
+  console.log('productsRes', productsRes)
 
   return {
     paths: productsRes.data.map((product) => ({
