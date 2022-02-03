@@ -62,35 +62,34 @@ const MyApp = ({ Component, pageProps }) => {
 
   const addItem = (item) => {
     let { items } = cart;
-    //check for item already in cart
-    //if not in cart, add item if item is found increase quanity ++
+    // Check for item already in cart
+    // If not in cart, add item if item is found increase quanity ++
     const newItem = items.find((i) => i.id === item.id);
-    // if item is not new, add to cart, set quantity to 1
+    // If item is not new, add to cart, set quantity to 1
     if (!newItem) {
-      //set quantity property to 1
+      // Set quantity property to 1
       item.quantity = 1;
-      console.log(cart.total, item.price);
+      
       setCart(
         {
-            items: [...items, item],
-            total: cart.total + item.price,
-          },
-        
-        );
-        //  Cookie.set("cart", cart.items)
+          items: [...items, item],
+          total: cart.total + item.price,
+        },
+
+      );
     } else {
       setCart(
         {
-            items: cart.items.map((item) =>
-              item.id === newItem.id
-                ? Object.assign({}, item, { quantity: item.quantity + 1 })
-                : item
-            ),
-            total: cart.total + item.price,
-          },
-     
-        );
-        //  Cookie.set("cart", cart.items)
+          items: cart.items.map((item) =>
+            item.id === newItem.id
+              ? Object.assign({}, item, { quantity: item.quantity + 1 })
+              : item
+          ),
+          total: cart.total + item.price,
+        },
+
+      );
+      //  Cookie.set("cart", cart.items)
     }
   };
   const removeItem = (item) => {
@@ -101,28 +100,26 @@ const MyApp = ({ Component, pageProps }) => {
     if (newItem.quantity > 1) {
       setCart(
         {
-            items: cart.items.map((item) =>
-              item.id === newItem.id
-                ? Object.assign({}, item, { quantity: item.quantity - 1 })
-                : item
-            ),
-            total: cart.total - item.price,
-          },
-      
-        );
-        //  Cookie.set("cart", items)
+          items: cart.items.map((item) =>
+            item.id === newItem.id
+              ? Object.assign({}, item, { quantity: item.quantity - 1 })
+              : item
+          ),
+          total: cart.total - item.price,
+        },
+
+      );
     } else {
       const items = [...cart.items];
       const index = items.findIndex((i) => i.id === newItem.id);
 
       items.splice(index, 1);
       setCart(
-       { items, total: cart.total - item.price } ,
-        );
-        //  Cookie.set("cart", items)
+        { items, total: cart.total - item.price } ,
+      );
     }
   };
-  
+
   return (
     <>
       <GlobalContext.Provider
@@ -143,6 +140,7 @@ const MyApp = ({ Component, pageProps }) => {
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossOrigin="anonymous"
           />
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"></link>
         </Head>
         <Head>
           <link
