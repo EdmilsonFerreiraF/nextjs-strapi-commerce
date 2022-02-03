@@ -1,15 +1,11 @@
-import ReactMarkdown from "react-markdown"
-import Moment from "react-moment"
 import { fetchAPI } from "../../lib/api"
-import Layout from "../../components/layout"
-import NextImage from "../../components/image"
-import { getStrapiMedia } from "../../lib/media"
 import Cart from '../../components/cart'
 import {
   Button,
   Col,
 } from "reactstrap";
 import { useContext, useState } from "react"
+import { getStrapiMedia } from "../../lib/media"
 
 import GlobalContext from "../../context/GlobalContext";
 
@@ -36,91 +32,115 @@ const Product = ({ product, categories }) => {
 
   return (
     <div className="uk-card uk-card-muted">
-      <div className="uk-card-media-top">
-        {product.attributes.image.data.map(image => {
-          return (<NextImage image={{ data: image }} />)
-        })}
-      </div>
       <div className="uk-card-body">
         <p id="category" className="uk-text-uppercase">
           {product.attributes.category.name}
         </p>
 
-        <p id="title" className="uk-text-large">
-          {product.attributes.title}
-        </p>
-      </div>
-      <div className="card-footer">
-        <Button
-          className="rounded-0"
-          color="secondary"
-          onClick={() => globalContext.removeItem(product)}
-        >
-          <i class="bi bi-cart"></i> Buy
-        </Button>
-
-        {productFromCart ?
-          (
-            <>
-              <Button
-                className="rounded-0"
-                color="secondary"
-                onClick={() => globalContext.removeItem(product)}
-
-              >
-                <i class="bi bi-cart-dash"></i>Remove from cart
-              </Button>
-            </>
-          )
-          :
-          (
-            <Button
-              className="rounded-0"
-              color="secondary"
-              onClick={() => globalContext.addItem(product, quantity)}
-            >
-              <i class="bi bi-cart-plus"></i>Add to cart
-            </Button>
-          )
-        }
-
-        <Col xs="3" style={{ padding: 0 }}>
-          <div>
-            <Button
-              className="rounded-0"
-              color="secondary"
-              onClick={removeQuantity}
-            >
-              <i class="bi bi-dash"></i>
-            </Button>
-          </div>
-          <div
-            className="items-one"
-            style={{ marginBottom: 15 }}
-            key={product.id}
-          >
-            <div>
-              <span id="item-price">&nbsp; ${product.price}</span>
+        <div className="card-footer" style={{ maxWidth: "800px" }}>
+          <div id="carouselExampleIndicators" className="carousel slide" data-bs-interval="false">
+            <div className="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
-            <div>
-              <span style={{ marginLeft: 5 }} id="item-quantity">
-                <input id="quantity" type="number" value={quantity} onChange={e => handleQuantity(e)} />
-              </span>
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />
+              </div>
+
+              {product.attributes.image.data.slice(1).map(image => (
+                <div className="carousel-item">
+                  <img key={image.attributes.id} src={getStrapiMedia({ data: image })} className="d-block" style={{ height: "450px" }} alt="..." />
+                </div>
+              )
+              )}
+
+              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+
+              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
+          <p id="title" className="uk-text-large text-center">
+            {product.attributes.title}
+          </p>
           <Button
             className="rounded-0"
             color="secondary"
-            onClick={addQuantity}
+            onClick={() => globalContext.removeItem(product)}
           >
-            <i class="bi bi-plus"></i>
+            <i className="bi bi-cart"></i> Buy
           </Button>
-        </Col>
-        <Col xs="3" style={{ padding: 0 }}>
-          <div>
-            <Cart />
-          </div>
-        </Col>
+
+          {productFromCart ?
+            (
+              <>
+                <Button
+                  className="rounded-0"
+                  color="secondary"
+                  onClick={() => globalContext.removeItem(product)}
+
+                >
+                  <i className="bi bi-cart-dash"></i>Remove from cart
+                </Button>
+              </>
+            )
+            :
+            (
+              <Button
+                className="rounded-0"
+                color="secondary"
+                onClick={() => globalContext.addItem(product, quantity)}
+              >
+                <i className="bi bi-cart-plus"></i>Add to cart
+              </Button>
+            )
+          }
+          <Col xs="3" style={{ padding: 0 }}>
+            <div>
+              <Button
+                className="rounded-0"
+                color="secondary"
+                onClick={removeQuantity}
+              >
+                <i className="bi bi-dash"></i>
+              </Button>
+            </div>
+            <div
+              className="items-one"
+              style={{ marginBottom: 15 }}
+              key={product.id}
+            >
+              <div>
+                <span id="item-price">&nbsp; ${product.price}</span>
+              </div>
+              <div>
+                <span style={{ marginLeft: 5 }} id="item-quantity">
+                  <input id="quantity" type="number" value={quantity} onChange={e => handleQuantity(e)} />
+                </span>
+              </div>
+            </div>
+            <Button
+              className="rounded-0"
+              color="secondary"
+              onClick={addQuantity}
+            >
+              <i className="bi bi-plus"></i>
+            </Button>
+          </Col>
+          <Col xs="3" style={{ padding: 0 }}>
+            <div>
+              <Cart />
+            </div>
+          </Col>
+        </div>
       </div>
     </div>
   )

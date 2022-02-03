@@ -23,51 +23,51 @@ function Cart() {
           <div>
             {cart?.items
               ? cart.items.map((item) => {
-                  if (item.quantity > 0) {
-                    return (
-                      <div
-                        className="items-one"
-                        style={{ marginBottom: 15 }}
-                        key={item.id}
-                      >
-                        <div>
-                          <span id="item-price">&nbsp; ${item.price}</span>
-                          <span id="item-name">&nbsp; {item.name}</span>
-                        </div>
-                        <div>
-                          <Button
-                            style={{
-                              height: 25,
-                              padding: 0,
-                              width: 15,
-                              marginRight: 5,
-                              marginLeft: 10,
-                            }}
-                            onClick={() => globalContext.addItem(item)}
-                            color="link"
-                          >
-                            +
-                          </Button>
-                          <Button
-                            style={{
-                              height: 25,
-                              padding: 0,
-                              width: 15,
-                              marginRight: 10,
-                            }}
-                            onClick={() => globalContext.removeItem(item)}
-                            color="link"
-                          >
-                            -
-                          </Button>
-                          <span style={{ marginLeft: 5 }} id="item-quantity">
-                            {item.quantity}x
-                          </span>
-                        </div>
+                if (item.quantity > 0) {
+                  return (
+                    <div
+                      className="items-one"
+                      style={{ marginBottom: 15 }}
+                      key={item.id}
+                    >
+                      <div>
+                        <span id="item-price">&nbsp; ${item.price}</span>
+                        <span id="item-name">&nbsp; {item.name}</span>
                       </div>
-                    );
-                  }
-                })
+                      <div>
+                        <Button
+                          style={{
+                            height: 25,
+                            padding: 0,
+                            width: 15,
+                            marginRight: 5,
+                            marginLeft: 10,
+                          }}
+                          onClick={() => globalContext.addItem(item)}
+                          color="link"
+                        >
+                          +
+                        </Button>
+                        <Button
+                          style={{
+                            height: 25,
+                            padding: 0,
+                            width: 15,
+                            marginRight: 10,
+                          }}
+                          onClick={() => globalContext.removeItem(item)}
+                          color="link"
+                        >
+                          -
+                        </Button>
+                        <span style={{ marginLeft: 5 }} id="item-quantity">
+                          {item.quantity}x
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+              })
               : null}
             {isAuthenticated ? (
               cart.items.length > 0 ? (

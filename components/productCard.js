@@ -1,31 +1,43 @@
 import React, { useContext } from "react"
 import Link from "next/link"
-import NextImage from "./image"
-import Cart from './cart'
 import {
   Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardText,
-  CardTitle,
-  Col,
-  Row,
 } from "reactstrap";
 import GlobalContext from "../context/GlobalContext";
+import { getStrapiMedia } from "../lib/media"
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
-  console.log('globalContext', globalContext)
+  const productFromCart = globalContext.cart.items.find(item => item.id === product.id)
+
   return (
     <Link href={`/product/${product.attributes.slug}`}>
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
-            {product.attributes.image.data.map(image => {
-              return (<NextImage image={{ data: image }} />)
-            })}
+            <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
+              <div className="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  {product.attributes.image.data.map(image => <img key={image.attributes.id} src={getStrapiMedia({ data: image })} className="d-block w-100" alt="..." />
+                  )}
+                </div>
 
+                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Previous</span>
+                </button>
+
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
           </div>
           <div className="uk-card-body">
             <p id="category" className="uk-text-uppercase">
@@ -37,38 +49,37 @@ const ProductCard = ({ product }) => {
           </div>
           <div className="card-footer">
             <Button
-              outline
-              color="primary"
-              onClick={() => globalContext.addItem(product)}
+              className="rounded-0"
+              color="secondary"
+              onClick={() => globalContext.removeItem(product)}
             >
-              + Add To Cart
+              <i className="bi bi-cart"></i> Buy
             </Button>
 
-            <style jsx>
-              {`
-                      a {
-                        color: white;
-                      }
-                      a:link {
-                        text-decoration: none;
-                        color: white;
-                      }
-                      .container-fluid {
-                        margin-bottom: 30px;
-                      }
-                      .btn-outline-primary {
-                        color: #007bff !important;
-                      }
-                      a:hover {
-                        color: white !important;
-                      }
-                    `}
-            </style>
-            <Col xs="3" style={{ padding: 0 }}>
-              <div>
-                <Cart />
-              </div>
-            </Col>
+            {productFromCart ?
+              (
+                <>
+                  <Button
+                    className="rounded-0"
+                    color="secondary"
+                    onClick={() => globalContext.removeItem(product)}
+
+                  >
+                    <i className="bi bi-cart-dash"></i>Remove from cart
+                  </Button>
+                </>
+              )
+              :
+              (
+                <Button
+                  className="rounded-0"
+                  color="secondary"
+                  onClick={() => globalContext.addItem(product)}
+                >
+                  <i className="bi bi-cart-plus"></i>Add to cart
+                </Button>
+              )
+            }
           </div>
         </div>
       </a>
