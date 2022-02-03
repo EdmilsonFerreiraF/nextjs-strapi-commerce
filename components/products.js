@@ -1,7 +1,8 @@
 import React from "react"
-import Card from "./card"
+import ProductCard from "./productCard"
 
 const Products = ({ products }) => {
+  console.log('products', products)
   const leftProductsCount = Math.ceil(products.length / 5)
   const leftProducts = products.slice(0, leftProductsCount)
   const rightProducts = products.slice(leftProductsCount, products.length)
@@ -12,7 +13,7 @@ const Products = ({ products }) => {
         <div>
           {leftProducts.map((product, i) => {
             return (
-              <Card
+              <ProductCard
                 product={product}
                 key={`product__left__${product.attributes.slug}`}
               />
@@ -23,7 +24,7 @@ const Products = ({ products }) => {
           <div className="uk-child-width-1-2@m uk-grid-match" data-uk-grid>
             {rightProducts.map((product, i) => {
               return (
-                <Card
+                <ProductCard
                   product={product}
                   key={`product__left__${product.attributes.slug}`}
                 />

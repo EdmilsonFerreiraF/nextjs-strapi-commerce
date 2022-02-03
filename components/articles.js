@@ -11,6 +11,7 @@ const Articles = ({ articles }) => {
       <div className="uk-child-width-1-2@s" data-uk-grid="true">
         <div>
           {leftArticles.map((article, i) => {
+            console.log(article.attributes)
             return (
               <Card
                 article={article}
