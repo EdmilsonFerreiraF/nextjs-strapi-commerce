@@ -6,7 +6,16 @@ import NextImage from "../../components/image"
 import Seo from "../../components/seo"
 import { getStrapiMedia } from "../../lib/media"
 import Cart from '../../components/cart'
-
+import {
+  Button,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Col,
+  Row,
+} from "reactstrap";
 const Product = ({ product, categories }) => {
 
   const seo = {
@@ -43,19 +52,19 @@ const Product = ({ product, categories }) => {
           <hr className="uk-divider-small" />
           <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
             <div>
-              {product.attributes.author.picture && (
+              {/* {product.attributes.author.picture && (
                 <NextImage image={product.attributes.author.picture} />
-              )}
+              )} */}
             </div>
             <div className="uk-width-expand">
-              <p className="uk-margin-remove-bottom">
+              {/* <p className="uk-margin-remove-bottom">
                 By {product.attributes.author.name}
-              </p>
-              <p className="uk-text-meta uk-margin-remove-top">
+              </p> */}
+              {/* <p className="uk-text-meta uk-margin-remove-top">
                 <Moment format="MMM Do YYYY">
                   {product.attributes.published_at}
                 </Moment>
-              </p>
+              </p> */}
 
 
               <div className="card-footer">
