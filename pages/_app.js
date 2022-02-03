@@ -60,7 +60,7 @@ const MyApp = ({ Component, pageProps }) => {
     setUser({ user });
   };
 
-  const addItem = (item) => {
+  const addItem = (item, quantity) => {
     let { items } = cart;
     // Check for item already in cart
     // If not in cart, add item if item is found increase quanity ++
@@ -68,12 +68,12 @@ const MyApp = ({ Component, pageProps }) => {
     // If item is not new, add to cart, set quantity to 1
     if (!newItem) {
       // Set quantity property to 1
-      item.quantity = 1;
-      
+      item.quantity = quantity;
+
       setCart(
         {
           items: [...items, item],
-          total: cart.total + item.price,
+          total: cart.total + (item.price * item.quantity),
         },
 
       );
@@ -82,10 +82,10 @@ const MyApp = ({ Component, pageProps }) => {
         {
           items: cart.items.map((item) =>
             item.id === newItem.id
-              ? Object.assign({}, item, { quantity: item.quantity + 1 })
+              ? Object.assign({}, item, { quantity: item.quantity + quantity })
               : item
           ),
-          total: cart.total + item.price,
+          total: cart.total + (item.price * item.quantity),
         },
 
       );

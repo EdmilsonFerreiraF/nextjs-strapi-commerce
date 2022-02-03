@@ -9,102 +9,125 @@ import {
   Button,
   Col,
 } from "reactstrap";
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 import GlobalContext from "../../context/GlobalContext";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
-  {console.log('globalContext', globalContext)}
-  const { addItem } = globalContext;
 
-  console.log('addItem', addItem)
-  const seo = {
-    metaTitle: product.attributes.title,
-    metaDescription: product.attributes.description,
-    shareImage: product.attributes.image,
-    product: true,
+  const productFromCart = globalContext.cart.items.find(item => item.id === product.id)
+
+  let [quantity, setQuantity] = useState(1)
+
+  const removeQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(prevState => prevState - 1)
+    }
+  }
+
+  const addQuantity = () => {
+    setQuantity(prevState => prevState + 1)
+  }
+
+  const handleQuantity = (e) => {
+    setQuantity(e.target.value)
   }
 
   return (
-    <Layout categories={categories.data}>
-      {product.attributes.image.data.map(image => {
-        const imageUrl = getStrapiMedia({ data: image })
+    <div className="uk-card uk-card-muted">
+      <div className="uk-card-media-top">
+        {product.attributes.image.data.map(image => {
+          return (<NextImage image={{ data: image }} />)
+        })}
+      </div>
+      <div className="uk-card-body">
+        <p id="category" className="uk-text-uppercase">
+          {product.attributes.category.name}
+        </p>
 
-        return (
+        <p id="title" className="uk-text-large">
+          {product.attributes.title}
+        </p>
+      </div>
+      <div className="card-footer">
+        <Button
+          className="rounded-0"
+          color="secondary"
+          onClick={() => globalContext.removeItem(product)}
+        >
+          <i class="bi bi-cart"></i> Buy
+        </Button>
+
+        {productFromCart ?
+          (
+            <>
+              <Button
+                className="rounded-0"
+                color="secondary"
+                onClick={() => globalContext.removeItem(product)}
+
+              >
+                <i class="bi bi-cart-dash"></i>Remove from cart
+              </Button>
+            </>
+          )
+          :
+          (
+            <Button
+              className="rounded-0"
+              color="secondary"
+              onClick={() => globalContext.addItem(product, quantity)}
+            >
+              <i class="bi bi-cart-plus"></i>Add to cart
+            </Button>
+          )
+        }
+
+        <Col xs="3" style={{ padding: 0 }}>
+          <div>
+            <Button
+              className="rounded-0"
+              color="secondary"
+              onClick={removeQuantity}
+            >
+              <i class="bi bi-dash"></i>
+            </Button>
+          </div>
           <div
-            id="banner"
-            className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
-            data-src={imageUrl}
-            data-srcset={imageUrl}
-            data-uk-img
+            className="items-one"
+            style={{ marginBottom: 15 }}
+            key={product.id}
           >
-            <h1>{product.attributes.title}</h1>
-          </div>)
-      })}
-
-      <div className="uk-section">
-        <div className="uk-container uk-container-small">
-          <ReactMarkdown
-            source={product.attributes.content}
-            escapeHtml={false}
-          />
-          <hr className="uk-divider-small" />
-          <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
-            <div className="uk-width-expand">
-              <p className="uk-margin-remove-bottom">
-                {product.attributes.title}
-              </p>
-              <p className="uk-text-meta uk-margin-remove-top">
-                {product.attributes.description}
-              </p>
-              <div className="card-footer">
-                <Button
-                  outline
-                  color="primary"
-                  onClick={() => globalContext.addItem(product)}
-                >
-                  + Add To Cart
-                </Button>
-
-                <style jsx>
-                  {`
-                      a {
-                        color: white;
-                      }
-                      a:link {
-                        text-decoration: none;
-                        color: white;
-                      }
-                      .container-fluid {
-                        margin-bottom: 30px;
-                      }
-                      .btn-outline-primary {
-                        color: #007bff !important;
-                      }
-                      a:hover {
-                        color: white !important;
-                      }
-                    `}
-                </style>
-              </div>
-
-              <Col xs="3" style={{ padding: 0 }}>
-                <div>
-                  <Cart />
-                </div>
-              </Col>
+            <div>
+              <span id="item-price">&nbsp; ${product.price}</span>
+            </div>
+            <div>
+              <span style={{ marginLeft: 5 }} id="item-quantity">
+                <input id="quantity" type="number" value={quantity} onChange={e => handleQuantity(e)} />
+              </span>
             </div>
           </div>
-        </div>
+          <Button
+            className="rounded-0"
+            color="secondary"
+            onClick={addQuantity}
+          >
+            <i class="bi bi-plus"></i>
+          </Button>
+        </Col>
+        <Col xs="3" style={{ padding: 0 }}>
+          <div>
+            <Cart />
+          </div>
+        </Col>
       </div>
-    </Layout>
+    </div>
   )
 }
 
 export async function getStaticPaths() {
   const productsRes = await fetchAPI("/products", { fields: ["slug"] })
-  console.log('productsRes', productsRes)
 
   return {
     paths: productsRes.data.map((product) => ({

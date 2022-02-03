@@ -16,6 +16,7 @@ import GlobalContext from "../context/GlobalContext";
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
+  console.log('globalContext', globalContext)
   return (
     <Link href={`/product/${product.attributes.slug}`}>
       <a className="uk-link-reset">
@@ -35,38 +36,34 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
           <div className="card-footer">
-          <Button
-                  className="rounded-0"
-                  color="secondary"
-                  onClick={() => globalContext.removeItem(product)}
+            <Button
+              outline
+              color="primary"
+              onClick={() => globalContext.addItem(product)}
+            >
+              + Add To Cart
+            </Button>
 
-                >
-                  <i className="bi bi-dash-lg"></i> Buy
-                </Button>
-            {globalContext.cart.items.find(item => item.id === product.id) ?
-              (
-                <Button
-                  className="rounded-0"
-                  color="secondary"
-                  onClick={() => globalContext.removeItem(product)}
-
-                >
-                  <i className="bi bi-dash-lg"></i> Remove from cart
-                </Button>
-              )
-              :
-              (
-                <Button
-                  className="rounded-0"
-                  color="secondary"
-                  onClick={() => globalContext.addItem(product)}
-                >
-                  <i className="bi bi-plus-lg "></i> Add to cart
-                </Button>
-              )
-            }
-
-
+            <style jsx>
+              {`
+                      a {
+                        color: white;
+                      }
+                      a:link {
+                        text-decoration: none;
+                        color: white;
+                      }
+                      .container-fluid {
+                        margin-bottom: 30px;
+                      }
+                      .btn-outline-primary {
+                        color: #007bff !important;
+                      }
+                      a:hover {
+                        color: white !important;
+                      }
+                    `}
+            </style>
             <Col xs="3" style={{ padding: 0 }}>
               <div>
                 <Cart />
