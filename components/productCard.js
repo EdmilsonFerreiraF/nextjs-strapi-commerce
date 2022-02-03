@@ -35,6 +35,14 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
           <div className="card-footer">
+          <Button
+                  className="rounded-0"
+                  color="secondary"
+                  onClick={() => globalContext.removeItem(product)}
+
+                >
+                  <i className="bi bi-dash-lg"></i> Buy
+                </Button>
             {globalContext.cart.items.find(item => item.id === product.id) ?
               (
                 <Button
@@ -43,7 +51,7 @@ const ProductCard = ({ product }) => {
                   onClick={() => globalContext.removeItem(product)}
 
                 >
-                  <i className="bi bi-dash-lg"></i> Remove from Cart
+                  <i className="bi bi-dash-lg"></i> Remove from cart
                 </Button>
               )
               :
@@ -53,7 +61,7 @@ const ProductCard = ({ product }) => {
                   color="secondary"
                   onClick={() => globalContext.addItem(product)}
                 >
-                  <i className="bi bi-plus-lg "></i> Add To Cart
+                  <i className="bi bi-plus-lg "></i> Add to cart
                 </Button>
               )
             }
