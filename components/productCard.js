@@ -16,15 +16,15 @@ import GlobalContext from "../context/GlobalContext";
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
-
+  console.log('globalContext', globalContext)
   return (
     <Link href={`/product/${product.attributes.slug}`}>
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
-            {/* {product.attributes.image.data.map(image => {
+            {product.attributes.image.data.map(image => {
               return (<NextImage image={{data: image}} />)
-            })} */}
+            })}
             
           </div>
           <div className="uk-card-body">
@@ -35,7 +35,6 @@ const ProductCard = ({ product }) => {
               {product.attributes.title}
             </p>
           </div>
-
           <div className="card-footer">
                   <Button
                     outline

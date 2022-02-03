@@ -15,7 +15,10 @@ import GlobalContext from "../../context/GlobalContext";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
+  {console.log('globalContext', globalContext)}
+  const { addItem } = globalContext;
 
+  console.log('addItem', addItem)
   const seo = {
     metaTitle: product.attributes.title,
     metaDescription: product.attributes.description,
@@ -59,7 +62,7 @@ const Product = ({ product, categories }) => {
                 <Button
                   outline
                   color="primary"
-                  onClick={() => globalContext.addItem(res)}
+                  onClick={() => globalContext.addItem(product)}
                 >
                   + Add To Cart
                 </Button>

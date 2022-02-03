@@ -27,9 +27,8 @@ const MyApp = ({ Component, pageProps }) => {
     if (typeof cart === "string" && cart !== "undefined") {
       console.log("foyd");
       JSON.parse(cart).forEach((item) => {
-        setCart({
-          cart: { items: JSON.parse(cart), total: item.price * item.quantity },
-        });
+        setCart({ items: JSON.parse(cart), total: item.price * item.quantity },
+        );
       });
     }
 
@@ -53,6 +52,10 @@ const MyApp = ({ Component, pageProps }) => {
     }
   }, [])
 
+  useEffect(() => {
+    Cookie.set("cart", JSON.stringify(cart.items))
+  }, [cart])
+
   const handleSetUser = (user) => {
     setUser({ user });
   };
@@ -69,17 +72,15 @@ const MyApp = ({ Component, pageProps }) => {
       console.log(cart.total, item.price);
       setCart(
         {
-          cart: {
             items: [...items, item],
             total: cart.total + item.price,
           },
-        },
-        () => Cookie.set("cart", cart.items)
-      );
+        
+        );
+        //  Cookie.set("cart", cart.items)
     } else {
       setCart(
         {
-          cart: {
             items: cart.items.map((item) =>
               item.id === newItem.id
                 ? Object.assign({}, item, { quantity: item.quantity + 1 })
@@ -87,9 +88,9 @@ const MyApp = ({ Component, pageProps }) => {
             ),
             total: cart.total + item.price,
           },
-        },
-        () => Cookie.set("cart", cart.items)
-      );
+     
+        );
+        //  Cookie.set("cart", cart.items)
     }
   };
   const removeItem = (item) => {
@@ -100,7 +101,6 @@ const MyApp = ({ Component, pageProps }) => {
     if (newItem.quantity > 1) {
       setCart(
         {
-          cart: {
             items: cart.items.map((item) =>
               item.id === newItem.id
                 ? Object.assign({}, item, { quantity: item.quantity - 1 })
@@ -108,18 +108,18 @@ const MyApp = ({ Component, pageProps }) => {
             ),
             total: cart.total - item.price,
           },
-        },
-        () => Cookie.set("cart", items)
-      );
+      
+        );
+        //  Cookie.set("cart", items)
     } else {
       const items = [...cart.items];
       const index = items.findIndex((i) => i.id === newItem.id);
 
       items.splice(index, 1);
       setCart(
-        { cart: { items, total: cart.total - item.price } },
-        () => Cookie.set("cart", items)
-      );
+       { items, total: cart.total - item.price } ,
+        );
+        //  Cookie.set("cart", items)
     }
   };
   
@@ -127,13 +127,14 @@ const MyApp = ({ Component, pageProps }) => {
     <>
       <GlobalContext.Provider
         value={{
-          user: user,
+          user,
           isAuthenticated: !!user,
           handleSetUser,
-          cart: cart,
+          cart,
           addItem,
           removeItem,
-        }, global.attributes}
+          global: global.attributes
+        }}
       >
         <Head>
           <link
