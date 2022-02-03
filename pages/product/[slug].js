@@ -96,10 +96,10 @@ const Product = ({ product, categories }) => {
 }
 
 export async function getStaticPaths() {
-  const articlesRes = await fetchAPI("/articles", { fields: ["slug"] })
+  const productsRes = await fetchAPI("/products", { fields: ["slug"] })
 
   return {
-    paths: articlesRes.data.map((product) => ({
+    paths: productsRes.data.map((product) => ({
       params: {
         slug: product.attributes.slug,
       },
@@ -109,7 +109,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const articlesRes = await fetchAPI("/articles", {
+  const productsRes = await fetchAPI("/products", {
     filters: {
       slug: params.slug,
     },
@@ -118,7 +118,7 @@ export async function getStaticProps({ params }) {
   const categoriesRes = await fetchAPI("/categories")
 
   return {
-    props: { product: articlesRes.data[0], categories: categoriesRes },
+    props: { product: productsRes.data[0], categories: categoriesRes },
     revalidate: 1,
   }
 }
