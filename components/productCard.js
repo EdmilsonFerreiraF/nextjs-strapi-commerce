@@ -1,16 +1,24 @@
 import React from "react"
 import Link from "next/link"
 import NextImage from "./image"
-
+import Cart from './cart'
+import {
+  Button,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Col,
+  Row,
+} from "reactstrap";
 const ProductCard = ({ product }) => {
-  console.log('product', product)
   return (
     <Link href={`/product/${product.attributes.slug}`}>
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
             {product.attributes.image.data.map(image => {
-              console.log('image', image)
               return (<NextImage image={{data: image}} />)
             })}
             
@@ -23,9 +31,45 @@ const ProductCard = ({ product }) => {
               {product.attributes.title}
             </p>
           </div>
+
+          <div className="card-footer">
+                  <Button
+                    outline
+                    color="primary"
+                    onClick={() => appContext.addItem(res)}
+                  >
+                    + Add To Cart
+                  </Button>
+
+                  <style jsx>
+                    {`
+                      a {
+                        color: white;
+                      }
+                      a:link {
+                        text-decoration: none;
+                        color: white;
+                      }
+                      .container-fluid {
+                        margin-bottom: 30px;
+                      }
+                      .btn-outline-primary {
+                        color: #007bff !important;
+                      }
+                      a:hover {
+                        color: white !important;
+                      }
+                    `}
+                  </style>
+          <Col xs="3" style={{ padding: 0 }}>
+            <div>
+              <Cart />
+            </div>
+          </Col>
+            </div>
         </div>
       </a>
-    </Link>
+      </Link>
   )
 }
 

@@ -5,9 +5,9 @@ import Layout from "../../components/layout"
 import NextImage from "../../components/image"
 import Seo from "../../components/seo"
 import { getStrapiMedia } from "../../lib/media"
+import Cart from '../../components/cart'
 
 const Product = ({ product, categories }) => {
-  const imageUrl = getStrapiMedia(product.attributes.image)
 
   const seo = {
     metaTitle: product.attributes.title,
@@ -19,6 +19,10 @@ const Product = ({ product, categories }) => {
   return (
     <Layout categories={categories.data}>
       <Seo seo={seo} />
+      {product.attributes.image.data.map(image => {
+  const imageUrl = getStrapiMedia({data: image})
+
+  return (
       <div
         id="banner"
         className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
@@ -27,7 +31,9 @@ const Product = ({ product, categories }) => {
         data-uk-img
       >
         <h1>{product.attributes.title}</h1>
-      </div>
+      </div>)
+      })}
+      
       <div className="uk-section">
         <div className="uk-container uk-container-small">
           <ReactMarkdown
@@ -82,15 +88,16 @@ const Product = ({ product, categories }) => {
                     `}
                   </style>
                 </div>
-              </Card>
-            </Col>
-          <Col xs="3" style={{ padding: 0 }}>
-            <div>
-              <Cart />
+
+                <Col xs="3" style={{ padding: 0 }}>
+                  <div>
+                    <Cart />
+                  </div>
+                </Col>
+              </div>
             </div>
-          </Col>
+          </div>
         </div>
-      </div>
     </Layout>
   )
 }
