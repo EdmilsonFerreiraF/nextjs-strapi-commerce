@@ -9,7 +9,11 @@ const ProductCard = ({ product }) => {
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
-            {/* <NextImage image={product.attributes.image} /> */}
+            {product.attributes.image.data.map(image => {
+              console.log('image', image)
+              return (<NextImage image={{data: image}} />)
+            })}
+            
           </div>
           <div className="uk-card-body">
             <p id="category" className="uk-text-uppercase">
