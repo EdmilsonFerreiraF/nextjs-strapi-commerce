@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
                   <Button
                     outline
                     color="primary"
-                    onClick={() => globalContext.addItem(res)}
+                    onClick={() => globalContext.addItem(product)}
                   >
                     + Add To Cart
                   </Button>
