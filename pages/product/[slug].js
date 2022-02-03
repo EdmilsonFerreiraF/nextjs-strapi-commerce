@@ -3,20 +3,18 @@ import Moment from "react-moment"
 import { fetchAPI } from "../../lib/api"
 import Layout from "../../components/layout"
 import NextImage from "../../components/image"
-import Seo from "../../components/seo"
 import { getStrapiMedia } from "../../lib/media"
 import Cart from '../../components/cart'
 import {
   Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardText,
-  CardTitle,
   Col,
-  Row,
 } from "reactstrap";
+import { useContext } from "react"
+
+import GlobalContext from "../../context/GlobalContext";
+
 const Product = ({ product, categories }) => {
+  const globalContext = useContext(GlobalContext);
 
   const seo = {
     metaTitle: product.attributes.title,
@@ -27,23 +25,21 @@ const Product = ({ product, categories }) => {
 
   return (
     <Layout categories={categories.data}>
-      {/* <Seo seo={seo} /> */}
-      {console.log('product', product)}
       {product.attributes.image.data.map(image => {
-  const imageUrl = getStrapiMedia({data: image})
+        const imageUrl = getStrapiMedia({ data: image })
 
-  return (
-      <div
-        id="banner"
-        className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
-        data-src={imageUrl}
-        data-srcset={imageUrl}
-        data-uk-img
-      >
-        <h1>{product.attributes.title}</h1>
-      </div>)
+        return (
+          <div
+            id="banner"
+            className="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin"
+            data-src={imageUrl}
+            data-srcset={imageUrl}
+            data-uk-img
+          >
+            <h1>{product.attributes.title}</h1>
+          </div>)
       })}
-      
+
       <div className="uk-section">
         <div className="uk-container uk-container-small">
           <ReactMarkdown
@@ -52,33 +48,24 @@ const Product = ({ product, categories }) => {
           />
           <hr className="uk-divider-small" />
           <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
-            <div>
-              {/* {product.attributes.author.picture && (
-                <NextImage image={product.attributes.author.picture} />
-              )} */}
-            </div>
             <div className="uk-width-expand">
-              {/* <p className="uk-margin-remove-bottom">
-                By {product.attributes.author.name}
-              </p> */}
-              {/* <p className="uk-text-meta uk-margin-remove-top">
-                <Moment format="MMM Do YYYY">
-                  {product.attributes.published_at}
-                </Moment>
-              </p> */}
-
-
+              <p className="uk-margin-remove-bottom">
+                {product.attributes.title}
+              </p>
+              <p className="uk-text-meta uk-margin-remove-top">
+                {product.attributes.description}
+              </p>
               <div className="card-footer">
-                  <Button
-                    outline
-                    color="primary"
-                    onClick={() => globalContext.addItem(res)}
-                  >
-                    + Add To Cart
-                  </Button>
+                <Button
+                  outline
+                  color="primary"
+                  onClick={() => globalContext.addItem(res)}
+                >
+                  + Add To Cart
+                </Button>
 
-                  <style jsx>
-                    {`
+                <style jsx>
+                  {`
                       a {
                         color: white;
                       }
@@ -96,18 +83,18 @@ const Product = ({ product, categories }) => {
                         color: white !important;
                       }
                     `}
-                  </style>
-                </div>
-
-                <Col xs="3" style={{ padding: 0 }}>
-                  <div>
-                    <Cart />
-                  </div>
-                </Col>
+                </style>
               </div>
+
+              <Col xs="3" style={{ padding: 0 }}>
+                <div>
+                  <Cart />
+                </div>
+              </Col>
             </div>
           </div>
         </div>
+      </div>
     </Layout>
   )
 }

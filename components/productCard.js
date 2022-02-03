@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Link from "next/link"
 import NextImage from "./image"
 import Cart from './cart'
@@ -12,7 +12,11 @@ import {
   Col,
   Row,
 } from "reactstrap";
+import GlobalContext from "../context/GlobalContext";
+
 const ProductCard = ({ product }) => {
+  const globalContext = useContext(GlobalContext);
+
   return (
     <Link href={`/product/${product.attributes.slug}`}>
       <a className="uk-link-reset">
@@ -36,7 +40,7 @@ const ProductCard = ({ product }) => {
                   <Button
                     outline
                     color="primary"
-                    onClick={() => appContext.addItem(res)}
+                    onClick={() => globalContext.addItem(res)}
                   >
                     + Add To Cart
                   </Button>
