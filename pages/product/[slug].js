@@ -3,6 +3,8 @@ import Cart from '../../components/cart'
 import {
   Button,
   Col,
+  Card,
+  CardTitle
 } from "reactstrap";
 import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
@@ -103,42 +105,58 @@ const Product = ({ product, categories }) => {
               </Button>
             )
           }
+
           <Col xs="3" style={{ padding: 0 }}>
-            <div>
-              <Button
-                className="rounded-0"
-                color="secondary"
-                onClick={removeQuantity}
-              >
-                <i className="bi bi-dash"></i>
-              </Button>
-            </div>
-            <div
-              className="items-one"
-              style={{ marginBottom: 15 }}
-              key={product.id}
-            >
+            <Card style={{ padding: "10px 5px" }} className="cart">
+              <CardTitle style={{ margin: 10 }}>Quantity:</CardTitle>
               <div>
-                <span id="item-price">&nbsp; ${product.price}</span>
+                <span id="item-price">&nbsp; $ {product.price}</span>
               </div>
-              <div>
-                <span style={{ marginLeft: 5 }} id="item-quantity">
-                  <input id="quantity" type="number" value={quantity} onChange={e => handleQuantity(e)} />
-                </span>
-              </div>
-            </div>
-            <Button
-              className="rounded-0"
-              color="secondary"
-              onClick={addQuantity}
-            >
-              <i className="bi bi-plus"></i>
-            </Button>
-          </Col>
-          <Col xs="3" style={{ padding: 0 }}>
-            <div>
-              <Cart />
-            </div>
+              <Col xs="3" style={{ padding: 0,
+                  display: "flex",
+                  alignItems: "center"
+               }}>
+
+                <div>
+                  <Button
+                    className="rounded-0"
+                    color="secondary"
+                    onClick={removeQuantity}
+                  >
+                    <i className="bi bi-dash"></i>
+                  </Button>
+                </div>
+                <div
+                  className="items-one"
+                  style={{ marginBottom: 15 }}
+                  key={product.id}
+                >
+                  <div>
+                    <span style={{ marginLeft: 5 }} id="item-quantity">
+                      <input id="quantity" style={{
+                        padding: "5px",
+                        background: "#515a62",
+                        color: "white",
+                        fontSize: "20px",
+                        textAlign: "center",
+                        width: "45px",
+                        borderRadius: "3px",
+                        border: "1px",
+                      }} type="number" value={quantity} onChange={e => handleQuantity(e)} />
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    className="rounded-0"
+                    color="secondary"
+                    onClick={addQuantity}
+                  >
+                    <i className="bi bi-plus"></i>
+                  </Button>
+                </div>
+              </Col>
+            </Card>
           </Col>
         </div>
       </div>

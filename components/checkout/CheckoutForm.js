@@ -8,6 +8,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 import CardSection from "./CardSection";
 import GlobalContext from "../../context/GlobalContext";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
 
 function CheckoutForm() {
@@ -29,6 +30,11 @@ function CheckoutForm() {
     setData({ ...data, updateItem });
   }
 
+
+  // user_address
+  // user_city
+  // user_state
+  // 4242 4242 4242  4242  01 / 25  423  21232
   async function submitOrder() {
     // event.preventDefault();
 
@@ -40,7 +46,7 @@ function CheckoutForm() {
     // get token back from stripe to process credit card
     const token = await stripe.createToken(cardElement);
     const userToken = Cookies.get("token");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+    const response = await fetch(`${API_URL}/orders`, {
       method: "POST",
       headers: userToken && { Authorization: `Bearer ${userToken}` },
       body: JSON.stringify({
