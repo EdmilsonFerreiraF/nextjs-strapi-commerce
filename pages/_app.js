@@ -42,7 +42,7 @@ const MyApp = ({ Component, pageProps }) => {
         // if res comes back not valid, token is not valid
         // delete the token and log the user out on client
         if (!res.ok) {
-          Cookie.remove("token");
+          // Cookie.remove("token");
           setUser({ user: null });
           return null;
         }
