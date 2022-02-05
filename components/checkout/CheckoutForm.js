@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
+  PaymentElement,
   useStripe,
+  useElements
 } from "@stripe/react-stripe-js";
+
 
 export default function CheckoutForm() {
   const stripe = useStripe();
+  const elements = useElements();
+
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!stripe) {
@@ -37,10 +44,31 @@ export default function CheckoutForm() {
     });
   }, [stripe]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: "http://localhost:3000",
+      },
+    });
+
+    setIsLoading(false);
+  };
 
   return (
-    <div>
-
-    </div>
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement id="payment-element" />
+    </form>
   );
 }
