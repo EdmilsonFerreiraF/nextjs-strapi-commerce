@@ -8,11 +8,11 @@ const Profile = ({ categories }) => {
     const handleActiveTab = (tab) => {
         setActiveTab(tab)
     }
-    
+
     return (
         <Layout categories={categories}>
             <div className="container-md">
-                <h1>My profile</h1>
+                <h1 className="mt-5 text-center">My profile</h1>
                 <ul className="nav nav-pills my-5">
                     <li className="nav-item">
                         <a className={`nav-link${!activeTab ? " active" : ""}`} onClick={() => handleActiveTab(0)} aria-current="page" href="#">Bought</a>

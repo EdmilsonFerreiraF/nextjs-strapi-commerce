@@ -35,6 +35,10 @@ h1 {
   font-family: Staatliches;
 }
 
+.uk-navbar-nav {
+  z-index: 0;
+}
+
 img:hover {
   opacity: 1;
   transition: opacity 0.25s cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -73,4 +77,34 @@ input::-webkit-inner-spin-button {
 
 .dropdown-toggle::after {
   margin-left: 0.555em;
+}
+
+@keyframes dropdown-toggle {
+  0% {
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    display: block;
+    inset: 0px 0px auto auto;
+  }
+
+  90% {
+
+  }
+  
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.dropdown-menu {
+  transform: translate(0px, -96px);
+  transition: all .5s;
+  z-index: -1;
+
+}
+
+.dropdown-menu.show {
+  animation: dropdown-toggle .5s;
 }
