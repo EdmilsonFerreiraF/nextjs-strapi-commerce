@@ -35,6 +35,23 @@ h1 {
   font-family: Staatliches;
 }
 
+.form-control-plaintext {
+  padding: 10px 15px;
+}
+
+.form-control-plaintext.focus {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+}
+
+.form-control-plaintext:focus-visible {
+  outline: none;
+}
+
+.form-control-plaintext.focus:focus-visible {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .uk-navbar-nav {
   z-index: 0;
 }
@@ -107,4 +124,5 @@ input::-webkit-inner-spin-button {
 
 .dropdown-menu.show {
   animation: dropdown-toggle .5s;
+
 }
