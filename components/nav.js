@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Nav as NavList, NavItem } from "reactstrap";
 import { logout } from "../lib/auth";
 import GlobalContext from "../context/GlobalContext";
+import User from "./user"
 
 const Nav = ({ categories }) => {
   const { user, setUser } = useContext(GlobalContext);
@@ -30,34 +31,15 @@ const Nav = ({ categories }) => {
                 </li>
               )
             })}
-              <NavItem className="ml-auto">
-                {user ? (
-                  <h5>{user.username}</h5>
-                ) : (
-                  <Link href="/register">
-                    <a className="nav-link"> Sign up</a>
-                  </Link>
-                )}
-              </NavItem>
-              <NavItem>
-                {user ? (
-                  <Link href="/">
-                    <a
-                      className="nav-link"
-                      onClick={() => {
-                        logout();
-                        setUser(null);
-                      }}
-                    >
-                      Logout
-                    </a>
-                  </Link>
-                ) : (
-                  <Link href="/login">
-                    <a className="nav-link">Sign in</a>
-                  </Link>
-                )}
-              </NavItem>
+            <NavItem className="d-flex align-items-center">
+              {user ? (
+                <User />
+              ) : (
+                <Link href="/login">
+                  <a className="nav-link">Sign in</a>
+                </Link>
+              )}
+            </NavItem>
           </ul>
         </div>
       </nav>
