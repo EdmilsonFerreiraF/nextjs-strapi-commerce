@@ -1,3 +1,5 @@
+import { logout } from "../lib/auth";
+
 const User = () => {
     return (
         <div className="dropdown">
@@ -10,7 +12,7 @@ const User = () => {
                 <li><button className="dropdown-item" type="button">Profile</button></li>
                 <li><button className="dropdown-item" type="button">Account</button></li>
                 <li><button className="dropdown-item" type="button">Settings</button></li>
-                <li><button className="dropdown-item" type="button">Logout</button></li>
+                <li><button className="dropdown-item" type="button" onClick={logout}>Logout</button></li>
             </ul>
         </div>
     )

@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import Link from "next/link"
 import { Nav as NavList, NavItem } from "reactstrap";
-import { logout } from "../lib/auth";
 import GlobalContext from "../context/GlobalContext";
 import User from "./user"
 
