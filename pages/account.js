@@ -11,6 +11,11 @@ const Account = ({ categories }) => {
 
     }
 
+    const handleFocusField = (field, e) => {
+        handleEditField(field)
+        
+        e.target.previousElementSibling.childNodes[0].focus()
+    }
     return (
         <div>
             <Layout categories={categories}>
@@ -22,28 +27,28 @@ const Account = ({ categories }) => {
                             <div class="col-sm-8">
                                 <input type="text" readOnly={editField !== 1} class={`form-control-plaintext ${editField === 1 ? "focus" : null}`} id="staticName" value="email@example.com" />
                             </div>
-                            <i class="bi bi-pencil col"></i>
+                            <i class="bi bi-pencil col" onClick={e => handleFocusField(1, e)}></i>
                         </div>
                         <div class="mb-5 row">
                             <label for="staticEmail" class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-8">
                                 <input type="text" readOnly={editField !== 2} class={`form-control-plaintext ${editField === 2 ? "focus" : null}`} id="staticEmail" value="email@example.com" />
                             </div>
-                            <i class="bi bi-pencil col"></i>
+                            <i class="bi bi-pencil col" onClick={e => handleFocusField(2, e)}></i>
                         </div>
                         <div class="mb-5 row">
                             <label for="staticPassword" class="col-sm-3 col-form-label">Password</label>
                             <div class="col-sm-8">
                                 <input type="text" readOnly={editField !== 3} class={`form-control-plaintext ${editField === 3 ? "focus" : null}`} id="staticPassword" value="email@example.com" />
                             </div>
-                            <i class="bi bi-pencil col"></i>
+                            <i class="bi bi-pencil col" onClick={e => handleFocusField(3, e)}></i>
                         </div>
                         <div class="mb-5 row">
                             <label for="staticBirthDate" class="col-sm-3 col-form-label">Birth date</label>
                             <div class="col-sm-8">
                                 <input type="text" readOnly={editField !== 4} class={`form-control-plaintext ${editField === 4 ? "focus" : null}`} id="staticBirthDate" value="email@example.com" />
                             </div>
-                            <i class="bi bi-pencil col"></i>
+                            <i class="bi bi-pencil col" onClick={e => handleFocusField(4, e)}></i>
                         </div>
                     </div>
                 </div>
