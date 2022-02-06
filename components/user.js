@@ -1,4 +1,5 @@
 import { logout } from "../lib/auth";
+import Link from "next/link"
 
 const User = () => {
     return (
@@ -9,10 +10,10 @@ const User = () => {
                 </div>
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li><button className="dropdown-item" type="button">Profile</button></li>
+                <Link href="/profile"><li><button className="dropdown-item" type="button">Profile</button></li></Link>
                 <li><button className="dropdown-item" type="button">Account</button></li>
                 <li><button className="dropdown-item" type="button">Settings</button></li>
-                <li><button className="dropdown-item" type="button" onClick={logout}>Logout</button></li>
+                <button className="dropdown-item" type="button" onClick={logout}>Logout</button>
             </ul>
         </div>
     )
