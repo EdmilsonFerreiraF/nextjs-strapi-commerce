@@ -14,18 +14,20 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
-    "animejs": "^3.2.1",
     "axios": "^0.25.0",
     "isomorphic-fetch": "^3.0.0",
     "js-cookie": "^3.0.1",
     "moment": "^2.24.0",
     "next": "^11.0.0",
+    "payment": "^2.4.6",
     "qs": "^6.10.1",
     "react": "17.0.0",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "17.0.0",
     "react-markdown": "^4.2.2",
     "react-moment": "^0.9.6",
-    "reactstrap": "^9.0.1"
+    "reactstrap": "^9.0.1",
+    "styled-components": "^5.3.3"
   },
   "license": "MIT",
   "devDependencies": {
