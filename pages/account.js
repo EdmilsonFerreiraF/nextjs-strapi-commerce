@@ -1,21 +1,21 @@
 import Layout from "../components/layout"
 import { fetchAPI } from "../lib/api"
+
 import { useState } from "react"
 
 const Account = ({ categories }) => {
     let [editField, setEditField] = useState(0)
 
-
     const handleEditField = (field) => {
         setEditField(field)
-
     }
 
     const handleFocusField = (field, e) => {
         handleEditField(field)
-        
+
         e.target.previousElementSibling.childNodes[0].focus()
     }
+
     return (
         <div>
             <Layout categories={categories}>

@@ -3,6 +3,7 @@ import Link from "next/link"
 import {
   Button,
 } from "reactstrap";
+
 import GlobalContext from "../context/GlobalContext";
 import { getStrapiMedia } from "../lib/media"
 

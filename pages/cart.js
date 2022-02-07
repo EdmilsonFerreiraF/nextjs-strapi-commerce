@@ -3,17 +3,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
 
-import GlobalContext from "../../context/GlobalContext";
+import Layout from "../components/layout"
+import { fetchAPI } from "../lib/api"
+import GlobalContext from "../context/GlobalContext";
 
-function Cart() {
+function Cart({ categories }) {
   const globalContext = useContext(GlobalContext);
   const router = useRouter();
 
   const { cart, isAuthenticated } = globalContext;
 
   return (
-    <div>
-      <Card style={{ padding: "10px 5px" }} className="cart">
+    <Layout categories={categories}>
+      <Card style={{ padding: "10px 5px" }} className="cart container-md">
+        <h1 className="m-5 text-center">Cart</h1>
+
         <CardTitle style={{ margin: 10 }}>Your Order:</CardTitle>
         <hr />
         <CardBody style={{ padding: 10 }}>
@@ -107,6 +111,7 @@ function Cart() {
               <h5>Login to Order</h5>
             )}
           </div>
+          {console.log(router.pathname)}
         </CardBody>
       </Card>
       <style jsx>{`
@@ -124,8 +129,22 @@ function Cart() {
           color: rgba(97, 97, 97, 1);
         }
       `}</style>
-    </div>
-  );
+    </Layout>
+  )
+}
+
+export async function getStaticProps() {
+  // Run API calls in parallel
+  const [categoriesRes] = await Promise.all([
+    fetchAPI("/categories", { populate: "*" }),
+  ])
+
+  return {
+    props: {
+      categories: categoriesRes.data,
+    },
+    revalidate: 1,
+  }
 }
 
 export default Cart;

@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -27,6 +28,7 @@ export default function App() {
   const appearance = {
     theme: 'stripe',
   };
+  
   const options = {
     clientSecret,
     appearance,

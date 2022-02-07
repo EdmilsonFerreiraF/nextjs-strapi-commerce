@@ -1,12 +1,12 @@
 import App from "next/app"
 import Head from "next/head"
-import "../assets/css/style.css"
+import { useState, useEffect } from "react"
+import fetch from "isomorphic-fetch";
+
 import { fetchAPI } from "../lib/api"
 import { getStrapiMedia } from "../lib/media"
 import GlobalContext from "../context/GlobalContext";
-import { useState, useEffect } from "react"
-import Cookie from "js-cookie";
-import fetch from "isomorphic-fetch";
+import "../assets/css/style.css"
 
 // Store Strapi Global object in context
 
@@ -14,18 +14,17 @@ const MyApp = ({ Component, pageProps }) => {
   const { global } = pageProps
   let [user, setUser] = useState(null)
   let [cart, setCart] = useState({ items: [], total: 0 })
+  console.log(cart);
 
   useEffect(() => {
     // grab token value from cookie
-    const token = Cookie.get("token");
+    const token = localStorage.getItem("token");
 
     // restore cart from cookie, this could also be tracked in a db
-    const cart = Cookie.get("cart");
+    const cart = localStorage.getItem("cart");
     //if items in cart, set items and total from cookie
-    console.log(cart);
 
-    if (typeof cart === "string" && cart !== "undefined") {
-      console.log("foyd");
+    if (typeof cart === "string" && cart !== "undefined" && cart.length) {
       JSON.parse(cart).forEach((item) => {
         setCart({ items: JSON.parse(cart), total: item.price * item.quantity },
         );
@@ -53,7 +52,10 @@ const MyApp = ({ Component, pageProps }) => {
   }, [])
 
   useEffect(() => {
-    Cookie.set("cart", JSON.stringify(cart.items))
+    if (cart) {
+      console.log(cart);
+      localStorage.setItem("cart", JSON.stringify(cart.items))
+    }
   }, [cart])
 
   const handleSetUser = (user) => {
@@ -62,9 +64,11 @@ const MyApp = ({ Component, pageProps }) => {
 
   const addItem = (item, quantity = 1) => {
     let { items } = cart;
+
     // Check for item already in cart
     // If not in cart, add item if item is found increase quanity ++
     const newItem = items.find((i) => i.id === item.id);
+
     // If item is not new, add to cart, set quantity to 1
     if (!newItem) {
       // Set quantity property to 1
@@ -75,7 +79,6 @@ const MyApp = ({ Component, pageProps }) => {
           items: [...items, item],
           total: cart.total + (item.price * item.quantity),
         },
-
       );
     } else {
       setCart(
@@ -89,13 +92,13 @@ const MyApp = ({ Component, pageProps }) => {
         },
 
       );
-      //  Cookie.set("cart", cart.items)
     }
   };
   const removeItem = (item) => {
     let { items } = cart;
-    //check for item already in cart
-    //if not in cart, add item if item is found increase quanity ++
+
+    // Check for item already in cart
+    // If not in cart, add item if item is found increase quanity ++
     const newItem = items.find((i) => i.id === item.id);
     if (newItem.quantity > 1) {
       setCart(
@@ -114,6 +117,7 @@ const MyApp = ({ Component, pageProps }) => {
       const index = items.findIndex((i) => i.id === newItem.id);
 
       items.splice(index, 1);
+      
       setCart(
         { items, total: cart.total - item.price } ,
       );

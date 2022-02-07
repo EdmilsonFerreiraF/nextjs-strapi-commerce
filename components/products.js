@@ -1,8 +1,8 @@
 import React from "react"
+
 import ProductCard from "./productCard"
 
 const Products = ({ products }) => {
-  console.log('products', products)
   const leftProductsCount = Math.ceil(products.length / 5)
   const leftProducts = products.slice(0, leftProductsCount)
   const rightProducts = products.slice(leftProductsCount, products.length)

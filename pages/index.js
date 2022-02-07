@@ -1,4 +1,5 @@
 import React from "react"
+
 import Articles from "../components/articles"
 import Products from "../components/products"
 import Layout from "../components/layout"
@@ -16,7 +17,6 @@ const Home = ({ products, articles, categories, homepage }) => {
           <Articles articles={articles} />
         </div>
       </div>
-
 
       <div className="uk-section">
         <div className="uk-container uk-container-large">

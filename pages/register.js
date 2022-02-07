@@ -10,6 +10,7 @@ import {
   Label,
   Input,
 } from "reactstrap";
+
 import { registerUser } from "../lib/auth";
 import GlobalContext from "../context/GlobalContext";
 
@@ -18,6 +19,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const globalContext = useContext(GlobalContext);
+  
   return (
     <Container>
       <Row>

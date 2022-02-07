@@ -1,5 +1,6 @@
-import { logout } from "../lib/auth";
 import Link from "next/link"
+
+import { logout } from "../lib/auth";
 
 const User = () => {
     return (
