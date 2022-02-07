@@ -1,5 +1,4 @@
 import { fetchAPI } from "../../lib/api"
-import Cart from '../../components/cart'
 import {
   Button,
   Col,
@@ -7,9 +6,10 @@ import {
   CardTitle
 } from "reactstrap";
 import { useContext, useState } from "react"
-import { getStrapiMedia } from "../../lib/media"
 
+import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
+import Layout from "../../components/layout"
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -33,14 +33,17 @@ const Product = ({ product, categories }) => {
   }
 
   return (
+    <Layout categories={categories}>
     <div className="uk-card uk-card-muted">
       <div className="uk-card-body">
         <p id="category" className="uk-text-uppercase">
           {product.attributes.category.name}
         </p>
-
-        <div className="card-footer" style={{ maxWidth: "800px" }}>
-          <div id="carouselExampleIndicators" className="carousel slide" data-bs-interval="false">
+        <h1 className="m-5 text-center">
+          {product.attributes.title}
+        </h1>
+        <div className="card-footer container-sm d-flex">
+          <div id="carouselExampleIndicators" className="carousel slide col-6" data-bs-interval="false">
             <div className="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -70,97 +73,109 @@ const Product = ({ product, categories }) => {
               </button>
             </div>
           </div>
-          <p id="title" className="uk-text-large text-center">
-            {product.attributes.title}
-          </p>
-          <Button
-            className="rounded-0"
-            color="secondary"
-            onClick={() => globalContext.removeItem(product)}
-          >
-            <i className="bi bi-cart"></i> Buy
-          </Button>
 
-          {productFromCart ?
-            (
-              <>
+          <div className="col-6">
+            <h1 className="m-2 text-center">
+              {product.attributes.title}
+            </h1>
+
+            <h2 id="category" className="uk-text-uppercase text-center">
+              {product.attributes.description}
+            </h2>
+
+            <div className="col product-actions mt-5 mx-auto">
+              <div style={{ padding: 0 }}>
                 <Button
-                  className="rounded-0"
+                  className="col-4 rounded-0"
                   color="secondary"
                   onClick={() => globalContext.removeItem(product)}
-
                 >
-                  <i className="bi bi-cart-dash"></i>Remove from cart
+                  <i className="bi bi-cart"></i> Buy
                 </Button>
-              </>
-            )
-            :
-            (
-              <Button
-                className="rounded-0"
-                color="secondary"
-                onClick={() => globalContext.addItem(product, quantity)}
-              >
-                <i className="bi bi-cart-plus"></i>Add to cart
-              </Button>
-            )
-          }
 
-          <Col xs="3" style={{ padding: 0 }}>
-            <Card style={{ padding: "10px 5px" }} className="cart">
-              <CardTitle style={{ margin: 10 }}>Quantity:</CardTitle>
-              <div>
-                <span id="item-price">&nbsp; $ {product.price}</span>
+                {productFromCart ?
+                  (
+                    <>
+                      <Button
+                        className="col-8 rounded-0"
+                        color="secondary"
+                        onClick={() => globalContext.removeItem(product)}
+
+                      >
+                        <i className="bi bi-cart-dash"></i>Remove from cart
+                      </Button>
+                    </>
+                  )
+                  :
+                  (
+                    <Button
+                      className="rounded-0"
+                      color="secondary"
+                      onClick={() => globalContext.addItem(product, quantity)}
+                    >
+                      <i className="bi bi-cart-plus"></i>Add to cart
+                    </Button>
+                  )
+                }
               </div>
-              <Col xs="3" style={{ padding: 0,
-                  display: "flex",
-                  alignItems: "center"
-               }}>
-
-                <div>
-                  <Button
-                    className="rounded-0"
-                    color="secondary"
-                    onClick={removeQuantity}
-                  >
-                    <i className="bi bi-dash"></i>
-                  </Button>
-                </div>
-                <div
-                  className="items-one"
-                  style={{ marginBottom: 15 }}
-                  key={product.id}
-                >
-                  <div>
-                    <span style={{ marginLeft: 5 }} id="item-quantity">
-                      <input id="quantity" style={{
-                        padding: "5px",
-                        background: "#515a62",
-                        color: "white",
-                        fontSize: "20px",
-                        textAlign: "center",
-                        width: "45px",
-                        borderRadius: "3px",
-                        border: "1px",
-                      }} type="number" value={quantity} onChange={e => handleQuantity(e)} />
-                    </span>
+              <div>
+                <Card style={{ padding: "10px 5px" }} className="cart">
+                  <CardTitle className="text-center my-2">Quantity:</CardTitle>
+                  <div className="text-center my-2">
+                    <span id="item-price">&nbsp; $ {product.price}</span>
                   </div>
-                </div>
-                <div>
-                  <Button
-                    className="rounded-0"
-                    color="secondary"
-                    onClick={addQuantity}
-                  >
-                    <i className="bi bi-plus"></i>
-                  </Button>
-                </div>
-              </Col>
-            </Card>
-          </Col>
+                  <Col className="mx-auto my-2" xs="3" style={{
+                    padding: 0,
+                    display: "flex",
+                    alignItems: "center"
+                  }}>
+
+                    <div>
+                      <Button
+                        className="rounded-0"
+                        color="secondary"
+                        onClick={removeQuantity}
+                      >
+                        <i className="bi bi-dash"></i>
+                      </Button>
+                    </div>
+                    <div
+                      className="items-one"
+                      key={product.id}
+                    >
+                      <div>
+                        <span id="item-quantity">
+                          <input id="quantity" style={{
+                            padding: "7px",
+                            background: "#515a62",
+                            color: "white",
+                            fontSize: "20px",
+                            textAlign: "center",
+                            width: "48px",
+                            borderRadius: "3px",
+                            border: "1px",
+                          }} type="number" value={quantity} onChange={e => handleQuantity(e)} />
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <Button
+                        className="rounded-0"
+                        color="secondary"
+                        onClick={addQuantity}
+                      >
+                        <i className="bi bi-plus"></i>
+                      </Button>
+                    </div>
+                  </Col>
+                </Card>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    </Layout>
   )
 }
 
@@ -184,10 +199,13 @@ export async function getStaticProps({ params }) {
     },
     populate: "*",
   })
-  const categoriesRes = await fetchAPI("/categories")
+  const [categoriesRes] = await Promise.all([
+    fetchAPI("/categories", { populate: "*" }),
+  ])
+
 
   return {
-    props: { product: productsRes.data[0], categories: categoriesRes },
+    props: { product: productsRes.data[0], categories: categoriesRes.data },
     revalidate: 1,
   }
 }
