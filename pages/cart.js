@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import { Card, CardBody } from "reactstrap";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Button, Card, CardBody, CardTitle, Badge, Col } from "reactstrap";
 
 import Layout from "../components/layout"
 import { fetchAPI } from "../lib/api"
@@ -8,8 +10,9 @@ import { getStrapiMedia } from "../lib/media"
 
 function Cart({ categories }) {
   const globalContext = useContext(GlobalContext);
+  const router = useRouter();
 
-  const { cart } = globalContext;
+  const { cart, isAuthenticated } = globalContext;
 
   return (
     <Layout categories={categories}>
@@ -73,6 +76,29 @@ function Cart({ categories }) {
                 );
               }
             })}
+            {isAuthenticated ? (
+              cart.items.length > 0 ? (
+                <div className="d-flex justify-content-center flex-column align-items-center my-3">
+                  <Badge style={{ width: 200, padding: 10 }} className="mb-4" color="light">
+                    <h5 style={{ fontWeight: 100, color: "gray" }}>Total:</h5>
+                    <h3>${globalContext.cart.total.toFixed(2)}</h3>
+                  </Badge>
+                </div>
+              ) : (
+                <>
+                  {router.pathname === "/checkout" && (
+                    <small
+                      style={{ color: "blue" }}
+                      onClick={() => window.history.back()}
+                    >
+                      back to restaurant
+                    </small>
+                  )}
+                </>
+              )
+            ) : (
+              <h5>Login to Order</h5>
+            )}
           </div>
         </CardBody>
       </Card>
