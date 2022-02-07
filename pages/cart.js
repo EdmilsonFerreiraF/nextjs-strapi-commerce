@@ -17,14 +17,11 @@ function Cart({ categories }) {
   return (
     <Layout categories={categories}>
       <Card style={{ padding: "10px 5px" }} className="cart container-md">
-        <h1 className="m-5 text-center">Cart</h1>
+        <h1 className="m-4 text-center">Cart</h1>
 
-        <h3 className="text-center" style={{ margin: 10 }}>Your Order:</h3>
+        <h4 className="text-center" style={{ margin: 10 }}>Your Order:</h4>
         <hr />
         <CardBody style={{ padding: 10 }}>
-          <div className="m-4 mb-5">
-            <h4 className="text-center">Items:</h4>
-          </div>
           <div className="m-2">
             {cart.items.map((item) => {
               if (item.quantity > 0) {
@@ -47,14 +44,12 @@ function Cart({ categories }) {
                                   <CardTitle className="text-center my-2">Quantity:</CardTitle>
                                   <div className="text-center my-2">
                                     <small id="item-price" className="fw-bold">${item.attributes.price}&nbsp; 30,00</small>
-
                                   </div>
                                   <Col className="mx-auto my-2" style={{
                                     padding: 0,
                                     display: "flex",
                                     alignItems: "center"
                                   }}>
-
                                     <div>
                                       <Button
                                         className="rounded-0"

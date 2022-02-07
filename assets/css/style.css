@@ -4,7 +4,7 @@ a {
 
 h1 {
   font-family: Staatliches;
-  font-size: 120px;
+  font-size: 80px;
 }
 
 #category {
@@ -57,7 +57,7 @@ h1 {
 }
 
 .uk-navbar-nav {
-  z-index: 0;
+  z-index: 1;
 }
 
 img:hover {
