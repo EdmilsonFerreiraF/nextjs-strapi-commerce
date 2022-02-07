@@ -144,6 +144,18 @@ function Cart({ categories }) {
                     <h5 style={{ fontWeight: 100, color: "gray" }}>Total:</h5>
                     <h3>${globalContext.cart.total.toFixed(2)}</h3>
                   </Badge>
+                  <div
+                    style={{
+                      marginTop: 10,
+                      marginRight: 10,
+                    }}
+                  >
+                    <Link href="/checkout">
+                      <Button style={{ width: "100%"}} color="primary" className="btn-lg">
+                        <a className="text-white">Order</a>
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <>
