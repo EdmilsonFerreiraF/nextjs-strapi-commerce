@@ -27,13 +27,25 @@ const Checkout = ({ categories }) => {
           setCardData({...cardData, issuer });
         }
       };
-
+      
       const handleInputFocus = ({ target }) => {
         setCardData({...cardData,
           focused: target.name
         });
       };
-
+    
+      const handleInputChange = ({ target }) => {
+        if (target.name === "number") {
+          target.value = formatCreditCardNumber(target.value);
+        } else if (target.name === "expiry") {
+          target.value = formatExpirationDate(target.value);
+        } else if (target.name === "cvc") {
+          target.value = formatCVC(target.value);
+        }
+    
+        setCardData({...cardData, [target.name]: target.value });
+      };
+    
       const handleSubmit = e => {
         e.preventDefault();
         const { issuer } = cardData;
@@ -70,6 +82,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="Card Number"
                                 pattern="[\d| ]{16,22}"
                                 required
+                                onChange={handleInputChange}
                                 onFocus={handleInputFocus}
                             />
                             <small>E.g.: 49..., 51..., 36..., 37...</small>
@@ -81,6 +94,7 @@ const Checkout = ({ categories }) => {
                                 className="form-control"
                                 placeholder="Name"
                                 required
+                                onChange={handleInputChange}
                                 onFocus={handleInputFocus}
                             />
                         </div>
@@ -93,6 +107,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="Valid Thru"
                                 pattern="\d\d/\d\d"
                                 required
+                                onChange={handleInputChange}
                                 onFocus={handleInputFocus}
                                 />
                             </div>
@@ -104,6 +119,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="CVC"
                                 pattern="\d{3,4}"
                                 required
+                                onChange={handleInputChange}
                                 onFocus={handleInputFocus}
                                 />
                             </div>
