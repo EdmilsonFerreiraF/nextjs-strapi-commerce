@@ -58,3 +58,7 @@ export function formatExpirationDate(value) {
 
   return clearValue;
 }
+
+export function formatFormData(data) {
+  return Object.keys(data).map(d => `${d}: ${data[d]}`);
+}
