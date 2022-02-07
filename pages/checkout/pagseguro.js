@@ -27,7 +27,7 @@ const Checkout = ({ categories }) => {
           setCardData({...cardData, issuer });
         }
       };
-      
+    
       const handleInputFocus = ({ target }) => {
         setCardData({...cardData,
           focused: target.name
@@ -65,6 +65,8 @@ const Checkout = ({ categories }) => {
 
         return (
             <Layout categories={categories}>
+                <div className="container-md">
+                    <div className="mb-5">
                         <Card
                             number={number}
                             name={name}
@@ -73,8 +75,9 @@ const Checkout = ({ categories }) => {
                             focused={focused}
                             callback={handleCallback}
                         />
+                    </div>
                     <form ref={c => (Checkout.form = c)} onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="form-group my-4">
                             <input
                                 type="tel"
                                 name="number"
@@ -87,7 +90,7 @@ const Checkout = ({ categories }) => {
                             />
                             <small>E.g.: 49..., 51..., 36..., 37...</small>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group my-4">
                             <input
                                 type="text"
                                 name="name"
@@ -123,12 +126,14 @@ const Checkout = ({ categories }) => {
                                 onFocus={handleInputFocus}
                                 />
                             </div>
-                        <input type="hidden" name="issuer" value={issuer} />
-                        <div className="form-actions">
-                            <button className="btn btn-primary btn-block">Pay</button>
                         </div>
+                        <input type="hidden" name="issuer" value={issuer} />
+                        <div className="form-actions my-5 d-flex justify-content-center">
+                            <button className="btn btn-primary btn-block col col-auto me-4">Cancel</button>
+                            <button className="btn btn-primary btn-block col col-auto">Pay</button>
                         </div>
                     </form>
+                </div>
             </Layout>
         );
 }
