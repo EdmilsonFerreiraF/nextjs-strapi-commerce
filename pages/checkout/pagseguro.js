@@ -27,6 +27,21 @@ const Checkout = ({ categories }) => {
           setCardData({...cardData, issuer });
         }
       };
+    
+      const handleSubmit = e => {
+        e.preventDefault();
+        const { issuer } = cardData;
+        const formData = [...e.target.elements]
+          .filter(d => d.name)
+          .reduce((acc, d) => {
+            acc[d.name] = d.value;
+            return acc;
+          }, {});
+    
+        setCardData({...cardData, formData });
+
+        form.reset();
+      };
 
       const { name, number, expiry, cvc, focused, issuer, formData } = cardData;
 
@@ -40,7 +55,7 @@ const Checkout = ({ categories }) => {
                             focused={focused}
                             callback={handleCallback}
                         />
-                    <form ref={c => (Checkout.form = c)}>
+                    <form ref={c => (Checkout.form = c)} onSubmit={handleSubmit}>
                         <div className="form-group">
                             <input
                                 type="tel"
