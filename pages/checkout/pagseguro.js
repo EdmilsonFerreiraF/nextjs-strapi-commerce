@@ -27,7 +27,13 @@ const Checkout = ({ categories }) => {
           setCardData({...cardData, issuer });
         }
       };
-    
+
+      const handleInputFocus = ({ target }) => {
+        setCardData({...cardData,
+          focused: target.name
+        });
+      };
+
       const handleSubmit = e => {
         e.preventDefault();
         const { issuer } = cardData;
@@ -64,6 +70,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="Card Number"
                                 pattern="[\d| ]{16,22}"
                                 required
+                                onFocus={handleInputFocus}
                             />
                             <small>E.g.: 49..., 51..., 36..., 37...</small>
                         </div>
@@ -74,6 +81,7 @@ const Checkout = ({ categories }) => {
                                 className="form-control"
                                 placeholder="Name"
                                 required
+                                onFocus={handleInputFocus}
                             />
                         </div>
                         <div className="row">
@@ -85,6 +93,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="Valid Thru"
                                 pattern="\d\d/\d\d"
                                 required
+                                onFocus={handleInputFocus}
                                 />
                             </div>
                             <div className="col-6">
@@ -95,6 +104,7 @@ const Checkout = ({ categories }) => {
                                 placeholder="CVC"
                                 pattern="\d{3,4}"
                                 required
+                                onFocus={handleInputFocus}
                                 />
                             </div>
                         <input type="hidden" name="issuer" value={issuer} />
