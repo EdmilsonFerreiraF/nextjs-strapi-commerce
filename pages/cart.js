@@ -41,6 +41,67 @@ function Cart({ categories }) {
                           <div className="card-body">
                             <h5 className="card-title">{item.attributes.title}</h5>
                             <p className="card-text">{item.attributes.description}</p>
+                            <div>
+                              <div>
+                                <Card className="cart">
+                                  <CardTitle className="text-center my-2">Quantity:</CardTitle>
+                                  <div className="text-center my-2">
+                                    <small id="item-price" className="fw-bold">${item.attributes.price}&nbsp; 30,00</small>
+
+                                  </div>
+                                  <Col className="mx-auto my-2" style={{
+                                    padding: 0,
+                                    display: "flex",
+                                    alignItems: "center"
+                                  }}>
+
+                                    <div>
+                                      <Button
+                                        className="rounded-0"
+                                        color="secondary"
+                                        // onClick={removeQuantity}
+                                        style={{
+                                          padding: "2px 7px"
+                                        }}
+                                      >
+                                        <i className="bi bi-dash"></i>
+                                      </Button>
+                                    </div>
+                                    <div
+                                      className="items-one"
+                                      key={item.id}
+                                    >
+                                      <div>
+                                        <span id="item-quantity">
+                                          <input id="quantity" style={{
+                                            padding: "6px",
+                                            background: "#515a62",
+                                            color: "white",
+                                            fontSize: "17px",
+                                            textAlign: "center",
+                                            width: "40px",
+                                            borderRadius: "3px",
+                                            border: "1px",
+                                          }} type="number" value={item.attributes.quantity} onChange={e => handleQuantity(e)} />
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <Button
+                                        className="rounded-0"
+                                        color="secondary"
+                                        // onClick={addQuantity}
+                                        style={{
+                                          padding: "2px 7px"
+                                        }}
+                                      >
+                                        <i className="bi bi-plus"></i>
+                                      </Button>
+                                    </div>
+                                  </Col>
+                                </Card>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
