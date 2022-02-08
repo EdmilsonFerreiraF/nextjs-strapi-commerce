@@ -10,6 +10,7 @@ import {
     formatExpirationDate,
 } from "../../components/utils";
 import 'react-credit-cards/es/styles-compiled.css';
+import axios from 'axios'
 
 const Checkout = ({ categories }) => {
       let [cardData, setCardData] = useState({
@@ -45,7 +46,7 @@ const Checkout = ({ categories }) => {
     
         setCardData({...cardData, [target.name]: target.value });
       };
-    
+
       const handleSubmit = e => {
         e.preventDefault();
         const { issuer } = cardData;
@@ -58,7 +59,7 @@ const Checkout = ({ categories }) => {
     
         setCardData({...cardData, formData });
 
-        form.reset();
+        Checkout.form.reset();
       };
 
       const { name, number, expiry, cvc, focused, issuer, formData } = cardData;
