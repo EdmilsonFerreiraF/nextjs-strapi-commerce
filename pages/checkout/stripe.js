@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import axios from "axios";
 
 import CheckoutForm from "../../components/checkout/CheckoutForm";
 import GlobalContext from "../../context/GlobalContext";
-import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
@@ -16,13 +16,14 @@ const stripePromise = loadStripe("pk_test_51KOP3uHbz4bukEWOFwNbJHuIKt4wYew0Pt761
 export default function App() {
   const [clientSecret, setClientSecret] = useState("");
   const globalContext = useContext(GlobalContext);
+  const { cart } = globalContext;
 
   const paymentData = {
     customer: {
       description: 'My First Test Customer'
     },
     currency: 'brl',
-    amount: 2000,
+    amount: cart.total || 2000,
     payment_method_types: ['card'],
     setup_future_usage: 'on_session',
   }
