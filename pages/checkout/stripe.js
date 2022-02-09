@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "../../components/checkout/CheckoutForm";
+import GlobalContext from "../../context/GlobalContext";
+import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
@@ -13,22 +15,32 @@ const stripePromise = loadStripe("pk_test_51KOP3uHbz4bukEWOFwNbJHuIKt4wYew0Pt761
 
 export default function App() {
   const [clientSecret, setClientSecret] = useState("");
+  const globalContext = useContext(GlobalContext);
+
+  const paymentData = {
+    customer: {
+      description: 'My First Test Customer'
+    },
+    currency: 'brl',
+    amount: 2000,
+    payment_method_types: ['card'],
+    setup_future_usage: 'on_session',
+  }
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch(`${API_URL}/api/orders`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+    (async () => {
+      // Create PaymentIntent as soon as the page loads
+      await axios.post(`${API_URL}/api/orders/stripe`, {
+      }, paymentData)
+        .then((res) => res.json())
+        .then((data) => setClientSecret(data.clientSecret));
     })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+  }, [])
 
   const appearance = {
     theme: 'stripe',
   };
-  
+
   const options = {
     clientSecret,
     appearance,

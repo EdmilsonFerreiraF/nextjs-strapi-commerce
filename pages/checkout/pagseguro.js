@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Card from 'react-credit-cards';
 
 import Layout from "../../components/layout"
-import { fetchAPI } from "../../lib/api"
+import { fetchAPI, getStrapiURL } from "../../lib/api"
 import {
     formatCreditCardNumber,
     formatCVC,
@@ -47,6 +47,12 @@ const Checkout = ({ categories }) => {
         setCardData({...cardData, [target.name]: target.value });
       };
 
+      const sendCartData = async () => {
+        await axios.post(getStrapiURL('/exampleAction', formData))
+              .then(res => { console.log(res); return res })
+              .catch(err => console.error(err));
+      }
+    
       const handleSubmit = e => {
         e.preventDefault();
         const { issuer } = cardData;
@@ -58,6 +64,8 @@ const Checkout = ({ categories }) => {
           }, {});
     
         setCardData({...cardData, formData });
+
+        sendCartData();
 
         Checkout.form.reset();
       };
