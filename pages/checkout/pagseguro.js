@@ -23,7 +23,7 @@ const Checkout = ({ categories }) => {
     formData: null
   })
 
-  let [paymentTab, setPaymentTab] = useState(1)
+  let [paymentTab, setPaymentTab] = useState(0)
 
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
@@ -84,13 +84,16 @@ const Checkout = ({ categories }) => {
       <div className="col bg-light py-4">
         <ul class="nav nav-pills container-md justify-content-center mb-5">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Endereço</a>
+            <a class="nav-link disabled">Carrinho</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Forma de pagamento</a>
+            <a class={`nav-link${paymentTab === 0 ? ' active' : ''}`} onClick={() => handlePaymentTab(0)} aria-current="page" href="#">Endereço</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Confirmar</a>
+            <a class={`nav-link${paymentTab === 1 ? ' active' : ''}`} onClick={() => handlePaymentTab(1)} href="#">Forma de pagamento</a>
+          </li>
+          <li class="nav-item">
+            <a class={`nav-link${paymentTab === 2 ? ' active' : ''}`} onClick={() => handlePaymentTab(2)} href="#">Confirmar</a>
           </li>
         </ul>
 
