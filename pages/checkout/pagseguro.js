@@ -23,6 +23,8 @@ const Checkout = ({ categories }) => {
     formData: null
   })
 
+  let [paymentTab, setPaymentTab] = useState(1)
+
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
       setCardData({ ...cardData, issuer });
@@ -71,6 +73,10 @@ const Checkout = ({ categories }) => {
     Checkout.form.reset();
   };
 
+  const handlePaymentTab = (tab) => {
+    setPaymentTab(tab)
+  }
+
   const { name, number, expiry, cvc, focused, issuer, formData } = cardData;
 
   return (
@@ -88,75 +94,77 @@ const Checkout = ({ categories }) => {
           </li>
         </ul>
 
-        <div className="container-md">
-          <div className="mb-5">
-            <Card
-              number={number}
-              name={name}
-              expiry={expiry}
-              cvc={cvc}
-              focused={focused}
-              callback={handleCallback}
-            />
+        {paymentTab === 1 &&
+          <div className="container-md">
+            <div className="mb-5">
+              <Card
+                number={number}
+                name={name}
+                expiry={expiry}
+                cvc={cvc}
+                focused={focused}
+                callback={handleCallback}
+              />
+            </div>
+            <form ref={c => (Checkout.form = c)} onSubmit={handleSubmit}>
+              <div className="form-group my-4">
+                <input
+                  type="tel"
+                  name="number"
+                  className="form-control"
+                  placeholder="Card Number"
+                  pattern="[\d| ]{16,22}"
+                  required
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                />
+                <small>E.g.: 49..., 51..., 36..., 37...</small>
+              </div>
+              <div className="form-group my-4">
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  placeholder="Name"
+                  required
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                />
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <input
+                    type="tel"
+                    name="expiry"
+                    className="form-control"
+                    placeholder="Valid Thru"
+                    pattern="\d\d/\d\d"
+                    required
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                  />
+                </div>
+                <div className="col-6">
+                  <input
+                    type="tel"
+                    name="cvc"
+                    className="form-control"
+                    placeholder="CVC"
+                    pattern="\d{3,4}"
+                    required
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                  />
+                </div>
+              </div>
+              <input type="hidden" name="issuer" value={issuer} />
+              <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
+                <button className="btn btn-primary btn-block col col-auto me-4">Cancel</button>
+                <button className="btn btn-primary btn-block col col-auto">Pay</button>
+              </div>
+            </form>
           </div>
-          <form ref={c => (Checkout.form = c)} onSubmit={handleSubmit}>
-            <div className="form-group my-4">
-              <input
-                type="tel"
-                name="number"
-                className="form-control"
-                placeholder="Card Number"
-                pattern="[\d| ]{16,22}"
-                required
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-              />
-              <small>E.g.: 49..., 51..., 36..., 37...</small>
-            </div>
-            <div className="form-group my-4">
-              <input
-                type="text"
-                name="name"
-                className="form-control"
-                placeholder="Name"
-                required
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-              />
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <input
-                  type="tel"
-                  name="expiry"
-                  className="form-control"
-                  placeholder="Valid Thru"
-                  pattern="\d\d/\d\d"
-                  required
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                />
-              </div>
-              <div className="col-6">
-                <input
-                  type="tel"
-                  name="cvc"
-                  className="form-control"
-                  placeholder="CVC"
-                  pattern="\d{3,4}"
-                  required
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                />
-              </div>
-            </div>
-            <input type="hidden" name="issuer" value={issuer} />
-            <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
-              <button className="btn btn-primary btn-block col col-auto me-4">Cancel</button>
-              <button className="btn btn-primary btn-block col col-auto">Pay</button>
-            </div>
-          </form>
-        </div>
+        }
       </div>
     </Layout>
   );
