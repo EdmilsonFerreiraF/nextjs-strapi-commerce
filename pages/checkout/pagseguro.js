@@ -105,7 +105,7 @@ const Checkout = ({ categories }) => {
   }
 
   const handleNextTab = () => {
-      setPaymentTab(prevState => prevState + 1)
+    setPaymentTab(prevState => prevState + 1)
   }
 
   const handlePaymentTab = (tab) => {
@@ -305,9 +305,43 @@ const Checkout = ({ categories }) => {
             </form>
           </div>
         }
-        <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
+
+        {paymentTab === 2 &&
+          <div className="container-md">
+              <h3 className="mb-5 text-center">Seus dados estão corretos?</h3>
+          <div className="d-flex justify-content-between col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+            <div className="mb-5">
+              <h4 className="mt-4 mb-3">Endereço</h4>
+              <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
+              <p>Telefone: <span className="fw-bold">{addressData.phone}</span></p>
+              <p>Endereço: <span className="fw-bold">{addressData.address}</span></p>
+              <p>Endereço 2: <span className="fw-bold">{addressData.address2}</span></p>
+              <p>CEP: <span className="fw-bold">{addressData.zip}</span></p>
+              <p>Cidade: <span className="fw-bold">{addressData.city}</span></p>
+              <p>Bairro: <span className="fw-bold">{addressData.neighbourhood}</span></p>
+              <p>Rua: <span className="fw-bold">{addressData.street}</span></p>
+              <p>Estado: <span className="fw-bold">{addressData.state}</span></p>
+              <p>Number: <span className="fw-bold">{addressData.number}</span></p>
+              <p>Complemento: <span className="fw-bold">{addressData.complement}</span></p>
+            </div>
+            <div className="mb-5">
+              <h4 className="mt-4 mb-3">Forma de pagamento</h4>
+              <p>Cartão de crédito</p>
+              <p>Número: <span className="fw-bold">{addressData.number}</span></p>
+              <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
+              <p>Data de expiração: <span className="fw-bold">{addressData.expiry}</span></p>
+              <p>Código: <span className="fw-bold">{addressData.cvc}</span></p>
+            </div>
+          </div>
+          </div>
+        }
+        <div className="form-actions mt-3 d-flex justify-content-center">
           <button onClick={handlePreviousTab} className="btn btn-primary btn-block col col-auto me-4">Voltar</button>
-          <button onClick={handleNextTab} className="btn btn-primary btn-block col col-auto">Prosseguir</button>
+          {paymentTab < 2 ?
+            <button onClick={handleNextTab} className="btn btn-primary btn-block col col-auto">Prosseguir</button>
+            :
+            <button onClick={handleSubmit} className="btn btn-primary btn-block col col-auto">Comprar</button>
+          }
         </div>
       </div>
     </Layout>
