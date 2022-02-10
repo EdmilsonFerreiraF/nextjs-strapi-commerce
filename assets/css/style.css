@@ -38,8 +38,12 @@ h1 {
   height: 550px;
 }
 
+.h-574 {
+  height: 574px;
+}
+
 .mw-150px {
-  max-width: 150px;
+  max-width: 180px;
 }
 
 .uk-navbar-container {
