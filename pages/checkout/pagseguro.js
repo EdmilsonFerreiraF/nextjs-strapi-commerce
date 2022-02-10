@@ -46,8 +46,8 @@ const Checkout = ({ categories }) => {
     }
   };
 
-  const handleInputFocus = ({ target }) => {
-    setCardData({
+  const handleInputFocus = ({ target }, action) => {
+    action({
       ...cardData,
       focused: target.name
     });
@@ -186,7 +186,7 @@ const Checkout = ({ categories }) => {
                   pattern="[\d| ]{16,22}"
                   required
                   onChange={e => handleInputChange(e, setCardData)}
-                  onFocus={handleInputFocus}
+                  onFocus={e => handleInputFocus(e, setCardData)}
                 />
                 <small>E.g.: 49..., 51..., 36..., 37...</small>
               </div>
@@ -198,7 +198,7 @@ const Checkout = ({ categories }) => {
                   placeholder="Name"
                   required
                   onChange={e => handleInputChange(e, setCardData)}
-                  onFocus={handleInputFocus}
+                  onFocus={e => handleInputFocus(e, setCardData)}
                 />
               </div>
               <div className="row">
@@ -211,7 +211,7 @@ const Checkout = ({ categories }) => {
                     pattern="\d\d/\d\d"
                     required
                     onChange={e => handleInputChange(e, setCardData)}
-                    onFocus={handleInputFocus}
+                    onFocus={e => handleInputFocus(e, setCardData)}
                   />
                 </div>
                 <div className="col-6">
@@ -223,7 +223,7 @@ const Checkout = ({ categories }) => {
                     pattern="\d{3,4}"
                     required
                     onChange={e => handleInputChange(e, setCardData)}
-                    onFocus={handleInputFocus}
+                    onFocus={e => handleInputFocus(e, setCardData)}
                   />
                 </div>
               </div>
