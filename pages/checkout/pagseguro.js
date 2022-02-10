@@ -17,6 +17,7 @@ const Checkout = ({ categories }) => {
   let [cardData, setCardData] = useState({
     number: "",
     name: "",
+    installments: "Parcelas",
     expiry: "",
     cvc: "",
     store: "",
@@ -347,17 +348,28 @@ const Checkout = ({ categories }) => {
                 />
                 {/* <small className="position-absolute">E.g.: 49..., 51..., 36..., 37...</small> */}
               </div>
-              <div className="form-group my-4">
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  placeholder="Name"
-                  required
-                  onChange={handleCardInputChange}
-                  value={cardData.name}
-                  onFocus={handleCardInputFocus}
-                />
+              <div className="row my-4">
+                <div className="form-group col-6 col-md-6">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Name"
+                    required
+                    onChange={handleCardInputChange}
+                    value={cardData.name}
+                    onFocus={handleCardInputFocus}
+                  />
+                </div>
+                <div className="col-6 col-md-6">
+                  <select id="inputInstallments" className="form-select"
+                    value={cardData.installments}
+                    name="installments"
+                    onChange={handleCardInputChange}>
+                    <option>Parcelas</option>
+                    <option>...</option>
+                  </select>
+                </div>
               </div>
               <div className="row">
                 <div className="col-6">
@@ -406,17 +418,17 @@ const Checkout = ({ categories }) => {
             <div className="d-flex justify-content-between col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
               <div>
                 <h5 className="mt-4 mb-3">Endereço</h5>
-                <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
-                <p>Telefone: <span className="fw-bold">{addressData.phone}</span></p>
-                <p>Endereço: <span className="fw-bold">{addressData.address}</span></p>
-                <p>Endereço 2: <span className="fw-bold">{addressData.address2}</span></p>
-                <p>CEP: <span className="fw-bold">{addressData.zip}</span></p>
-                <p>Cidade: <span className="fw-bold">{addressData.city}</span></p>
-                <p>Bairro: <span className="fw-bold">{addressData.neighbourhood}</span></p>
-                <p>Rua: <span className="fw-bold">{addressData.street}</span></p>
-                <p>Estado: <span className="fw-bold">{addressData.state}</span></p>
-                <p>Number: <span className="fw-bold">{addressData.number}</span></p>
-                <p>Complemento: <span className="fw-bold">{addressData.complement}</span></p>
+                <p>Nome: <span className="fw-bold ps-1">{addressData.name}</span></p>
+                <p>Telefone: <span className="fw-bold ps-1">{addressData.phone}</span></p>
+                <p>Endereço: <span className="fw-bold ps-1">{addressData.address}</span></p>
+                <p>Endereço 2: <span className="fw-bold ps-1">{addressData.address2}</span></p>
+                <p>CEP: <span className="fw-bold ps-1">{addressData.zip}</span></p>
+                <p>Cidade: <span className="fw-bold ps-1">{addressData.city}</span></p>
+                <p>Bairro: <span className="fw-bold ps-1">{addressData.neighbourhood}</span></p>
+                <p>Rua: <span className="fw-bold ps-1">{addressData.street}</span></p>
+                <p>Estado: <span className="fw-bold ps-1">{addressData.state}</span></p>
+                <p>Number: <span className="fw-bold ps-1">{addressData.number}</span></p>
+                <p>Complemento: <span className="fw-bold ps-1">{addressData.complement}</span></p>
               </div>
               <div>
                 <h5 className="mt-4 mb-3">Forma de pagamento</h5>
