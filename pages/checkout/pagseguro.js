@@ -64,15 +64,15 @@ const Checkout = ({ categories }) => {
   }
 
   const handleCardInputChange = ({ target }) => {
-      if (target.name === "number") {
-        target.value = formatCreditCardNumber(target.value);
-      } else if (target.name === "expiry") {
-        target.value = formatExpirationDate(target.value);
-      } else if (target.name === "cvc") {
-        target.value = formatCVC(target.value);
-      }
+    if (target.name === "number") {
+      target.value = formatCreditCardNumber(target.value);
+    } else if (target.name === "expiry") {
+      target.value = formatExpirationDate(target.value);
+    } else if (target.name === "cvc") {
+      target.value = formatCVC(target.value);
+    }
 
-      setCardData({ ...cardData, [target.name]: target.value });
+    setCardData({ ...cardData, [target.name]: target.value });
   };
 
   const sendCartData = async () => {
@@ -97,6 +97,12 @@ const Checkout = ({ categories }) => {
 
     Checkout.form.reset();
   };
+
+  const handlePreviousTab = () => {
+    if (paymentTab > 0) {
+      setPaymentTab(prevState => prevState - 1)
+    }
+  }
 
   const handlePaymentTab = (tab) => {
     setPaymentTab(tab)
@@ -221,9 +227,6 @@ const Checkout = ({ categories }) => {
                 </label>
               </div>
             </div>
-            <div className="col-12">
-              <button type="submit" className="btn btn-primary">Sign in</button>
-            </div>
           </form>
         }
 
@@ -295,13 +298,13 @@ const Checkout = ({ categories }) => {
                 </div>
               </div>
               <input type="hidden" name="issuer" value={issuer} />
-              <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
-                <button className="btn btn-primary btn-block col col-auto me-4">Cancel</button>
-                <button className="btn btn-primary btn-block col col-auto">Pay</button>
-              </div>
             </form>
           </div>
         }
+        <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
+          <button onClick={handlePreviousTab} className="btn btn-primary btn-block col col-auto me-4">Voltar</button>
+          <button className="btn btn-primary btn-block col col-auto">Prosseguir</button>
+        </div>
       </div>
     </Layout>
   );
