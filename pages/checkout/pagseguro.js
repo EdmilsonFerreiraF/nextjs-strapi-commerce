@@ -13,6 +13,7 @@ import {
 import 'react-credit-cards/es/styles-compiled.css';
 import axios from 'axios'
 import GlobalContext from "../../context/GlobalContext";
+import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -219,21 +220,8 @@ const Checkout = ({ categories }) => {
   return (
     <Layout categories={categories}>
       <div className="container bg-light py-4 m-auto">
-        <ul className="nav nav-pills container-md justify-content-center mb-5">
-          <li className="nav-item">
-            <a className="nav-link disabled">Carrinho</a>
-          </li>
-          <li className="nav-item">
-            <a className={`nav-link${paymentTab === 0 ? ' active' : ''}`} onClick={() => handlePaymentTab(0)} aria-current="page" href="#">Endereço</a>
-          </li>
-          <li className="nav-item">
-            <a className={`nav-link${paymentTab === 1 ? ' active' : ''}`} onClick={() => handlePaymentTab(1)} href="#">Forma de pagamento</a>
-          </li>
-          <li className="nav-item">
-            <a className={`nav-link${paymentTab === 2 ? ' active' : ''}`} onClick={() => handlePaymentTab(2)} href="#">Confirmar</a>
-          </li>
-        </ul>
-
+        <PaymentTabsMenu paymentTab={paymentTab} handlePaymentTab={handlePaymentTab} />
+        
         {paymentTab === 0 &&
           <form className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
             <div className="col-md-6 mt-3 mt-md-0">
