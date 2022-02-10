@@ -15,6 +15,7 @@ import axios from 'axios'
 import GlobalContext from "../../context/GlobalContext";
 import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 import AddressTab from '../../components/checkout/addressTab';
+import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -224,16 +225,13 @@ const Checkout = ({ categories }) => {
         <PaymentTabsMenu paymentTab={paymentTab} handlePaymentTab={handlePaymentTab} />
 
         {paymentTab === 0 &&
-        <AddressTab addressData={addressData} handleAddressInputFocus={handleAddressInputFocus} handleAddressInputChange={handleAddressInputChange} />
+          <AddressTab addressData={addressData} handleAddressInputFocus={handleAddressInputFocus} handleAddressInputChange={handleAddressInputChange} />
         }
 
         {paymentTab === 1 &&
           <div className="container col-auto col-md-10 col-lg-6 mt-4 mb-5 h-574">
             {paymentMethod > 0 &&
-              <div onClick={() => handlePaymentMethod(0)} className="d-flex">
-                <i class="bi bi-arrow-left"></i>
-                <p className="ms-2">Método</p>
-              </div>
+              <BackToPaymentMethod handlePaymentMethod={handlePaymentMethod} />
             }
             {paymentMethod === 1 &&
               <>
