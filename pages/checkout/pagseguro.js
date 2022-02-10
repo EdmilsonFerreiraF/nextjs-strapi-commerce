@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react'
 import Card from 'react-credit-cards';
+import { useRouter } from 'next/router';
 
 import Layout from "../../components/layout"
 import { fetchAPI, getStrapiURL } from "../../lib/api"
@@ -39,6 +40,8 @@ const Checkout = ({ categories }) => {
   })
 
   let [paymentTab, setPaymentTab] = useState(0)
+
+  const router = useRouter()
 
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
@@ -99,9 +102,10 @@ const Checkout = ({ categories }) => {
   };
 
   const handlePreviousTab = () => {
-    if (paymentTab > 0) {
-      setPaymentTab(prevState => prevState - 1)
-    }
+    setPaymentTab(prevState => prevState - 1)
+
+    console.log('paymentTab', paymentTab)
+
   }
 
   const handleNextTab = () => {
@@ -111,6 +115,12 @@ const Checkout = ({ categories }) => {
   const handlePaymentTab = (tab) => {
     setPaymentTab(tab)
   }
+
+  useEffect(() => {
+    if (paymentTab === -1) {
+      router.replace("http://localhost:3000/cart")
+    }
+  }, [paymentTab])
 
   const { name, number, expiry, cvc, focused, issuer, formData } = cardData;
 
