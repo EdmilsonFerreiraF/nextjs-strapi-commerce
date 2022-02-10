@@ -203,8 +203,8 @@ const Checkout = ({ categories }) => {
     setPaymentTab(tab)
   }
 
-  const handlePaymentMethod = () => {
-    setPaymentMethod(prevState => prevState ? 0 : 1)
+  const handlePaymentMethod = (method) => {
+    setPaymentMethod(method)
   }
 
   console.log('paymentMethod', paymentMethod)
@@ -339,12 +339,14 @@ const Checkout = ({ categories }) => {
 
         {paymentTab === 1 &&
           <div className="container col-auto col-md-10 col-lg-6 mt-4 mb-5 h-574">
+            {paymentMethod > 0 &&
+              <div onClick={() => handlePaymentMethod(0)} className="d-flex">
+                <i class="bi bi-arrow-left"></i>
+                <p className="ms-2">Método</p>
+              </div>
+            }
             {paymentMethod === 1 &&
               <>
-                <div onClick={handlePaymentMethod} className="d-flex">
-                  <i class="bi bi-arrow-left"></i>
-                  <p className="ms-2">Método</p>
-                </div>
                 <div className="mb-5">
                   <Card
                     number={number}
@@ -447,30 +449,29 @@ const Checkout = ({ categories }) => {
               </>
             }
 
-
             {paymentMethod === 0 &&
               <div className="align-items-center h-100 text-center row row-cols-2">
                 <div className="">
                   <h5 className="mb-4">Cartão de crédito</h5>
-                  <div onClick={handlePaymentMethod}>
+                  <div onClick={() => handlePaymentMethod(1)}>
                     <img className="rounded mx-auto d-block mw-150px" src="/img/credit_card.png" />
                   </div>
                 </div>
                 <div className="">
                   <h5 className="mb-4">Cartão de débito</h5>
-                  <div onClick={handlePaymentMethod}>
+                  <div onClick={() => handlePaymentMethod(2)}>
                     <img className="rounded mx-auto d-block mw-150px" src="/img/debit_card.png" />
                   </div>
                 </div>
                 <div className="">
                   <h5 className="mb-4">Boleto</h5>
-                  <div onClick={handlePaymentMethod}>
+                  <div onClick={() => handlePaymentMethod(3)}>
                     <img className="rounded mx-auto d-block mw-150px" src="/img/boleto.png" />
                   </div>
                 </div>
                 <div className="">
                   <h5 className="mb-4">PIX</h5>
-                  <div onClick={handlePaymentMethod}>
+                  <div onClick={() => handlePaymentMethod(4)}>
                     <img className="rounded mx-auto d-block mw-150px" src="https://logopng.com.br/logos/pix-106.png" />
                   </div>
                 </div>
