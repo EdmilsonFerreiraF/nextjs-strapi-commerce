@@ -46,23 +46,25 @@ const Checkout = ({ categories }) => {
     }
   };
 
-  const handleInputFocus = ({ target }, action) => {
+  const handleInputFocus = ({ target }, data, action) => {
     action({
-      ...cardData,
+      ...data,
       focused: target.name
     });
   };
 
-  const handleInputChange = ({ target }, action) => {
-    if (target.name === "number") {
-      target.value = formatCreditCardNumber(target.value);
-    } else if (target.name === "expiry") {
-      target.value = formatExpirationDate(target.value);
-    } else if (target.name === "cvc") {
-      target.value = formatCVC(target.value);
+  const handleInputChange = ({ target }, data, action) => {
+    if (action === setCardData) {
+      if (target.name === "number") {
+        target.value = formatCreditCardNumber(target.value);
+      } else if (target.name === "expiry") {
+        target.value = formatExpirationDate(target.value);
+      } else if (target.name === "cvc") {
+        target.value = formatCVC(target.value);
+      }
     }
 
-    action({ ...cardData, [target.name]: target.value });
+    action({ ...data, [target.name]: target.value });
   };
 
   const sendCartData = async () => {
@@ -115,40 +117,82 @@ const Checkout = ({ categories }) => {
         {paymentTab === 0 &&
           <form class="row g-3 my-4 col-auto col-md-6 container-sm m-auto">
             <div class="col-md-6">
-              <input type="name" class="form-control" id="inputName" placeholder="Nome completo" />
+              <input type="name" class="form-control" id="inputName" placeholder="Nome completo"
+                value={addressData.name}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="inputPhone" placeholder="Telefone" />
+              <input type="text" class="form-control" id="inputPhone" placeholder="Telefone"
+                value={addressData.phone}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-12">
-              <input type="text" class="form-control" id="inputAddress" placeholder="Endereço" />
+              <input type="text" class="form-control" id="inputAddress" placeholder="Endereço"
+                value={addressData.address}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-12">
-              <input type="text" class="form-control" id="inputAddress2" placeholder="Endereço 2" />
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Endereço 2"
+                value={addressData.address2}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-12">
-              <input type="text" class="form-control" id="inputZip" placeholder="CEP" />
+              <input type="text" class="form-control" id="inputZip" placeholder="CEP"
+                value={addressData.zip}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="inputCity" placeholder="Cidade" />
+              <input type="text" class="form-control" id="inputCity" placeholder="Cidade"
+                value={addressData.city}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="inputNeighbourhood" placeholder="Bairro" />
+              <input type="text" class="form-control" id="inputNeighbourhood" placeholder="Bairro"
+                value={addressData.neighbourhood}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-12">
-              <input type="text" class="form-control" id="inputStreet" placeholder="Rua" />
+              <input type="text" class="form-control" id="inputStreet" placeholder="Rua"
+                value={addressData.street}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-6">
-              <select id="inputState" class="form-select">
+              <select id="inputState" class="form-select"
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                value={addressData.state}>
                 <option selected>Estado</option>
                 <option>...</option>
               </select>
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="inputNumber" placeholder="Número" />
+              <input type="text" class="form-control" id="inputNumber" placeholder="Número"
+                value={addressData.number}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-md-12">
-              <input type="text" class="form-control" id="inputComplement" placeholder="Complemento" />
+              <input type="text" class="form-control" id="inputComplement" placeholder="Complemento"
+                value={addressData.complement}
+                onChange={e => handleInputChange(e, addressData, setAddressData)}
+                onFocus={e => handleInputFocus(e, addressData, setAddressData)}
+              />
             </div>
             <div class="col-12">
               <div class="form-check">
@@ -185,8 +229,8 @@ const Checkout = ({ categories }) => {
                   placeholder="Card Number"
                   pattern="[\d| ]{16,22}"
                   required
-                  onChange={e => handleInputChange(e, setCardData)}
-                  onFocus={e => handleInputFocus(e, setCardData)}
+                  onChange={e => handleInputChange(e, cardData, setCardData)}
+                  onFocus={e => handleInputFocus(e, cardData, setCardData)}
                 />
                 <small>E.g.: 49..., 51..., 36..., 37...</small>
               </div>
@@ -197,8 +241,8 @@ const Checkout = ({ categories }) => {
                   className="form-control"
                   placeholder="Name"
                   required
-                  onChange={e => handleInputChange(e, setCardData)}
-                  onFocus={e => handleInputFocus(e, setCardData)}
+                  onChange={e => handleInputChange(e, cardData, setCardData)}
+                  onFocus={e => handleInputFocus(e, cardData, setCardData)}
                 />
               </div>
               <div className="row">
@@ -210,8 +254,8 @@ const Checkout = ({ categories }) => {
                     placeholder="Valid Thru"
                     pattern="\d\d/\d\d"
                     required
-                    onChange={e => handleInputChange(e, setCardData)}
-                    onFocus={e => handleInputFocus(e, setCardData)}
+                    onChange={e => handleInputChange(e, cardData, setCardData)}
+                    onFocus={e => handleInputFocus(e, cardData, setCardData)}
                   />
                 </div>
                 <div className="col-6">
@@ -222,8 +266,8 @@ const Checkout = ({ categories }) => {
                     placeholder="CVC"
                     pattern="\d{3,4}"
                     required
-                    onChange={e => handleInputChange(e, setCardData)}
-                    onFocus={e => handleInputFocus(e, setCardData)}
+                    onChange={e => handleInputChange(e, cardData, setCardData)}
+                    onFocus={e => handleInputFocus(e, cardData, setCardData)}
                   />
                 </div>
               </div>
