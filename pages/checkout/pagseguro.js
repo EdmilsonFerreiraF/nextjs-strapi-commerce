@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Card from 'react-credit-cards';
 import { useRouter } from 'next/router';
 
@@ -12,14 +12,21 @@ import {
 } from "../../components/utils";
 import 'react-credit-cards/es/styles-compiled.css';
 import axios from 'axios'
+import GlobalContext from "../../context/GlobalContext";
 
 const Checkout = ({ categories }) => {
+  const globalContext = useContext(GlobalContext);
+
+  const { cart } = globalContext;
+
   let [cardData, setCardData] = useState({
+    type: "CREDIT_CARD",
     number: "",
     name: "",
     installments: "Parcelas",
     expiry: "",
     cvc: "",
+    taxId: "",
     store: "",
     issuer: "",
     focused: "",
@@ -42,6 +49,8 @@ const Checkout = ({ categories }) => {
   })
 
   let [paymentTab, setPaymentTab] = useState(0)
+
+  let [paymentMethod, setPaymentMethod] = useState(0)
 
   const router = useRouter()
 
@@ -81,12 +90,14 @@ const Checkout = ({ categories }) => {
   };
 
   const sendPaymentData = async () => {
+    const description = "My wonderful Strapi blog payment"
+
     const data = {
       // "reference_id": this.name,
       customer: {
-        name: costumer.name,
-        email: customer.email,
-        tax_id: customer.taxId,
+        name: cardData.name,
+        email: cardData.email,
+        tax_id: cardData.taxId,
         phones: [
           {
             country: addressData.phone.slice(0, 2),
@@ -107,7 +118,7 @@ const Checkout = ({ categories }) => {
       ),
       qr_code: {
         amount: {
-          value: this.name,
+          value: cart.total
         }
       },
       shipping: {
@@ -127,35 +138,35 @@ const Checkout = ({ categories }) => {
       ],
       charges: [
         {
-          reference_id: this.name,
+          // reference_id: this.name,
           description: description,
           amount: {
             value: cart.total,
             currency: "BRL",
           },
           payment_method: {
-            type: this.name,
-            installments: this.name,
-            capture: this.name,
+            type: cardData.type,
+            installments: cardData.installments,
+            capture: cardData.store,
             card: {
-              number: carData.number,
-              exp_month: carData.expiry.slice(0, 2),
-              exp_year: carData.expiry.slice(2, 4),
-              security_code: carData.cvc,
+              number: cardData.number,
+              exp_month: cardData.expiry.slice(0, 2),
+              exp_year: cardData.expiry.slice(2, 4),
+              security_code: cardData.cvc,
               holder: {
-                name: carData.name,
+                name: cardData.name,
               },
-              store: carData.store,
+              store: cardData.store,
             }
           },
           notification_urls: [
-            ""
+
           ]
         }
       ]
     }
 
-    await axios.post(getStrapiURL('/pagseguro', formData))
+    await axios.post(getStrapiURL('/pagseguro', data))
       .then(res => { console.log(res); return res })
       .catch(err => console.error(err));
   }
@@ -202,7 +213,7 @@ const Checkout = ({ categories }) => {
 
   return (
     <Layout categories={categories}>
-      <div className="col bg-light py-4">
+      <div className="container bg-light py-4 m-auto">
         <ul className="nav nav-pills container-md justify-content-center mb-5">
           <li className="nav-item">
             <a className="nav-link disabled">Carrinho</a>
@@ -219,7 +230,7 @@ const Checkout = ({ categories }) => {
         </ul>
 
         {paymentTab === 0 &&
-          <form className="row g-3 col-auto col-md-6 container-sm m-auto h-500 mb-5">
+          <form className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
             <div className="col-md-6 mt-3 mt-md-0">
               <input type="name" className="form-control" id="inputName" placeholder="Nome completo"
                 value={addressData.name}
@@ -322,7 +333,31 @@ const Checkout = ({ categories }) => {
         }
 
         {paymentTab === 1 &&
-          <div className="container col-auto col-md-6 mt-4 mb-5 h-500">
+          <div className="container col-auto col-md-10 col-lg-6 mt-4 mb-5 h-500">
+            <div className="d-flex">
+              <i class="bi bi-arrow-left"></i>
+              <p className="ms-2">Método</p>
+            </div>
+
+            <div className="mb-5 g-4 text-center row row-cols-2">
+              <div className="">
+                <h5 className="mb-4">Cartão de crédito</h5>
+                <img className="rounded mx-auto d-block mw-150px" src="/img/credit_card.png" />
+              </div>
+              <div className="">
+                <h5 className="mb-4">Cartão de débito</h5>
+                <img className="rounded mx-auto d-block mw-150px" src="/img/debit_card.png" />
+              </div>
+              <div className="">
+                <h5 className="mb-4">Boleto</h5>
+                <img className="rounded mx-auto d-block mw-150px" src="/img/boleto.png" />
+              </div>
+              <div className="">
+                <h5 className="mb-4">PIX</h5>
+                <img className="rounded mx-auto d-block mw-150px" src="https://logopng.com.br/logos/pix-106.png" />
+              </div>
+            </div>
+
             <div className="mb-5">
               <Card
                 number={number}
@@ -395,6 +430,19 @@ const Checkout = ({ categories }) => {
                     required
                     onChange={handleCardInputChange}
                     value={cardData.cvc}
+                    onFocus={handleCardInputFocus}
+                  />
+                </div>
+                <div className="col-6">
+                  <input
+                    type="tel"
+                    name="cpf"
+                    className="form-control"
+                    placeholder="CPF"
+                    pattern="\d{3,4}"
+                    required
+                    onChange={handleCardInputChange}
+                    value={cardData.taxId}
                     onFocus={handleCardInputFocus}
                   />
                 </div>

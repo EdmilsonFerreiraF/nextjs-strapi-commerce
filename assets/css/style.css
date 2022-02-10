@@ -38,6 +38,10 @@ h1 {
   height: 550px;
 }
 
+.mw-150px {
+  max-width: 150px;
+}
+
 .uk-navbar-container {
   background: #fff !important;
   font-family: Staatliches;
