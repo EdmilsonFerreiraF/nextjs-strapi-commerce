@@ -23,6 +23,21 @@ const Checkout = ({ categories }) => {
     formData: null
   })
 
+  let [addressData, setAddressData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    address2: "",
+    zip: "",
+    city: "",
+    neighbourhood: "",
+    street: "",
+    state: "",
+    number: null,
+    complement: "",
+    formData: null
+  })
+
   let [paymentTab, setPaymentTab] = useState(0)
 
   const handleCallback = ({ issuer }, isValid) => {
@@ -38,7 +53,7 @@ const Checkout = ({ categories }) => {
     });
   };
 
-  const handleInputChange = ({ target }) => {
+  const handleInputChange = ({ target }, action) => {
     if (target.name === "number") {
       target.value = formatCreditCardNumber(target.value);
     } else if (target.name === "expiry") {
@@ -47,7 +62,7 @@ const Checkout = ({ categories }) => {
       target.value = formatCVC(target.value);
     }
 
-    setCardData({ ...cardData, [target.name]: target.value });
+    action({ ...cardData, [target.name]: target.value });
   };
 
   const sendCartData = async () => {
@@ -170,7 +185,7 @@ const Checkout = ({ categories }) => {
                   placeholder="Card Number"
                   pattern="[\d| ]{16,22}"
                   required
-                  onChange={handleInputChange}
+                  onChange={e => handleInputChange(e, setCardData)}
                   onFocus={handleInputFocus}
                 />
                 <small>E.g.: 49..., 51..., 36..., 37...</small>
@@ -182,7 +197,7 @@ const Checkout = ({ categories }) => {
                   className="form-control"
                   placeholder="Name"
                   required
-                  onChange={handleInputChange}
+                  onChange={e => handleInputChange(e, setCardData)}
                   onFocus={handleInputFocus}
                 />
               </div>
@@ -195,7 +210,7 @@ const Checkout = ({ categories }) => {
                     placeholder="Valid Thru"
                     pattern="\d\d/\d\d"
                     required
-                    onChange={handleInputChange}
+                    onChange={e => handleInputChange(e, setCardData)}
                     onFocus={handleInputFocus}
                   />
                 </div>
@@ -207,7 +222,7 @@ const Checkout = ({ categories }) => {
                     placeholder="CVC"
                     pattern="\d{3,4}"
                     required
-                    onChange={handleInputChange}
+                    onChange={e => handleInputChange(e, setCardData)}
                     onFocus={handleInputFocus}
                   />
                 </div>
