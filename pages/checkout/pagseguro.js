@@ -104,6 +104,10 @@ const Checkout = ({ categories }) => {
     }
   }
 
+  const handleNextTab = () => {
+      setPaymentTab(prevState => prevState + 1)
+  }
+
   const handlePaymentTab = (tab) => {
     setPaymentTab(tab)
   }
@@ -303,7 +307,7 @@ const Checkout = ({ categories }) => {
         }
         <div className="form-actions mt-5 mb-2 d-flex justify-content-center">
           <button onClick={handlePreviousTab} className="btn btn-primary btn-block col col-auto me-4">Voltar</button>
-          <button className="btn btn-primary btn-block col col-auto">Prosseguir</button>
+          <button onClick={handleNextTab} className="btn btn-primary btn-block col col-auto">Prosseguir</button>
         </div>
       </div>
     </Layout>
