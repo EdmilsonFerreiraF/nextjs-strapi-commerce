@@ -19,6 +19,7 @@ const Checkout = ({ categories }) => {
     name: "",
     expiry: "",
     cvc: "",
+    store: "",
     issuer: "",
     focused: "",
     formData: null
@@ -78,8 +79,82 @@ const Checkout = ({ categories }) => {
     setCardData({ ...cardData, [target.name]: target.value });
   };
 
-  const sendCartData = async () => {
-    await axios.post(getStrapiURL('/exampleAction', formData))
+  const sendPaymentData = async () => {
+    const data = {
+      // "reference_id": this.name,
+      customer: {
+        name: costumer.name,
+        email: customer.email,
+        tax_id: customer.taxId,
+        phones: [
+          {
+            country: addressData.phone.slice(0, 2),
+            area: addressData.phone.slice(2, 6),
+            number: addressData.phone.slice(6, 10),
+            // type: addressData.phone.slice(0, 1),
+          }
+        ]
+      },
+      items: cart.items.map(item => {
+        // reference_id: items.reference_id,
+        return {
+          name: item.name,
+          quantity: item.quantity,
+          // unit_amount: item.unit_amount,
+        }
+      }
+      ),
+      qr_code: {
+        amount: {
+          value: this.name,
+        }
+      },
+      shipping: {
+        address: {
+          street: addressData.street,
+          number: addressData.number,
+          complement: addressData.complement,
+          locality: addressData.neighbourhood,
+          city: addressData.city,
+          // region_code: addressData.region_code,
+          country: addressData.country,
+          postal_code: addressData.zip,
+        }
+      },
+      notification_urls: [
+        notification_urls
+      ],
+      charges: [
+        {
+          reference_id: this.name,
+          description: description,
+          amount: {
+            value: cart.total,
+            currency: "BRL",
+          },
+          payment_method: {
+            type: this.name,
+            installments: this.name,
+            capture: this.name,
+            card: {
+              number: carData.number,
+              exp_month: carData.expiry.slice(0, 2),
+              exp_year: carData.expiry.slice(2, 4),
+              security_code: carData.cvc,
+              holder: {
+                name: carData.name,
+              },
+              store: carData.store,
+            }
+          },
+          notification_urls: [
+            ""
+          ]
+        }
+      ]
+    }
+
+    await axios.post(getStrapiURL('/pagseguro', formData))
       .then(res => { console.log(res); return res })
       .catch(err => console.error(err));
   }
@@ -96,7 +171,7 @@ const Checkout = ({ categories }) => {
 
     setCardData({ ...cardData, formData });
 
-    sendCartData();
+    sendPaymentData();
 
     Checkout.form.reset();
   };
@@ -143,8 +218,8 @@ const Checkout = ({ categories }) => {
         </ul>
 
         {paymentTab === 0 &&
-          <form className="row g-3 my-4 col-auto col-md-6 container-sm m-auto">
-            <div className="col-md-6">
+          <form className="row g-3 col-auto col-md-6 container-sm m-auto h-500 mb-5">
+            <div className="col-md-6 mt-3 mt-md-0">
               <input type="name" className="form-control" id="inputName" placeholder="Nome completo"
                 value={addressData.name}
                 onChange={handleAddressInputChange}
@@ -152,12 +227,13 @@ const Checkout = ({ categories }) => {
                 name="name"
               />
             </div>
-            <div className="col-md-6">
-              <input type="text" className="form-control" id="inputPhone" placeholder="Telefone"
+            <div className="col-md-6 mt-3 mt-md-0">
+              <input type="number" className="form-control" id="inputPhone" placeholder="Telefone"
                 value={addressData.phone}
                 onChange={handleAddressInputChange}
                 onFocus={handleAddressInputFocus}
                 name="phone"
+                pattern="\d{11}"
               />
             </div>
             <div className="col-12">
@@ -208,7 +284,7 @@ const Checkout = ({ categories }) => {
                 name="street"
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-6">
               <select id="inputState" className="form-select"
                 value={addressData.state}
                 name="state"
@@ -217,7 +293,7 @@ const Checkout = ({ categories }) => {
                 <option>...</option>
               </select>
             </div>
-            <div className="col-md-6">
+            <div className="col-6 col-md-6">
               <input type="text" className="form-control" id="inputNumber" placeholder="Número"
                 value={addressData.number}
                 onChange={handleAddressInputChange}
@@ -245,7 +321,7 @@ const Checkout = ({ categories }) => {
         }
 
         {paymentTab === 1 &&
-          <div className="container-md">
+          <div className="container col-auto col-md-6 mt-4 mb-5 h-500">
             <div className="mb-5">
               <Card
                 number={number}
@@ -269,7 +345,7 @@ const Checkout = ({ categories }) => {
                   value={cardData.number}
                   onFocus={handleCardInputFocus}
                 />
-                <small>E.g.: 49..., 51..., 36..., 37...</small>
+                {/* <small className="position-absolute">E.g.: 49..., 51..., 36..., 37...</small> */}
               </div>
               <div className="form-group my-4">
                 <input
@@ -311,38 +387,46 @@ const Checkout = ({ categories }) => {
                   />
                 </div>
               </div>
+              <div className="col-12 mt-3">
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="gridCheck" />
+                  <label className="form-check-label" htmlFor="gridCheck">
+                    Salvar cartão
+                  </label>
+                </div>
+              </div>
               <input type="hidden" name="issuer" value={issuer} />
             </form>
           </div>
         }
 
         {paymentTab === 2 &&
-          <div className="container-md">
-              <h3 className="mb-5 text-center">Seus dados estão corretos?</h3>
-          <div className="d-flex justify-content-between col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
-            <div className="mb-5">
-              <h4 className="mt-4 mb-3">Endereço</h4>
-              <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
-              <p>Telefone: <span className="fw-bold">{addressData.phone}</span></p>
-              <p>Endereço: <span className="fw-bold">{addressData.address}</span></p>
-              <p>Endereço 2: <span className="fw-bold">{addressData.address2}</span></p>
-              <p>CEP: <span className="fw-bold">{addressData.zip}</span></p>
-              <p>Cidade: <span className="fw-bold">{addressData.city}</span></p>
-              <p>Bairro: <span className="fw-bold">{addressData.neighbourhood}</span></p>
-              <p>Rua: <span className="fw-bold">{addressData.street}</span></p>
-              <p>Estado: <span className="fw-bold">{addressData.state}</span></p>
-              <p>Number: <span className="fw-bold">{addressData.number}</span></p>
-              <p>Complemento: <span className="fw-bold">{addressData.complement}</span></p>
+          <div className="container-md mt-4 mb-5 h-500">
+            <h4 className="mb-1 text-center">Seus dados estão corretos?</h4>
+            <div className="d-flex justify-content-between col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+              <div>
+                <h5 className="mt-4 mb-3">Endereço</h5>
+                <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
+                <p>Telefone: <span className="fw-bold">{addressData.phone}</span></p>
+                <p>Endereço: <span className="fw-bold">{addressData.address}</span></p>
+                <p>Endereço 2: <span className="fw-bold">{addressData.address2}</span></p>
+                <p>CEP: <span className="fw-bold">{addressData.zip}</span></p>
+                <p>Cidade: <span className="fw-bold">{addressData.city}</span></p>
+                <p>Bairro: <span className="fw-bold">{addressData.neighbourhood}</span></p>
+                <p>Rua: <span className="fw-bold">{addressData.street}</span></p>
+                <p>Estado: <span className="fw-bold">{addressData.state}</span></p>
+                <p>Number: <span className="fw-bold">{addressData.number}</span></p>
+                <p>Complemento: <span className="fw-bold">{addressData.complement}</span></p>
+              </div>
+              <div>
+                <h5 className="mt-4 mb-3">Forma de pagamento</h5>
+                <p>Cartão de crédito</p>
+                <p>Número: <span className="fw-bold">{addressData.number}</span></p>
+                <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
+                <p>Data de expiração: <span className="fw-bold">{addressData.expiry}</span></p>
+                <p>Código: <span className="fw-bold">{addressData.cvc}</span></p>
+              </div>
             </div>
-            <div className="mb-5">
-              <h4 className="mt-4 mb-3">Forma de pagamento</h4>
-              <p>Cartão de crédito</p>
-              <p>Número: <span className="fw-bold">{addressData.number}</span></p>
-              <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
-              <p>Data de expiração: <span className="fw-bold">{addressData.expiry}</span></p>
-              <p>Código: <span className="fw-bold">{addressData.cvc}</span></p>
-            </div>
-          </div>
           </div>
         }
         <div className="form-actions mt-3 d-flex justify-content-center">

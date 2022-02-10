@@ -17,9 +17,9 @@ function Cart({ categories }) {
   return (
     <Layout categories={categories}>
       <Card style={{ padding: "10px 5px" }} className="cart container-md">
-        <h1 className="m-4 text-center">Cart</h1>
+        <h1 className="m-4 text-center">Carrinho</h1>
 
-        <h4 className="text-center" style={{ margin: 10 }}>Your Order:</h4>
+        <h4 className="text-center" style={{ margin: 10 }}>Seus itens</h4>
         <hr />
         <CardBody style={{ padding: 10 }}>
           <div className="m-2">
@@ -41,7 +41,7 @@ function Cart({ categories }) {
                             <div>
                               <div>
                                 <Card className="cart">
-                                  <CardTitle className="text-center my-2">Quantity:</CardTitle>
+                                  <CardTitle className="text-center my-2">Quantidade:</CardTitle>
                                   <div className="text-center my-2">
                                     <small id="item-price" className="fw-bold">${item.attributes.price}&nbsp; 30,00</small>
                                   </div>
@@ -145,9 +145,9 @@ function Cart({ categories }) {
                       marginRight: 10,
                     }}
                   >
-                    <Link href="/checkout">
+                    <Link href="/checkout/pagseguro">
                       <Button style={{ width: "100%"}} color="primary" className="btn-lg">
-                        <a className="text-white">Order</a>
+                        <a className="text-white">Prosseguir</a>
                       </Button>
                     </Link>
                   </div>
@@ -159,13 +159,13 @@ function Cart({ categories }) {
                       style={{ color: "blue" }}
                       onClick={() => window.history.back()}
                     >
-                      back to restaurant
+                      Voltar para o início
                     </small>
                   )}
                 </>
               )
             ) : (
-              <h5>Login to Order</h5>
+              <h5>Faça login para prosseguir</h5>
             )}
           </div>
         </CardBody>
