@@ -97,6 +97,58 @@ const Checkout = ({ categories }) => {
           </li>
         </ul>
 
+        {paymentTab === 0 &&
+          <form class="row g-3 my-4 col-auto col-md-6 container-sm m-auto">
+            <div class="col-md-6">
+              <input type="name" class="form-control" id="inputName" placeholder="Nome completo" />
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="inputPhone" placeholder="Telefone" />
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control" id="inputAddress" placeholder="Endereço" />
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Endereço 2" />
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control" id="inputZip" placeholder="CEP" />
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="inputCity" placeholder="Cidade" />
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="inputNeighbourhood" placeholder="Bairro" />
+            </div>
+            <div class="col-md-12">
+              <input type="text" class="form-control" id="inputStreet" placeholder="Rua" />
+            </div>
+            <div class="col-md-6">
+              <select id="inputState" class="form-select">
+                <option selected>Estado</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="inputNumber" placeholder="Número" />
+            </div>
+            <div class="col-md-12">
+              <input type="text" class="form-control" id="inputComplement" placeholder="Complemento" />
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck" />
+                <label class="form-check-label" for="gridCheck">
+                  Salvar endereço
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Sign in</button>
+            </div>
+          </form>
+        }
+
         {paymentTab === 1 &&
           <div className="container-md">
             <div className="mb-5">
