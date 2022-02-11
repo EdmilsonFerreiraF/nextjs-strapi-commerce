@@ -16,6 +16,7 @@ import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 import AddressTab from '../../components/checkout/addressTab';
 import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
 import CreditCardMethod from '../../components/checkout/creditCardMethod';
+import ConfirmTab from '../../components/checkout/confirmTab';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -273,33 +274,7 @@ const Checkout = ({ categories }) => {
         }
 
         {paymentTab === 2 &&
-          <div className="container-md mt-4 mb-5 h-500">
-            <h4 className="mb-1 text-center">Seus dados estão corretos?</h4>
-            <div className="d-flex justify-content-between col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
-              <div>
-                <h5 className="mt-4 mb-3">Endereço</h5>
-                <p>Nome: <span className="fw-bold ps-1">{addressData.name}</span></p>
-                <p>Telefone: <span className="fw-bold ps-1">{addressData.phone}</span></p>
-                <p>Endereço: <span className="fw-bold ps-1">{addressData.address}</span></p>
-                <p>Endereço 2: <span className="fw-bold ps-1">{addressData.address2}</span></p>
-                <p>CEP: <span className="fw-bold ps-1">{addressData.zip}</span></p>
-                <p>Cidade: <span className="fw-bold ps-1">{addressData.city}</span></p>
-                <p>Bairro: <span className="fw-bold ps-1">{addressData.neighbourhood}</span></p>
-                <p>Rua: <span className="fw-bold ps-1">{addressData.street}</span></p>
-                <p>Estado: <span className="fw-bold ps-1">{addressData.state}</span></p>
-                <p>Number: <span className="fw-bold ps-1">{addressData.number}</span></p>
-                <p>Complemento: <span className="fw-bold ps-1">{addressData.complement}</span></p>
-              </div>
-              <div>
-                <h5 className="mt-4 mb-3">Forma de pagamento</h5>
-                <p>Cartão de crédito</p>
-                <p>Número: <span className="fw-bold">{addressData.number}</span></p>
-                <p>Nome: <span className="fw-bold">{addressData.name}</span></p>
-                <p>Data de expiração: <span className="fw-bold">{addressData.expiry}</span></p>
-                <p>Código: <span className="fw-bold">{addressData.cvc}</span></p>
-              </div>
-            </div>
-          </div>
+          <ConfirmTab cardData={cardData} addressData={addressData} />
         }
         <div className="form-actions mt-3 d-flex justify-content-center">
           <button onClick={handlePreviousTab} className="btn btn-primary btn-block col col-auto me-4">Voltar</button>
