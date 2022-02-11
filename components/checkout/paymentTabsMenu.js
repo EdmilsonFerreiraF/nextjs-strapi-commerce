@@ -1,11 +1,11 @@
-const PaymentTabsMenu = ({ paymentTab, handlePaymentTab }) => {
+const PaymentTabsMenu = ({ addressData, creditCardData, debitCardData, paymentTab, handlePaymentTab }) => {
     return (
         <ul className="nav nav-pills container-md justify-content-center mb-5">
             <li className="nav-item">
                 <a className="nav-link disabled">Carrinho</a>
             </li>
             <li className="nav-item">
-                <a className={`nav-link${paymentTab === 0 ? ' active' : ''}`} onClick={() => handlePaymentTab(0)} aria-current="page" href="#">Endereço</a>
+                <button className={`nav-link${paymentTab === 0 ? ' active' : ''}`} onClick={() => handlePaymentTab(0)} aria-current="page" href="#">Endereço</button>
             </li>
             <li className="nav-item">
                 <a className={`nav-link${paymentTab === 1 ? ' active' : ''}`} onClick={() => handlePaymentTab(1)} href="#">Forma de pagamento</a>

@@ -35,7 +35,7 @@ const Checkout = ({ categories }) => {
     store: "",
     issuer: "",
     focused: "",
-    formData: null
+    creditCardFormData: null
   })
 
   let [addressData, setAddressData] = useState({
@@ -50,7 +50,7 @@ const Checkout = ({ categories }) => {
     state: "Estado",
     number: "",
     complement: "",
-    formData: null
+    debitCardFormData: null
   })
 
   let [paymentTab, setPaymentTab] = useState(0)
@@ -82,24 +82,22 @@ const Checkout = ({ categories }) => {
     });
   };
 
-  const handleAddressInputChange = ({ target }, entity) => {
-    if (entity === "card") {
+  const handleInputChange = ({ target }, entity) => {
+    if (entity === "credit_card") {
+      if (target.name === "number") {
+        target.value = formatCreditCardNumber(target.value);
+      } else if (target.name === "expiry") {
+        target.value = formatExpirationDate(target.value);
+      } else if (target.name === "cvc") {
+        target.value = formatCVC(target.value);
+      }
+
       setCreditCardData({ ...creditCardData, [target.name]: target.value });
+    } else if (entity === "debit_card") {
+      setDebitCardData({ ...debitCardData, [target.name]: target.value });
     } else {
       setAddressData({ ...addressData, [target.name]: target.value });
     }
-  }
-
-  const handleCardInputChange = ({ target }) => {
-    if (target.name === "number") {
-      target.value = formatCreditCardNumber(target.value);
-    } else if (target.name === "expiry") {
-      target.value = formatExpirationDate(target.value);
-    } else if (target.name === "cvc") {
-      target.value = formatCVC(target.value);
-    }
-
-    setCreditCardData({ ...creditCardData, [target.name]: target.value });
   };
 
   const sendPaymentData = async () => {
@@ -108,9 +106,9 @@ const Checkout = ({ categories }) => {
     const data = {
       // "reference_id": this.name,
       customer: {
-        name: creditCardData.name,
-        email: creditCardData.email,
-        tax_id: creditCardData.taxId,
+        name: creditCardFormData.name,
+        email: creditCardFormData.email,
+        tax_id: creditCardFormData.taxId,
         phones: [
           {
             country: addressData.phone.slice(0, 2),
@@ -158,18 +156,18 @@ const Checkout = ({ categories }) => {
             currency: "BRL",
           },
           payment_method: {
-            type: creditCardData.type,
-            installments: creditCardData.installments,
-            capture: creditCardData.store,
+            type: creditCardFormData.type,
+            installments: creditCardFormData.installments,
+            capture: creditCardFormData.store,
             card: {
-              number: creditCardData.number,
-              exp_month: creditCardData.expiry.slice(0, 2),
-              exp_year: creditCardData.expiry.slice(2, 4),
-              security_code: creditCardData.cvc,
+              number: creditCardFormData.number,
+              exp_month: creditCardFormData.expiry.slice(0, 2),
+              exp_year: creditCardFormData.expiry.slice(2, 4),
+              security_code: creditCardFormData.cvc,
               holder: {
-                name: creditCardData.name,
+                name: creditCardFormData.name,
               },
-              store: creditCardData.store,
+              store: creditCardFormData.store,
             }
           },
           notification_urls: [
@@ -184,7 +182,7 @@ const Checkout = ({ categories }) => {
       .catch(err => console.error(err));
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, entity) => {
     e.preventDefault();
     const { issuer } = creditCardData;
     const formData = [...e.target.elements]
@@ -194,18 +192,24 @@ const Checkout = ({ categories }) => {
         return acc;
       }, {});
 
-    setCreditCardData({ ...creditCardData, formData });
+    if (entity === "credit_card") {
+      setCreditCardData({ ...creditCardData, formData });
+    } else if (entity === "debit_card") {
+      setDebitCardData({ ...debitCardData, formData });
+    } else {
+      setAddressData({ ...addressCardData, formData });
+    }
 
-    sendPaymentData();
+    handleNextTab()
 
-    Checkout.form.reset();
+    //  e.target.querySelector("form").reset();
+    console.log('e.target', e.target)
   };
+
+  // sendPaymentData();
 
   const handlePreviousTab = () => {
     setPaymentTab(prevState => prevState - 1)
-
-    console.log('paymentTab', paymentTab)
-
   }
 
   const handleNextTab = () => {
@@ -229,11 +233,18 @@ const Checkout = ({ categories }) => {
 
   return (
     <Layout categories={categories}>
-      <div className="container bg-light py-4 m-auto">
+      <div className="container bg-light py-4 m-auto" onSubmit={handleNextTab} >
         <PaymentTabsMenu paymentTab={paymentTab} handlePaymentTab={handlePaymentTab} />
-
+        {console.log('Checkout.form', Checkout.form)}
         {paymentTab === 0 &&
-          <AddressTab addressData={addressData} handleAddressInputFocus={handleAddressInputFocus} handleAddressInputChange={handleAddressInputChange} />
+          <AddressTab
+            paymentTab={paymentTab}
+            handlePreviousTab={handlePreviousTab}
+            handleNextTab={handleNextTab}
+            handleSubmit={handleSubmit}
+            addressData={addressData}
+            handleAddressInputFocus={handleAddressInputFocus}
+            handleInputChange={handleInputChange} />
         }
 
         {paymentTab === 1 &&
@@ -242,54 +253,68 @@ const Checkout = ({ categories }) => {
               <BackToPaymentMethod handlePaymentMethod={handlePaymentMethod} />
             }
             {paymentMethod === 1 &&
-              <CreditCardMethod
-                creditCardData={creditCardData}
-                handleCallback={handleCallback}
-                handleSubmit={handleSubmit}
-                handleCardInputChange={handleCardInputChange}
-                handleCardInputFocus={handleCardInputFocus}
-              />
+                <CreditCardMethod
+                  creditCardData={creditCardData}
+                  handleCallback={handleCallback}
+                  handleSubmit={handleSubmit}
+                  handleInputChange={handleInputChange}
+                  handleCardInputFocus={handleCardInputFocus}
+                  paymentTab={paymentTab}
+                  handlePreviousTab={handlePreviousTab}
+                  handleNextTab={handleNextTab}
+                />
             }
 
             {paymentMethod === 0 &&
-              <div className="align-items-center h-100 text-center row row-cols-2">
-                <div className="">
-                  <h5 className="mb-4">Cartão de crédito</h5>
-                  <div onClick={() => handlePaymentMethod(1)}>
-                    <img className="rounded mx-auto d-block mw-150px" src="/img/credit_card.png" />
+              <>
+                <div className="align-items-center h-100 text-center row row-cols-2">
+                  <div className="">
+                    <h5 className="mb-4">Cartão de crédito</h5>
+                    <div onClick={() => handlePaymentMethod(1)}>
+                      <img className="rounded mx-auto d-block mw-150px" src="/img/credit_card.png" />
+                    </div>
+                  </div>
+                  <div className="">
+                    <h5 className="mb-4">Cartão de débito</h5>
+                    <div onClick={() => handlePaymentMethod(2)}>
+                      <img className="rounded mx-auto d-block mw-150px" src="/img/debit_card.png" />
+                    </div>
+                  </div>
+                  <div className="">
+                    <h5 className="mb-4">Boleto</h5>
+                    <div onClick={() => handlePaymentMethod(3)}>
+                      <img className="rounded mx-auto d-block mw-150px" src="/img/boleto.png" />
+                    </div>
+                  </div>
+                  <div className="">
+                    <h5 className="mb-4">PIX</h5>
+                    <div onClick={() => handlePaymentMethod(4)}>
+                      <img className="rounded mx-auto d-block mw-150px" src="https://logopng.com.br/logos/pix-106.png" />
+                    </div>
                   </div>
                 </div>
-                <div className="">
-                  <h5 className="mb-4">Cartão de débito</h5>
-                  <div onClick={() => handlePaymentMethod(2)}>
-                    <img className="rounded mx-auto d-block mw-150px" src="/img/debit_card.png" />
-                  </div>
-                </div>
-                <div className="">
-                  <h5 className="mb-4">Boleto</h5>
-                  <div onClick={() => handlePaymentMethod(3)}>
-                    <img className="rounded mx-auto d-block mw-150px" src="/img/boleto.png" />
-                  </div>
-                </div>
-                <div className="">
-                  <h5 className="mb-4">PIX</h5>
-                  <div onClick={() => handlePaymentMethod(4)}>
-                    <img className="rounded mx-auto d-block mw-150px" src="https://logopng.com.br/logos/pix-106.png" />
-                  </div>
-                </div>
-              </div>
+                <PaymentTabsControl paymentTab={paymentTab}
+                  disabledNextTab
+                  handlePreviousTab={handlePreviousTab}
+                  handleNextTab={handleNextTab}
+                  handleSubmit={handleSubmit}
+                />
+              </>
             }
           </div>
         }
 
         {paymentTab === 2 &&
-          <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
+          <>
+            <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
+            <PaymentTabsControl paymentTab={paymentTab}
+              disabledNextTab
+              handlePreviousTab={handlePreviousTab}
+              handleNextTab={handleNextTab}
+              handleSubmit={handleSubmit}
+            />
+          </>
         }
-        <PaymentTabsControl paymentTab={paymentTab}
-          handlePreviousTab={handlePreviousTab}
-          handleNextTab={handleNextTab}
-          handleSubmit={handleSubmit}
-        />
       </div>
     </Layout>
   );

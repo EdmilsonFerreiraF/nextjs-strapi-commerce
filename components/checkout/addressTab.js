@@ -1,18 +1,31 @@
-const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFocus}) => {
+import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
+
+const AddressTab = ({
+  addressData,
+  handleInputChange,
+  handleAddressInputFocus,
+  paymentTab,
+handlePreviousTab,
+handleNextTab,
+handleSubmit,
+}) => {
     return (
-        <form className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
+      <form ref={c => (AddressTab.form = c)} onSubmit={e => handleSubmit(e, "address")}>
+
+        <div className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
         <div className="col-md-6 mt-3 mt-md-0">
           <input type="name" className="form-control" id="inputName" placeholder="Nome completo"
             value={addressData.name}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="name"
+            required
           />
         </div>
         <div className="col-md-6 mt-3 mt-md-0">
           <input type="number" className="form-control" id="inputPhone" placeholder="Telefone"
             value={addressData.phone}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="phone"
             pattern="\d{11}"
@@ -21,7 +34,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-12">
           <input type="text" className="form-control" id="inputAddress" placeholder="Endereço"
             value={addressData.address}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="address"
           />
@@ -29,7 +42,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-12">
           <input type="text" className="form-control" id="inputAddress2" placeholder="Endereço 2"
             value={addressData.address2}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="address2"
           />
@@ -37,7 +50,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-12">
           <input type="text" className="form-control" id="inputZip" placeholder="CEP"
             value={addressData.zip}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="zip"
           />
@@ -45,7 +58,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-md-6">
           <input type="text" className="form-control" id="inputCity" placeholder="Cidade"
             value={addressData.city}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="city"
           />
@@ -53,7 +66,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-md-6">
           <input type="text" className="form-control" id="inputNeighbourhood" placeholder="Bairro"
             value={addressData.neighbourhood}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="neighbourhood"
           />
@@ -61,7 +74,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-md-12">
           <input type="text" className="form-control" id="inputStreet" placeholder="Rua"
             value={addressData.street}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             onFocus={handleAddressInputFocus}
             name="street"
           />
@@ -70,7 +83,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
           <select id="inputState" className="form-select"
             value={addressData.state}
             name="state"
-            onChange={handleAddressInputChange}>
+            onChange={handleInputChange}>
             <option>Estado</option>
             <option>...</option>
           </select>
@@ -78,7 +91,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-6 col-md-6">
           <input type="text" className="form-control" id="inputNumber" placeholder="Número"
             value={addressData.number}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             name="number"
             onFocus={e => handleAddressInputFocus(e, addressData, "address")}
           />
@@ -86,7 +99,7 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
         <div className="col-md-12">
           <input type="text" className="form-control" id="inputComplement" placeholder="Complemento"
             value={addressData.complement}
-            onChange={handleAddressInputChange}
+            onChange={handleInputChange}
             name="complement"
             onFocus={e => handleAddressInputFocus(e, addressData, "address")}
           />
@@ -99,6 +112,13 @@ const AddressTab = ({addressData, handleAddressInputChange, handleAddressInputFo
             </label>
           </div>
         </div>
+      </div>
+
+      <PaymentTabsControl paymentTab={paymentTab}
+              handlePreviousTab={handlePreviousTab}
+              handleNextTab={handleNextTab}
+              handleSubmit={handleSubmit}
+            />
       </form>
     )
 }
