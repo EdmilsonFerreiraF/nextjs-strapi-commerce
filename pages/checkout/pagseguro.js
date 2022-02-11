@@ -20,6 +20,7 @@ import DebitCardMethod from '../../components/checkout/debitCardMethod';
 import ConfirmTab from '../../components/checkout/confirmTab';
 import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
 import PaymentMethods from '../../components/checkout/paymentMethods';
+import BoletoMethod from '../../components/checkout/boletoMethod';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -69,6 +70,13 @@ const Checkout = ({ categories }) => {
     addressFormData: null
   })
 
+  let [boletoData, setBoletoData] = useState({
+    name: "",
+    taxId: "",
+    email: "",
+    boletoFormData: null
+  })
+
   let [paymentTab, setPaymentTab] = useState(0)
 
   let [paymentMethod, setPaymentMethod] = useState(0)
@@ -111,8 +119,11 @@ const Checkout = ({ categories }) => {
       setCreditCardData({ ...creditCardData, [target.name]: target.value });
     } else if (entity === "debit_card") {
       setDebitCardData({ ...debitCardData, [target.name]: target.value });
+    } else if (entity === "boleto") {
+      setBoletoData({ ...boletoData, [target.name]: target.value });
     } else {
       setAddressData({ ...addressData, [target.name]: target.value });
+
     }
   };
 
@@ -163,7 +174,7 @@ const Checkout = ({ categories }) => {
       notification_urls: [
         notification_urls
       ],
-      charges: [
+      charges: creditCard.creditCardFormData && [
         {
           // reference_id: this.name,
           description: description,
@@ -172,7 +183,7 @@ const Checkout = ({ categories }) => {
             currency: "BRL",
           },
           payment_method: {
-            type: creditCardData.creditCardFormData ? creditCardData.creditCardFormData.type : debitCardData.debitCardFormData.type, 
+            type: creditCardData.creditCardFormData ? creditCardData.creditCardFormData.type : debitCardData.debitCardFormData.type,
             installments: creditCardData.creditCardFormData.installments,
             capture: entity === "credit_card",
             soft_descriptor: entity === "credit_card" ? "My wonderful Strapi blog" : null,
@@ -189,14 +200,36 @@ const Checkout = ({ categories }) => {
             authentication_method: {
               type: debitCardData.debitCardFormData ? "INAPP" : null,
               cavv: debitCardData.debitCardFormData ? "" : null,
-              eci: debitCardData.debitCardFormData ? ""  : null 
+              eci: debitCardData.debitCardFormData ? "" : null
+            }
+          },
+          holder: boletoData.boletoFormData && {
+            name: "Jose da Silva",
+            tax_id: "22222222222",
+            email: "jose@email.com",
+            address: {
+              street: "Avenida Brigadeiro Faria Lima",
+              number: "1384",
+              locality: "Pinheiros",
+              city: "Sao Paulo",
+              region: "Sao Paulo",
+              region_code: "SP",
+              country: "Brasil",
+              postal_code: "01452002"
             }
           },
           notification_urls: [
             "http://localhost:3000/order/notifications"
           ]
         }
-      ]
+      ],
+      boleto: boletoFormData && {
+        due_date: "2024-12-31",
+        instruction_lines: {
+          line_1: "Pagamento processado para DESC Fatura",
+          line_2: "Via PagSeguro"
+        },
+      }
     }
 
     await axios.post(getStrapiURL('/pagseguro', data))
@@ -218,7 +251,10 @@ const Checkout = ({ categories }) => {
       setCreditCardData({ ...creditCardData, creditCardFormData: formData });
     } else if (entity === "debit_card") {
       setDebitCardData({ ...debitCardData, debitCardFormData: formData });
+    } else if (entity === "boleto") {
+      setBoletoData({ ...boletoData, boletoFormData: formData });
     } else {
+
       setAddressData({ ...addressData, addressFormData: formData });
     }
 
@@ -260,7 +296,8 @@ const Checkout = ({ categories }) => {
         <PaymentTabsMenu
           addressFormData={addressData.addressFormData}
           creditCardFormData={creditCardData.creditCardFormData}
-          debitCardFormData={creditCardData.debitCardFormData}
+          debitCardFormData={debitCardData.debitCardFormData}
+          boletoFormData={boletoData.boletoFormData}
           paymentTab={paymentTab} handlePaymentTab={handlePaymentTab}
         />
         {console.log('addressData.addressFormData', addressData.addressFormData)}
@@ -272,7 +309,7 @@ const Checkout = ({ categories }) => {
             handleSubmit={handleSubmit}
             addressData={addressData}
             handleAddressInputFocus={handleAddressInputFocus}
-            handleInputChange={handleInputChange} />
+            handleInputChange={e => handleInputChange(e, "address")} />
         }
 
         {paymentTab === 1 && addressData.addressFormData &&
@@ -285,7 +322,7 @@ const Checkout = ({ categories }) => {
                 creditCardData={creditCardData}
                 handleCallback={handleCallback}
                 handleSubmit={handleSubmit}
-                handleInputChange={handleInputChange}
+                handleInputChange={e => handleInputChange(e, "credit_card")}
                 handleCardInputFocus={handleCardInputFocus}
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
@@ -298,7 +335,20 @@ const Checkout = ({ categories }) => {
                 debitCardData={debitCardData}
                 handleCallback={handleCallback}
                 handleSubmit={handleSubmit}
-                handleInputChange={handleInputChange}
+                handleInputChange={e => handleInputChange(e, "debit_card")}
+                handleCardInputFocus={handleCardInputFocus}
+                paymentTab={paymentTab}
+                handlePreviousTab={handlePreviousTab}
+                handleNextTab={handleNextTab}
+              />
+            }
+
+            {paymentMethod === 3 &&
+              <BoletoMethod
+                boletoData={boletoData}
+
+                handleSubmit={handleSubmit}
+                handleInputChange={e => handleInputChange(e, "boleto")}
                 handleCardInputFocus={handleCardInputFocus}
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
@@ -307,19 +357,19 @@ const Checkout = ({ categories }) => {
             }
 
             {paymentMethod === 0 &&
-             <PaymentMethods
-             handlePaymentMethod={handlePaymentMethod}
-             paymentTab={paymentTab}
-             disabledNextTab
-             handlePreviousTab={handlePreviousTab}
-             handleNextTab={handleNextTab}
-             handleSubmit={handleSubmit}
-             />
+              <PaymentMethods
+                handlePaymentMethod={handlePaymentMethod}
+                paymentTab={paymentTab}
+                disabledNextTab
+                handlePreviousTab={handlePreviousTab}
+                handleNextTab={handleNextTab}
+                handleSubmit={handleSubmit}
+              />
             }
           </div>
         }
 
-        {paymentTab === 2 && (addressData.addressFormData && (creditCardData.creditCardFormData || debitCardData.debitCardFormData)) &&
+        {paymentTab === 2 && (addressData.addressFormData && (creditCardData.creditCardFormData || debitCardData.debitCardFormData || boletoData.boletoFormData)) &&
           <>
             <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
             <PaymentTabsControl paymentTab={paymentTab}
