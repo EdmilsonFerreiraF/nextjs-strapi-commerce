@@ -17,6 +17,7 @@ import AddressTab from '../../components/checkout/addressTab';
 import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
 import CreditCardMethod from '../../components/checkout/creditCardMethod';
 import ConfirmTab from '../../components/checkout/confirmTab';
+import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -276,14 +277,11 @@ const Checkout = ({ categories }) => {
         {paymentTab === 2 &&
           <ConfirmTab cardData={cardData} addressData={addressData} />
         }
-        <div className="form-actions mt-3 d-flex justify-content-center">
-          <button onClick={handlePreviousTab} className="btn btn-primary btn-block col col-auto me-4">Voltar</button>
-          {paymentTab < 2 ?
-            <button onClick={handleNextTab} className="btn btn-primary btn-block col col-auto">Prosseguir</button>
-            :
-            <button onClick={handleSubmit} className="btn btn-primary btn-block col col-auto">Comprar</button>
-          }
-        </div>
+        <PaymentTabsControl paymentTab={paymentTab}
+        handlePreviousTab={handlePreviousTab}
+        handleNextTab={handleNextTab}
+        handleSubmit={handleSubmit}
+         />
       </div>
     </Layout>
   );
