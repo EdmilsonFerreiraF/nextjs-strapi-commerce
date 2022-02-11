@@ -1,4 +1,4 @@
-const ConfirmTab = ({ cardData, addressData }) => {
+const ConfirmTab = ({ creditCardData, addressData }) => {
     const {
         type,
         installments,
@@ -8,7 +8,7 @@ const ConfirmTab = ({ cardData, addressData }) => {
         store,
         issuer,
         focused,
-    } = cardData;
+    } = creditCardData;
 
     const {
         phone,
@@ -43,8 +43,8 @@ const ConfirmTab = ({ cardData, addressData }) => {
                 <div>
                     <h5 className="mt-4 mb-3">Forma de pagamento</h5>
                     <p>Cartão de crédito</p>
-                    <p>Número: <span className="fw-bold">{cardData.number}</span></p>
-                    <p>Nome: <span className="fw-bold">{cardData.name}</span></p>
+                    <p>Número: <span className="fw-bold">{creditCardData.number}</span></p>
+                    <p>Nome: <span className="fw-bold">{creditCardData.name}</span></p>
                     <p>Data de expiração: <span className="fw-bold">{expiry}</span></p>
                     <p>Código: <span className="fw-bold">{cvc}</span></p>
                 </div>

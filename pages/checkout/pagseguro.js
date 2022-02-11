@@ -24,7 +24,7 @@ const Checkout = ({ categories }) => {
 
   const { cart } = globalContext;
 
-  let [cardData, setCardData] = useState({
+  let [creditCardData, setCreditCardData] = useState({
     type: "CREDIT_CARD",
     number: "",
     name: "",
@@ -59,15 +59,19 @@ const Checkout = ({ categories }) => {
 
   const router = useRouter()
 
-  const handleCallback = ({ issuer }, isValid) => {
+  const handleCallback = ({ issuer }, isValid, entity) => {
     if (isValid) {
-      setCardData({ ...cardData, issuer });
+      if (entity === "credit_card") {
+        setCreditCardData({ ...creditCardData, issuer });
+      } else {
+        setDebitCardData({ ...debitCardData, issuer });
+      }
     }
   };
 
   const handleCardInputFocus = ({ target }) => {
-    setCardData({
-      ...cardData,
+    setCreditCardData({
+      ...creditCardData,
       focused: target.name
     });
   };
@@ -80,7 +84,7 @@ const Checkout = ({ categories }) => {
 
   const handleAddressInputChange = ({ target }, entity) => {
     if (entity === "card") {
-      setCardData({ ...cardData, [target.name]: target.value });
+      setCreditCardData({ ...creditCardData, [target.name]: target.value });
     } else {
       setAddressData({ ...addressData, [target.name]: target.value });
     }
@@ -95,7 +99,7 @@ const Checkout = ({ categories }) => {
       target.value = formatCVC(target.value);
     }
 
-    setCardData({ ...cardData, [target.name]: target.value });
+    setCreditCardData({ ...creditCardData, [target.name]: target.value });
   };
 
   const sendPaymentData = async () => {
@@ -104,9 +108,9 @@ const Checkout = ({ categories }) => {
     const data = {
       // "reference_id": this.name,
       customer: {
-        name: cardData.name,
-        email: cardData.email,
-        tax_id: cardData.taxId,
+        name: creditCardData.name,
+        email: creditCardData.email,
+        tax_id: creditCardData.taxId,
         phones: [
           {
             country: addressData.phone.slice(0, 2),
@@ -154,18 +158,18 @@ const Checkout = ({ categories }) => {
             currency: "BRL",
           },
           payment_method: {
-            type: cardData.type,
-            installments: cardData.installments,
-            capture: cardData.store,
+            type: creditCardData.type,
+            installments: creditCardData.installments,
+            capture: creditCardData.store,
             card: {
-              number: cardData.number,
-              exp_month: cardData.expiry.slice(0, 2),
-              exp_year: cardData.expiry.slice(2, 4),
-              security_code: cardData.cvc,
+              number: creditCardData.number,
+              exp_month: creditCardData.expiry.slice(0, 2),
+              exp_year: creditCardData.expiry.slice(2, 4),
+              security_code: creditCardData.cvc,
               holder: {
-                name: cardData.name,
+                name: creditCardData.name,
               },
-              store: cardData.store,
+              store: creditCardData.store,
             }
           },
           notification_urls: [
@@ -182,7 +186,7 @@ const Checkout = ({ categories }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const { issuer } = cardData;
+    const { issuer } = creditCardData;
     const formData = [...e.target.elements]
       .filter(d => d.name)
       .reduce((acc, d) => {
@@ -190,7 +194,7 @@ const Checkout = ({ categories }) => {
         return acc;
       }, {});
 
-    setCardData({ ...cardData, formData });
+    setCreditCardData({ ...creditCardData, formData });
 
     sendPaymentData();
 
@@ -239,12 +243,12 @@ const Checkout = ({ categories }) => {
             }
             {paymentMethod === 1 &&
               <CreditCardMethod
-              cardData={cardData}
-               handleCallback={handleCallback}
-               handleSubmit={handleSubmit}
-               handleCardInputChange={handleCardInputChange}
-               handleCardInputFocus={handleCardInputFocus}
-               />
+                creditCardData={creditCardData}
+                handleCallback={handleCallback}
+                handleSubmit={handleSubmit}
+                handleCardInputChange={handleCardInputChange}
+                handleCardInputFocus={handleCardInputFocus}
+              />
             }
 
             {paymentMethod === 0 &&
@@ -279,13 +283,13 @@ const Checkout = ({ categories }) => {
         }
 
         {paymentTab === 2 &&
-          <ConfirmTab cardData={cardData} addressData={addressData} />
+          <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
         }
         <PaymentTabsControl paymentTab={paymentTab}
-        handlePreviousTab={handlePreviousTab}
-        handleNextTab={handleNextTab}
-        handleSubmit={handleSubmit}
-         />
+          handlePreviousTab={handlePreviousTab}
+          handleNextTab={handleNextTab}
+          handleSubmit={handleSubmit}
+        />
       </div>
     </Layout>
   );

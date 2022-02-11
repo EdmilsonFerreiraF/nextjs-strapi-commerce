@@ -1,6 +1,6 @@
 import Card from 'react-credit-cards';
 
-const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardInputChange, handleCardInputFocus }) => {
+const CreditCardMethod = ({ creditCardData, handleCallback, handleSubmit, handleCardInputChange, handleCardInputFocus }) => {
     const {
         type,
         number,
@@ -13,7 +13,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
         issuer,
         focused,
         formData,
-    } = cardData
+    } = creditCardData
 
     return (
         <>
@@ -24,7 +24,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                     expiry={expiry}
                     cvc={cvc}
                     focused={focused}
-                    callback={() => handleCallback("card")}
+                    callback={(type, isValid) => handleCallback(type, isValid, "card")}
                 />
             </div>
             <form ref={c => (CreditCardMethod.form = c)} onSubmit={handleSubmit}>
