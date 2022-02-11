@@ -78,8 +78,12 @@ const Checkout = ({ categories }) => {
     });
   };
 
-  const handleAddressInputChange = ({ target }) => {
-    setAddressData({ ...addressData, [target.name]: target.value });
+  const handleAddressInputChange = ({ target }, entity) => {
+    if (entity === "card") {
+      setCardData({ ...cardData, [target.name]: target.value });
+    } else {
+      setAddressData({ ...addressData, [target.name]: target.value });
+    }
   }
 
   const handleCardInputChange = ({ target }) => {

@@ -24,7 +24,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                     expiry={expiry}
                     cvc={cvc}
                     focused={focused}
-                    callback={handleCallback}
+                    callback={() => handleCallback("card")}
                 />
             </div>
             <form ref={c => (CreditCardMethod.form = c)} onSubmit={handleSubmit}>
@@ -36,7 +36,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                         placeholder="Card Number"
                         pattern="[\d| ]{16,22}"
                         required
-                        onChange={handleCardInputChange}
+                        onChange={(e) => handleCardInputChange(e, "card")}
                         value={number}
                         onFocus={handleCardInputFocus}
                     />
@@ -50,7 +50,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                             className="form-control"
                             placeholder="Name"
                             required
-                            onChange={handleCardInputChange}
+                            onChange={(e) => handleCardInputChange(e, "card")}
                             value={name}
                             onFocus={handleCardInputFocus}
                         />
@@ -59,7 +59,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                         <select id="inputInstallments" className="form-select"
                             value={installments}
                             name="installments"
-                            onChange={handleCardInputChange}>
+                            onChange={(e) => handleCardInputChange(e, "card")}>
                             <option>Parcelas</option>
                             <option>...</option>
                         </select>
@@ -74,7 +74,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                             placeholder="Valid Thru"
                             pattern="\d\d/\d\d"
                             required
-                            onChange={handleCardInputChange}
+                            onChange={(e) => handleCardInputChange(e, "card")}
                             value={expiry}
                             onFocus={handleCardInputFocus}
                         />
@@ -87,7 +87,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                             placeholder="CVC"
                             pattern="\d{3,4}"
                             required
-                            onChange={handleCardInputChange}
+                            onChange={(e) => handleCardInputChange(e, "card")}
                             value={cvc}
                             onFocus={handleCardInputFocus}
                         />
@@ -100,7 +100,7 @@ const CreditCardMethod = ({ cardData, handleCallback, handleSubmit, handleCardIn
                             placeholder="CPF"
                             pattern="\d{3,4}"
                             required
-                            onChange={handleCardInputChange}
+                            onChange={(e) => handleCardInputChange(e, "card")}
                             value={taxId}
                             onFocus={handleCardInputFocus}
                         />
