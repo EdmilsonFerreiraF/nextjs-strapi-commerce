@@ -34,7 +34,7 @@ const CreditCardMethod = ({
                     expiry={expiry}
                     cvc={cvc}
                     focused={focused}
-                    callback={(type, isValid) => handleCallback(type, isValid, "card")}
+                    callback={(type, isValid) => handleCallback(type, isValid, "credit_card")}
                 />
             </div>
             <div className="form-group my-4">
@@ -45,7 +45,7 @@ const CreditCardMethod = ({
                     placeholder="Card Number"
                     pattern="[\d| ]{16,22}"
                     required
-                    onChange={(e) => handleInputChange(e, "card")}
+                    onChange={(e) => handleInputChange(e, "credit_card")}
                     value={number}
                     onFocus={handleCardInputFocus}
                 />
@@ -59,7 +59,7 @@ const CreditCardMethod = ({
                         className="form-control"
                         placeholder="Name"
                         required
-                        onChange={(e) => handleInputChange(e, "card")}
+                        onChange={(e) => handleInputChange(e, "credit_card")}
                         value={name}
                         onFocus={handleCardInputFocus}
                     />
@@ -68,7 +68,7 @@ const CreditCardMethod = ({
                     <select id="inputInstallments" className="form-select"
                         value={installments}
                         name="installments"
-                        onChange={(e) => handleInputChange(e, "card")}>
+                        onChange={(e) => handleInputChange(e, "credit_card")}>
                         <option>Parcelas</option>
                         <option>...</option>
                     </select>
@@ -83,7 +83,7 @@ const CreditCardMethod = ({
                         placeholder="Valid Thru"
                         pattern="\d\d/\d\d"
                         required
-                        onChange={(e) => handleInputChange(e, "card")}
+                        onChange={(e) => handleInputChange(e, "credit_card")}
                         value={expiry}
                         onFocus={handleCardInputFocus}
                     />
@@ -96,7 +96,7 @@ const CreditCardMethod = ({
                         placeholder="CVC"
                         pattern="\d{3,4}"
                         required
-                        onChange={(e) => handleInputChange(e, "card")}
+                        onChange={(e) => handleInputChange(e, "credit_card")}
                         value={cvc}
                         onFocus={handleCardInputFocus}
                     />
@@ -104,12 +104,12 @@ const CreditCardMethod = ({
                 <div className="col-6">
                     <input
                         type="tel"
-                        name="cpf"
+                        name="taxId"
                         className="form-control"
                         placeholder="CPF"
-                        pattern="\d{3,4}"
+                        pattern="\d{11}"
                         required
-                        onChange={(e) => handleInputChange(e, "card")}
+                        onChange={(e) => handleInputChange(e, "credit_card")}
                         value={taxId}
                         onFocus={handleCardInputFocus}
                     />

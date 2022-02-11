@@ -38,6 +38,20 @@ const Checkout = ({ categories }) => {
     creditCardFormData: null
   })
 
+  let [debitCardData, setDebitCardData] = useState({
+    type: "DEBIT_CARD",
+    number: "",
+    name: "",
+    installments: "Parcelas",
+    expiry: "",
+    cvc: "",
+    taxId: "",
+    store: "",
+    issuer: "",
+    focused: "",
+    debitCardFormData: null
+  })
+
   let [addressData, setAddressData] = useState({
     name: "",
     phone: "",
@@ -50,7 +64,7 @@ const Checkout = ({ categories }) => {
     state: "Estado",
     number: "",
     complement: "",
-    debitCardFormData: null
+    addressFormData: null
   })
 
   let [paymentTab, setPaymentTab] = useState(0)
@@ -106,9 +120,9 @@ const Checkout = ({ categories }) => {
     const data = {
       // "reference_id": this.name,
       customer: {
-        name: creditCardFormData.name,
-        email: creditCardFormData.email,
-        tax_id: creditCardFormData.taxId,
+        name: creditCardData.creditCardFormData.name,
+        email: creditCardData.creditCardFormData.email,
+        tax_id: creditCardData.creditCardFormData.taxId,
         phones: [
           {
             country: addressData.phone.slice(0, 2),
@@ -156,18 +170,18 @@ const Checkout = ({ categories }) => {
             currency: "BRL",
           },
           payment_method: {
-            type: creditCardFormData.type,
-            installments: creditCardFormData.installments,
-            capture: creditCardFormData.store,
+            type: creditCardData.creditCardFormData.type,
+            installments: creditCardData.creditCardFormData.installments,
+            capture: creditCardData.creditCardFormData.store,
             card: {
-              number: creditCardFormData.number,
-              exp_month: creditCardFormData.expiry.slice(0, 2),
-              exp_year: creditCardFormData.expiry.slice(2, 4),
-              security_code: creditCardFormData.cvc,
+              number: creditCardData.creditCardFormData.number,
+              exp_month: creditCardData.creditCardFormData.expiry.slice(0, 2),
+              exp_year: creditCardData.creditCardFormData.expiry.slice(2, 4),
+              security_code: creditCardData.creditCardFormData.cvc,
               holder: {
-                name: creditCardFormData.name,
+                name: creditCardData.creditCardFormData.name,
               },
-              store: creditCardFormData.store,
+              store: creditCardData.creditCardFormData.store,
             }
           },
           notification_urls: [
@@ -193,11 +207,11 @@ const Checkout = ({ categories }) => {
       }, {});
 
     if (entity === "credit_card") {
-      setCreditCardData({ ...creditCardData, formData });
+      setCreditCardData({ ...creditCardData, creditCardFormData: formData });
     } else if (entity === "debit_card") {
-      setDebitCardData({ ...debitCardData, formData });
+      setDebitCardData({ ...debitCardData, debitCardFormData: formData });
     } else {
-      setAddressData({ ...addressCardData, formData });
+      setAddressData({ ...addressData, addressFormData: formData });
     }
 
     handleNextTab()
@@ -209,11 +223,11 @@ const Checkout = ({ categories }) => {
   // sendPaymentData();
 
   const handlePreviousTab = () => {
-    setPaymentTab(prevState => prevState - 1)
+    setPaymentTab(paymentTab - 1)
   }
 
   const handleNextTab = () => {
-    setPaymentTab(prevState => prevState + 1)
+    setPaymentTab(paymentTab + 1)
   }
 
   const handlePaymentTab = (tab) => {
@@ -224,6 +238,7 @@ const Checkout = ({ categories }) => {
     setPaymentMethod(method)
   }
 
+  console.log('paymentTab', paymentTab)
   console.log('paymentMethod', paymentMethod)
   useEffect(() => {
     if (paymentTab === -1) {
@@ -234,8 +249,13 @@ const Checkout = ({ categories }) => {
   return (
     <Layout categories={categories}>
       <div className="container bg-light py-4 m-auto" onSubmit={handleNextTab} >
-        <PaymentTabsMenu paymentTab={paymentTab} handlePaymentTab={handlePaymentTab} />
-        {console.log('Checkout.form', Checkout.form)}
+        <PaymentTabsMenu
+          addressFormData={addressData.addressFormData}
+          creditCardFormData={creditCardData.creditCardFormData}
+          debitCardFormData={creditCardData.debitCardFormData}
+          paymentTab={paymentTab} handlePaymentTab={handlePaymentTab}
+        />
+        {console.log('addressData.addressFormData', addressData.addressFormData)}
         {paymentTab === 0 &&
           <AddressTab
             paymentTab={paymentTab}
@@ -247,22 +267,22 @@ const Checkout = ({ categories }) => {
             handleInputChange={handleInputChange} />
         }
 
-        {paymentTab === 1 &&
+        {paymentTab === 1 && addressData.addressFormData &&
           <div className="container col-auto col-md-10 col-lg-6 mt-4 mb-5 h-574">
             {paymentMethod > 0 &&
               <BackToPaymentMethod handlePaymentMethod={handlePaymentMethod} />
             }
             {paymentMethod === 1 &&
-                <CreditCardMethod
-                  creditCardData={creditCardData}
-                  handleCallback={handleCallback}
-                  handleSubmit={handleSubmit}
-                  handleInputChange={handleInputChange}
-                  handleCardInputFocus={handleCardInputFocus}
-                  paymentTab={paymentTab}
-                  handlePreviousTab={handlePreviousTab}
-                  handleNextTab={handleNextTab}
-                />
+              <CreditCardMethod
+                creditCardData={creditCardData}
+                handleCallback={handleCallback}
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                handleCardInputFocus={handleCardInputFocus}
+                paymentTab={paymentTab}
+                handlePreviousTab={handlePreviousTab}
+                handleNextTab={handleNextTab}
+              />
             }
 
             {paymentMethod === 0 &&
@@ -304,7 +324,7 @@ const Checkout = ({ categories }) => {
           </div>
         }
 
-        {paymentTab === 2 &&
+        {paymentTab === 2 && (addressData.addressFormData && (creditCardData.creditCardFormData || debitCardData.debitCardFormData)) &&
           <>
             <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
             <PaymentTabsControl paymentTab={paymentTab}

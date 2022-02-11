@@ -5,14 +5,13 @@ const AddressTab = ({
   handleInputChange,
   handleAddressInputFocus,
   paymentTab,
-handlePreviousTab,
-handleNextTab,
-handleSubmit,
+  handlePreviousTab,
+  handleNextTab,
+  handleSubmit,
 }) => {
-    return (
-      <form ref={c => (AddressTab.form = c)} onSubmit={e => handleSubmit(e, "address")}>
-
-        <div className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
+  return (
+    <form ref={c => (AddressTab.form = c)} onSubmit={e => handleSubmit(e, "address")}>
+      <div className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
         <div className="col-md-6 mt-3 mt-md-0">
           <input type="name" className="form-control" id="inputName" placeholder="Nome completo"
             value={addressData.name}
@@ -115,12 +114,12 @@ handleSubmit,
       </div>
 
       <PaymentTabsControl paymentTab={paymentTab}
-              handlePreviousTab={handlePreviousTab}
-              handleNextTab={handleNextTab}
-              handleSubmit={handleSubmit}
-            />
-      </form>
-    )
+        handlePreviousTab={handlePreviousTab}
+        handleNextTab={handleNextTab}
+        handleSubmit={handleSubmit}
+      />
+    </form>
+  )
 }
 
 export default AddressTab
