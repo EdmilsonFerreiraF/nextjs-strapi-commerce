@@ -16,6 +16,7 @@ import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 import AddressTab from '../../components/checkout/addressTab';
 import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
 import CreditCardMethod from '../../components/checkout/creditCardMethod';
+import DebitCardMethod from '../../components/checkout/debitCardMethod';
 import ConfirmTab from '../../components/checkout/confirmTab';
 import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
 import PaymentMethods from '../../components/checkout/paymentMethods';
@@ -115,7 +116,7 @@ const Checkout = ({ categories }) => {
     }
   };
 
-  const sendPaymentData = async () => {
+  const sendPaymentData = async (entity) => {
     const description = "My wonderful Strapi blog payment"
 
     const data = {
@@ -138,7 +139,7 @@ const Checkout = ({ categories }) => {
         return {
           name: item.name,
           quantity: item.quantity,
-          // unit_amount: item.unit_amount,
+          unit_amount: 1,
         }
       }
       ),
@@ -171,9 +172,10 @@ const Checkout = ({ categories }) => {
             currency: "BRL",
           },
           payment_method: {
-            type: creditCardData.creditCardFormData.type,
+            type: creditCardData.creditCardFormData ? creditCardData.creditCardFormData.type : debitCardData.debitCardFormData.type, 
             installments: creditCardData.creditCardFormData.installments,
-            capture: creditCardData.creditCardFormData.store,
+            capture: entity === "credit_card",
+            soft_descriptor: entity === "credit_card" ? "My wonderful Strapi blog" : null,
             card: {
               number: creditCardData.creditCardFormData.number,
               exp_month: creditCardData.creditCardFormData.expiry.slice(0, 2),
@@ -182,11 +184,16 @@ const Checkout = ({ categories }) => {
               holder: {
                 name: creditCardData.creditCardFormData.name,
               },
-              store: creditCardData.creditCardFormData.store,
+              store: entity === "credit_card" ? creditCardData.creditCardFormData.store : null,
+            },
+            authentication_method: {
+              type: debitCardData.debitCardFormData ? "INAPP" : null,
+              cavv: debitCardData.debitCardFormData ? "" : null,
+              eci: debitCardData.debitCardFormData ? ""  : null 
             }
           },
           notification_urls: [
-
+            "http://localhost:3000/order/notifications"
           ]
         }
       ]
@@ -276,6 +283,19 @@ const Checkout = ({ categories }) => {
             {paymentMethod === 1 &&
               <CreditCardMethod
                 creditCardData={creditCardData}
+                handleCallback={handleCallback}
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                handleCardInputFocus={handleCardInputFocus}
+                paymentTab={paymentTab}
+                handlePreviousTab={handlePreviousTab}
+                handleNextTab={handleNextTab}
+              />
+            }
+
+            {paymentMethod === 2 &&
+              <DebitCardMethod
+                debitCardData={debitCardData}
                 handleCallback={handleCallback}
                 handleSubmit={handleSubmit}
                 handleInputChange={handleInputChange}

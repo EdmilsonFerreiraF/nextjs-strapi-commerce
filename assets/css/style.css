@@ -42,6 +42,10 @@ h1 {
   height: 574px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .mw-150px {
   max-width: 180px;
 }
