@@ -141,7 +141,6 @@ const Checkout = ({ categories }) => {
     const notificationUrls = "http://localhost:3000/notifications"
 
     const boleto = boletoData.boletoFormData && {
-      // "reference_id": this.name,
       customer: {
         name: addressData.addressFormData.name,
         email: boletoData.boletoFormData.email,
@@ -376,9 +375,9 @@ const Checkout = ({ categories }) => {
             capture: true,
             soft_descriptor: softDescriptor,
             card: {
-               number: creditCardData.creditCardFormData.number.split(" ").join(""),
-              exp_month: creditCardData.creditCardFormData.expiry.slice(0, 2),
-              exp_year: `20${creditCardData.creditCardFormData.expiry.slice(3, 5)}`,
+              number: debitCardData.debitCardFormData.number.split(" ").join(""),
+              exp_month: debitCardData.debitCardFormData.expiry.slice(0, 2),
+              exp_year: `20${debitCardData.debitCardFormData.expiry.slice(3, 5)}`,
               security_code: debitCardData.debitCardFormData.cvc,
               holder: {
                 name: debitCardData.debitCardFormData.name,
@@ -387,8 +386,8 @@ const Checkout = ({ categories }) => {
             },
             authentication_method: {
               type: "INAPP",
-              cavv: "",
-              eci: ""
+              cavv: "4251",
+              eci: "05",
             }
           },
           notification_urls: [
