@@ -72,7 +72,7 @@ const CreditCardMethod = ({
                             name="installments"
                             onChange={(e) => handleInputChange(e, "credit_card")}>
                             <option>Parcelas</option>
-                            <option>...</option>
+                            <option>1</option>
                         </select>
                     </div>
                 </div>

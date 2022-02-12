@@ -31,11 +31,11 @@ const Checkout = ({ categories }) => {
     type: "CREDIT_CARD",
     number: "",
     name: "",
-    installments: "Parcelas",
+    installments: "",
     expiry: "",
     cvc: "",
     taxId: "",
-    store: "",
+    store: false,
     issuer: "",
     focused: "",
     creditCardFormData: null
@@ -45,28 +45,28 @@ const Checkout = ({ categories }) => {
     type: "DEBIT_CARD",
     number: "",
     name: "",
-    installments: "Parcelas",
+    installments: "",
     expiry: "",
     cvc: "",
     taxId: "",
-    store: "",
+    store: false,
     issuer: "",
     focused: "",
     debitCardFormData: null
   })
 
   let [addressData, setAddressData] = useState({
-    name: "",
-    phone: "",
-    address: "",
-    address2: "",
-    zip: "",
-    city: "",
-    neighbourhood: "",
-    street: "",
-    state: "Estado",
-    number: "",
-    complement: "",
+    name: "dasdasd",
+    phone: "61983317580",
+    address: "asdas",
+    address2: "ghdfdfgd",
+    zip: "72020550",
+    city: "gsdfdsf",
+    neighbourhood: "hdfdfg",
+    street: "jfgfghf",
+    state: "BA",
+    number: "4124",
+    complement: "fsdfdsfsdf",
     addressFormData: null
   })
 
@@ -128,16 +128,19 @@ const Checkout = ({ categories }) => {
 
     }
   };
+  console.log('items', cart.items[0])
 
   const sendPaymentData = async (entity) => {
-    const description = "My wonderful Strapi blog payment"
-    console.log('creditCardData.creditCardFormData', creditCardData.creditCardFormData)
+    const description = "MywonderfulStrapiblogpayment"
+    const softDescriptor = "dwdq"
+    const currency = "BRL"
+    const phoneType = "MOBILE"
+    const userEmail = "user_email@email.com"
+    const countryPhone = 55
+    const countryAddress = "BRA"
+    const notificationUrls = "http://localhost:3000/notifications"
 
-    console.log('boletoData.type', boletoData.type)
-    console.log('boletoData.boletoFormData.type', boletoData.boletoFormData.type)
-    console.log('country', addressData.phone.slice(0, 2))
-    console.log('area', addressData.phone.slice(2, 4))
-    const boleto = {
+    const boleto = boletoData.boletoFormData && {
       // "reference_id": this.name,
       customer: {
         name: addressData.addressFormData.name,
@@ -145,10 +148,10 @@ const Checkout = ({ categories }) => {
         tax_id: boletoData.boletoFormData.taxId,
         phones: [
           {
-            country: addressData.phone.slice(0, 2),
-            area: addressData.phone.slice(2, 4),
-            number: addressData.phone.slice(2, 11),
-            type: "MOBILE"
+            country: countryPhone,
+            area: addressData.addressFormData.phone.slice(0, 2),
+            number: addressData.addressFormData.phone.slice(2, 11),
+            type: phoneType
           }
         ]
       },
@@ -176,21 +179,21 @@ const Checkout = ({ categories }) => {
           city: addressData.addressFormData.city,
           region_code: addressData.addressFormData.state,
           // country: addressData.addressFormData.country,
-          country: "BRA",
+          country: countryAddress,
           postal_code: addressData.addressFormData.zip,
         }
       },
       notification_urls: [
-        "http://localhost:3000/notifications"
+        notificationUrls
       ],
       charges: [
         {
           // reference_id: this.name,
-          description: description,
+          description,
           amount: {
             // value: cart.total,
             value: 100,
-            currency: "BRL",
+            currency,
           },
           payment_method: {
             type: boletoData.boletoFormData.type,
@@ -201,18 +204,30 @@ const Checkout = ({ categories }) => {
                 line_2: "Via PagSeguro"
               },
               holder: {
-                name: "Jose da Silva",
-                tax_id: "22222222222",
-                email: "jose@email.com",
+                name: boletoData.boletoFormData.name,
+                tax_id: boletoData.boletoFormData.taxId,
+                email: userEmail,
                 address: {
-                  street: "Avenida Brigadeiro Faria Lima",
-                  number: "1384",
-                  locality: "Pinheiros",
-                  city: "Sao Paulo",
-                  region: "Sao Paulo",
-                  region_code: "SP",
-                  country: "Brasil",
-                  postal_code: "01452002"
+                  // street: "Avenida Brigadeiro Faria Lima",
+                  // number: "1384",
+                  // locality: "Pinheiros",
+                  // city: "Sao Paulo",
+                  // region: "Sao Paulo",
+                  // region_code: "SP",
+                  // country: countryAddress,
+                  // postal_code: "01452002",
+
+                  street: addressData.addressFormData.street,
+                  // number: boletoData.boletoFormData.number,
+                  number: addressData.addressFormData.number,
+                  complement: addressData.addressFormData.complement,
+                  locality: addressData.addressFormData.neighbourhood,
+                  city: addressData.addressFormData.city,
+                  region: addressData.addressFormData.city,
+                  region_code: addressData.addressFormData.state,
+                  // country: addressData.addressFormData.country,
+                  country: countryAddress,
+                  postal_code: addressData.addressFormData.zip,
                 }
               }
             }
@@ -221,25 +236,25 @@ const Checkout = ({ categories }) => {
       ],
     }
 
-    const data = {
+    const creditCard = creditCardData.creditCardFormData && {
       // "reference_id": this.name,
       customer: {
-        name: creditCardData.creditCardFormData?.name || debitCardData.debitCardFormData?.name || boletoData.boletoCardFormData?.name,
-        email: creditCardData.creditCardFormData?.email || debitCardData.debitCardFormData?.email || boletoData.boletoCardFormData?.email,
-        tax_id: creditCardData.creditCardFormData?.taxId || debitCardData.debitCardFormData?.taxId || boletoData.boletoCardFormData?.taxId,
+        name: creditCardData.creditCardFormData.name,
+        email: userEmail,
+        tax_id: creditCardData.creditCardFormData.taxId,
         phones: [
           {
-            country: addressData.phone.slice(0, 2),
-            area: addressData.phone.slice(2, 4),
-            number: addressData.phone.slice(2, 11),
-            // type: addressData.phone.slice(0, 1),
+            country: countryPhone,
+            area: addressData.addressFormData.phone.slice(0, 2),
+            number: addressData.addressFormData.phone.slice(2, 11),
+            type: phoneType
           }
         ]
       },
       items: cart.items.map(item => {
         // reference_id: items.reference_id,
         return {
-          name: item.name,
+          name: item.attributes.title,
           quantity: item.quantity,
           unit_amount: 1,
         }
@@ -248,84 +263,142 @@ const Checkout = ({ categories }) => {
       qr_code: {
         amount: {
           // value: cart.total
-          value: 100
+          value: 500
         }
       },
       shipping: {
         address: {
-          street: addressData.street,
-          number: addressData.number,
-          complement: addressData.complement,
-          locality: addressData.neighbourhood,
-          city: addressData.city,
-          // region_code: addressData.region_code,
-          country: addressData.country,
-          postal_code: addressData.zip,
+          street: addressData.addressFormData.street,
+          number: addressData.addressFormData.number,
+          complement: addressData.addressFormData.complement,
+          locality: addressData.addressFormData.neighbourhood,
+          city: addressData.addressFormData.city,
+          region_code: addressData.addressFormData.state,
+          country: countryAddress,
+          postal_code: addressData.addressFormData.zip,
         }
       },
       notification_urls: [
-        "http://localhost:3000/notifications"
+        notificationUrls
       ],
-      charges: creditCardData.creditCardFormData && [
+      charges: [
         {
           // reference_id: this.name,
-          description: description,
+          description,
           amount: {
             // value: cart.total,
-            value: 100,
-            currency: "BRL",
+            value: 500,
+            currency,
           },
           payment_method: {
-            type: creditCardData.creditCardFormData ? creditCardData.creditCardFormData.type : debitCardData.debitCardFormData.type,
+            type: creditCardData.creditCardFormData.type,
             installments: creditCardData.creditCardFormData.installments,
-            capture: entity === "credit_card",
-            soft_descriptor: entity === "credit_card" ? "My wonderful Strapi blog" : null,
+            capture: true,
+            soft_descriptor: softDescriptor,
             card: {
-              number: creditCardData.creditCardFormData.number,
+              number: creditCardData.creditCardFormData.number.split(" ").join(""),
               exp_month: creditCardData.creditCardFormData.expiry.slice(0, 2),
-              exp_year: creditCardData.creditCardFormData.expiry.slice(2, 4),
+              exp_year: `20${creditCardData.creditCardFormData.expiry.slice(3, 5)}`,
+              // exp_month: "01",
+              // exp_year: "2025",
               security_code: creditCardData.creditCardFormData.cvc,
               holder: {
                 name: creditCardData.creditCardFormData.name,
               },
-              store: entity === "credit_card" ? creditCardData.creditCardFormData.store : null,
+              store: creditCardData.creditCardFormData.store,
             },
-            authentication_method: {
-              type: debitCardData.debitCardFormData ? "INAPP" : null,
-              cavv: debitCardData.debitCardFormData ? "" : null,
-              eci: debitCardData.debitCardFormData ? "" : null
-            }
-          },
-          holder: boletoData.boletoFormData && {
-            name: "Jose da Silva",
-            tax_id: "22222222222",
-            email: "jose@email.com",
-            address: {
-              street: "Avenida Brigadeiro Faria Lima",
-              number: "1384",
-              locality: "Pinheiros",
-              city: "Sao Paulo",
-              region: "Sao Paulo",
-              region_code: "SP",
-              country: "Brasil",
-              postal_code: "01452002"
-            }
           },
           notification_urls: [
             "http://localhost:3000/order/notifications"
           ]
         }
       ],
-      boleto: boletoData.boletoFormData && {
-        due_date: "2024-12-31",
-        instruction_lines: {
-          line_1: "Pagamento processado para DESC Fatura",
-          line_2: "Via PagSeguro"
-        },
-      }
     }
 
-    const res = await axios.post(getStrapiURL('/api/orders/pagseguro'), boleto)
+    const debitCard = debitCardData.debitCardFormData && {
+      // "reference_id": this.name,
+      customer: {
+        name: debitCardData.debitCardFormData?.name,
+        // email: debitCardData.debitCardFormData?.email,
+        email: userEmail,
+        tax_id: debitCardData.debitCardFormData?.taxId,
+        phones: [
+          {
+            country: countryPhone,
+            area: addressData.addressFormData.phone.slice(0, 2),
+            number: addressData.addressFormData.phone.slice(2, 11),
+            type: phoneType
+          }
+        ]
+      },
+      items: cart.items.map(item => {
+        // reference_id: items.reference_id,
+        return {
+          name: item.attributes.title,
+          quantity: item.quantity,
+          unit_amount: 1,
+        }
+      }
+      ),
+      qr_code: {
+        amount: {
+          // value: cart.total
+          value: 500
+        }
+      },
+      shipping: {
+        address: {
+          street: addressData.addressFormData.street,
+          number: addressData.addressFormData.number,
+          complement: addressData.addressFormData.complement,
+          locality: addressData.addressFormData.neighbourhood,
+          city: addressData.addressFormData.city,
+          region_code: addressData.addressFormData.state,
+          country: countryAddress,
+          postal_code: addressData.addressFormData.zip,
+        }
+      },
+      notification_urls: [
+        notificationUrls
+      ],
+      charges: [
+        {
+          // reference_id: this.name,
+          description,
+          amount: {
+            // value: cart.total,
+            value: 500,
+            currency,
+          },
+          payment_method: {
+            type: debitCardData.debitCardFormData.type,
+            installments: debitCardData.debitCardFormData.installments,
+            capture: true,
+            soft_descriptor: softDescriptor,
+            card: {
+              number: debitCardData.debitCardFormData.number,
+              exp_month: debitCardData.debitCardFormData.expiry.slice(0, 2),
+              exp_year: debitCardData.debitCardFormData.expiry.slice(2, 4),
+              security_code: debitCardData.debitCardFormData.cvc,
+              holder: {
+                name: debitCardData.debitCardFormData.name,
+              },
+              store: debitCardData.debitCardFormData.store,
+            },
+            authentication_method: {
+              type: "INAPP",
+              cavv: "",
+              eci: ""
+            }
+          },
+          notification_urls: [
+            notificationUrls
+          ]
+        }
+      ],
+    }
+
+    const res = await axios.post(getStrapiURL('/api/orders/pagseguro'), (boletoData.boletoFormData && boleto) || (creditCardData.creditCardFormData && creditCard) || (debitCardData.debitCardFormData && debitCard))
       .then(res => { console.log(res); return res })
       .catch(err => console.error(err));
     console.log('res', res)

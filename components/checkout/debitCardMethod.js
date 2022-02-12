@@ -73,7 +73,7 @@ const DebitCardMethod = ({
                         name="installments"
                         onChange={(e) => handleInputChange(e, "debit_card")}>
                         <option>Parcelas</option>
-                        <option>...</option>
+                        <option>1</option>
                     </select>
                 </div>
             </div>
