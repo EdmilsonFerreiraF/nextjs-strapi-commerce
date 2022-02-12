@@ -1,4 +1,4 @@
-import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
+import PaymentTabsControl from '../paymentTabsControl';
 
 const AddressTab = ({
   addressData,

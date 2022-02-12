@@ -1,6 +1,6 @@
-import ConfirmTabCC from '../../components/checkout/confirmTabCC';
-import ConfirmTabDC from '../../components/checkout/confirmTabDC';
-import ConfirmTabBoleto from '../../components/checkout/confirmTabBoleto';
+import ConfirmTabCC from '../confirmTabCC';
+import ConfirmTabDC from '../confirmTabDC';
+import ConfirmTabBoleto from '../confirmTabBoleto';
 
 
 const ConfirmTab = ({

@@ -13,13 +13,13 @@ import 'react-credit-cards/es/styles-compiled.css';
 import axios from 'axios'
 import GlobalContext from "../../context/GlobalContext";
 import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
-import AddressTab from '../../components/checkout/addressTab';
+import AddressTab from '../../components/checkout/paymentTabs/addressTab';
 import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
 import CreditCardMethod from '../../components/checkout/creditCardMethod';
 import DebitCardMethod from '../../components/checkout/debitCardMethod';
-import ConfirmTab from '../../components/checkout/confirmTab';
+import ConfirmTab from '../../components/checkout/paymentTabs/confirmTab';
 import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
-import PaymentMethods from '../../components/checkout/paymentMethods';
+import PaymentMethods from '../../components/checkout/paymentTabs/paymentMethods';
 import BoletoMethod from '../../components/checkout/boletoMethod';
 
 const Checkout = ({ categories }) => {
