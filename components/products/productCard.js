@@ -4,8 +4,8 @@ import {
   Button,
 } from "reactstrap";
 
-import GlobalContext from "../context/GlobalContext";
-import { getStrapiMedia } from "../lib/media"
+import GlobalContext from "../../context/GlobalContext";
+import { getStrapiMedia } from "../../lib/media"
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);

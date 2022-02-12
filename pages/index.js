@@ -1,7 +1,7 @@
 import React from "react"
 
 import Articles from "../components/articles"
-import Products from "../components/products"
+import Products from "../components/products/products"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { fetchAPI } from "../lib/api"
