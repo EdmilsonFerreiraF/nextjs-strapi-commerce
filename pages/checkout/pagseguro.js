@@ -71,6 +71,8 @@ const Checkout = ({ categories }) => {
   })
 
   let [boletoData, setBoletoData] = useState({
+    type: "BOLETO",
+
     name: "",
     taxId: "",
     email: "",
@@ -129,18 +131,107 @@ const Checkout = ({ categories }) => {
 
   const sendPaymentData = async (entity) => {
     const description = "My wonderful Strapi blog payment"
+    console.log('creditCardData.creditCardFormData', creditCardData.creditCardFormData)
+
+    console.log('boletoData.type', boletoData.type)
+    console.log('boletoData.boletoFormData.type', boletoData.boletoFormData.type)
+    console.log('country', addressData.phone.slice(0, 2))
+    console.log('area', addressData.phone.slice(2, 4))
+    const boleto = {
+      // "reference_id": this.name,
+      customer: {
+        name: addressData.addressFormData.name,
+        email: boletoData.boletoFormData.email,
+        tax_id: boletoData.boletoFormData.taxId,
+        phones: [
+          {
+            country: addressData.phone.slice(0, 2),
+            area: addressData.phone.slice(2, 4),
+            number: addressData.phone.slice(2, 11),
+            type: "MOBILE"
+          }
+        ]
+      },
+      items: cart.items.map(item => {
+        // reference_id: items.reference_id,
+        return {
+          name: item.attributes.title,
+          quantity: item.quantity,
+          unit_amount: 1,
+        }
+      }
+      ),
+      qr_code: {
+        amount: {
+          value: cart.total
+        }
+      },
+      shipping: {
+        address: {
+          street: addressData.addressFormData.street,
+          // number: boletoData.boletoFormData.number,
+          number: addressData.addressFormData.number,
+          complement: addressData.addressFormData.complement,
+          locality: addressData.addressFormData.neighbourhood,
+          city: addressData.addressFormData.city,
+          region_code: addressData.addressFormData.state,
+          // country: addressData.addressFormData.country,
+          country: "BRA",
+          postal_code: addressData.addressFormData.zip,
+        }
+      },
+      notification_urls: [
+        "http://localhost:3000/notifications"
+      ],
+      charges: [
+        {
+          // reference_id: this.name,
+          description: description,
+          amount: {
+            // value: cart.total,
+            value: 100,
+            currency: "BRL",
+          },
+          payment_method: {
+            type: boletoData.boletoFormData.type,
+            boleto: {
+              due_date: "2024-12-31",
+              instruction_lines: {
+                line_1: "Pagamento processado para DESC Fatura",
+                line_2: "Via PagSeguro"
+              },
+              holder: {
+                name: "Jose da Silva",
+                tax_id: "22222222222",
+                email: "jose@email.com",
+                address: {
+                  street: "Avenida Brigadeiro Faria Lima",
+                  number: "1384",
+                  locality: "Pinheiros",
+                  city: "Sao Paulo",
+                  region: "Sao Paulo",
+                  region_code: "SP",
+                  country: "Brasil",
+                  postal_code: "01452002"
+                }
+              }
+            }
+          }
+        }
+      ],
+    }
 
     const data = {
       // "reference_id": this.name,
       customer: {
-        name: creditCardData.creditCardFormData.name,
-        email: creditCardData.creditCardFormData.email,
-        tax_id: creditCardData.creditCardFormData.taxId,
+        name: creditCardData.creditCardFormData?.name || debitCardData.debitCardFormData?.name || boletoData.boletoCardFormData?.name,
+        email: creditCardData.creditCardFormData?.email || debitCardData.debitCardFormData?.email || boletoData.boletoCardFormData?.email,
+        tax_id: creditCardData.creditCardFormData?.taxId || debitCardData.debitCardFormData?.taxId || boletoData.boletoCardFormData?.taxId,
         phones: [
           {
             country: addressData.phone.slice(0, 2),
-            area: addressData.phone.slice(2, 6),
-            number: addressData.phone.slice(6, 10),
+            area: addressData.phone.slice(2, 4),
+            number: addressData.phone.slice(2, 11),
             // type: addressData.phone.slice(0, 1),
           }
         ]
@@ -156,7 +247,8 @@ const Checkout = ({ categories }) => {
       ),
       qr_code: {
         amount: {
-          value: cart.total
+          // value: cart.total
+          value: 100
         }
       },
       shipping: {
@@ -172,14 +264,15 @@ const Checkout = ({ categories }) => {
         }
       },
       notification_urls: [
-        notification_urls
+        "http://localhost:3000/notifications"
       ],
-      charges: creditCard.creditCardFormData && [
+      charges: creditCardData.creditCardFormData && [
         {
           // reference_id: this.name,
           description: description,
           amount: {
-            value: cart.total,
+            // value: cart.total,
+            value: 100,
             currency: "BRL",
           },
           payment_method: {
@@ -223,7 +316,7 @@ const Checkout = ({ categories }) => {
           ]
         }
       ],
-      boleto: boletoFormData && {
+      boleto: boletoData.boletoFormData && {
         due_date: "2024-12-31",
         instruction_lines: {
           line_1: "Pagamento processado para DESC Fatura",
@@ -232,9 +325,10 @@ const Checkout = ({ categories }) => {
       }
     }
 
-    await axios.post(getStrapiURL('/pagseguro', data))
+    const res = await axios.post(getStrapiURL('/api/orders/pagseguro'), boleto)
       .then(res => { console.log(res); return res })
       .catch(err => console.error(err));
+    console.log('res', res)
   }
 
   const handleSubmit = (e, entity) => {
@@ -248,14 +342,16 @@ const Checkout = ({ categories }) => {
       }, {});
 
     if (entity === "credit_card") {
-      setCreditCardData({ ...creditCardData, creditCardFormData: formData });
+      setCreditCardData({ ...creditCardData, creditCardFormData: {...creditCardData, formData } });
     } else if (entity === "debit_card") {
-      setDebitCardData({ ...debitCardData, debitCardFormData: formData });
+      setDebitCardData({ ...debitCardData, debitCardFormData: {...debitCardData, formData } });
     } else if (entity === "boleto") {
-      setBoletoData({ ...boletoData, boletoFormData: formData });
+      console.log('boletoData', boletoData)
+      console.log('formData', formData)
+      setBoletoData({ ...boletoData, boletoFormData: {...boletoData, formData } });
     } else {
 
-      setAddressData({ ...addressData, addressFormData: formData });
+      setAddressData({ ...addressData, addressFormData: formData } );
     }
 
     handleNextTab()
@@ -264,7 +360,9 @@ const Checkout = ({ categories }) => {
     console.log('e.target', e.target)
   };
 
-  // sendPaymentData();
+  const handleBuyButton = () => {
+    sendPaymentData();
+  }
 
   const handlePreviousTab = () => {
     setPaymentTab(paymentTab - 1)
@@ -282,8 +380,6 @@ const Checkout = ({ categories }) => {
     setPaymentMethod(method)
   }
 
-  console.log('paymentTab', paymentTab)
-  console.log('paymentMethod', paymentMethod)
   useEffect(() => {
     if (paymentTab === -1) {
       router.replace("http://localhost:3000/cart")
@@ -292,7 +388,7 @@ const Checkout = ({ categories }) => {
 
   return (
     <Layout categories={categories}>
-      <div className="container bg-light py-4 m-auto" onSubmit={handleNextTab} >
+      <div className="container bg-light py-4 m-auto mw-805px" onSubmit={handleNextTab} >
         <PaymentTabsMenu
           addressFormData={addressData.addressFormData}
           creditCardFormData={creditCardData.creditCardFormData}
@@ -309,11 +405,13 @@ const Checkout = ({ categories }) => {
             handleSubmit={handleSubmit}
             addressData={addressData}
             handleAddressInputFocus={handleAddressInputFocus}
+            handleBuyButton={handleBuyButton}
+
             handleInputChange={e => handleInputChange(e, "address")} />
         }
 
         {paymentTab === 1 && addressData.addressFormData &&
-          <div className="container col-auto col-md-10 col-lg-6 mt-4 mb-5 h-574">
+          <div className="container col-auto col-md-10 col-lg-10 mt-4 mb-5 h-574">
             {paymentMethod > 0 &&
               <BackToPaymentMethod handlePaymentMethod={handlePaymentMethod} />
             }
@@ -327,6 +425,7 @@ const Checkout = ({ categories }) => {
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
                 handleNextTab={handleNextTab}
+                handleBuyButton={handleBuyButton}
               />
             }
 
@@ -340,6 +439,7 @@ const Checkout = ({ categories }) => {
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
                 handleNextTab={handleNextTab}
+                handleBuyButton={handleBuyButton}
               />
             }
 
@@ -353,6 +453,8 @@ const Checkout = ({ categories }) => {
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
                 handleNextTab={handleNextTab}
+                handleBuyButton={handleBuyButton}
+
               />
             }
 
@@ -364,6 +466,7 @@ const Checkout = ({ categories }) => {
                 handlePreviousTab={handlePreviousTab}
                 handleNextTab={handleNextTab}
                 handleSubmit={handleSubmit}
+
               />
             }
           </div>
@@ -371,12 +474,21 @@ const Checkout = ({ categories }) => {
 
         {paymentTab === 2 && (addressData.addressFormData && (creditCardData.creditCardFormData || debitCardData.debitCardFormData || boletoData.boletoFormData)) &&
           <>
-            <ConfirmTab creditCardData={creditCardData} addressData={addressData} />
+            <ConfirmTab
+              creditCardFormData={creditCardData.creditCardFormData}
+              debitCardFormData={debitCardData.debitCardFormData}
+              boletoFormData={boletoData.boletoFormData}
+              creditCardData={creditCardData}
+              debitCardData={debitCardData}
+              boletoData={boletoData}
+              addressFormData={addressData.addressFormData}
+            />
             <PaymentTabsControl paymentTab={paymentTab}
               disabledNextTab
               handlePreviousTab={handlePreviousTab}
               handleNextTab={handleNextTab}
               handleSubmit={handleSubmit}
+              handleBuyButton={handleBuyButton}
             />
           </>
         }

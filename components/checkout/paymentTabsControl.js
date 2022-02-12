@@ -3,7 +3,8 @@ const PaymentTabsControl = ({
     handlePreviousTab,
     handleNextTab,
     handleSubmit,
-    disabledNextTab
+    disabledNextTab,
+    handleBuyButton
 }) => {
     return (
         <div className="form-actions mt-3 d-flex justify-content-center">
@@ -12,7 +13,7 @@ const PaymentTabsControl = ({
             {paymentTab < 2 ?
                 <button disabled={disabledNextTab} type="submit" className="btn btn-primary btn-block col col-auto">Prosseguir</button>
                 :
-                <button type="submit" className="btn btn-primary btn-block col col-auto">Comprar</button>
+                <button type="submit" onClick={handleBuyButton} className="btn btn-primary btn-block col col-auto">Comprar</button>
             }
         </div>
     )

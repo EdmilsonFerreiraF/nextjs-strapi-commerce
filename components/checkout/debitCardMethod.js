@@ -9,7 +9,8 @@ const DebitCardMethod = ({
     handleCardInputFocus,
     paymentTab,
     handlePreviousTab,
-    handleNextTab
+    handleNextTab,
+    handleBuyButton
 }) => {
     const {
         type,
@@ -26,7 +27,9 @@ const DebitCardMethod = ({
     } = debitCardData
 
     return (
-        <form ref={c => (DebitCardMethod.form = c)} onSubmit={e => handleSubmit(e, "debit_card")}>
+        <form ref={c => (DebitCardMethod.form = c)} onSubmit={e => handleSubmit(e, "debit_card")} className="h-500">
+                        <div className="h-500">
+
             <div className="mb-5">
                 <Card
                     number={number}
@@ -124,11 +127,13 @@ const DebitCardMethod = ({
                 </div>
             </div>
             <input type="hidden" name="issuer" value={issuer} />
+            </div>
             <PaymentTabsControl
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
                 handleNextTab={handleNextTab}
                 handleSubmit={handleSubmit}
+                handleBuyButton={handleBuyButton}
             />
         </form>
     )

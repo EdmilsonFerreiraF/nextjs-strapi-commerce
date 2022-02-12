@@ -8,10 +8,11 @@ const AddressTab = ({
   handlePreviousTab,
   handleNextTab,
   handleSubmit,
+  handleBuyButton
 }) => {
   return (
     <form ref={c => (AddressTab.form = c)} onSubmit={e => handleSubmit(e, "address")}>
-      <div className="row g-3 col-auto col-md-10 col-lg-6 container-sm m-auto h-500 mb-5 px-0">
+      <div className="row g-3 col-auto col-md-10 mw-650px container-sm m-auto h-500 mb-5 px-0">
         <div className="col-md-6 mt-3 mt-md-0">
           <input type="name" className="form-control" id="inputName" placeholder="Nome completo"
             value={addressData.name}
@@ -84,7 +85,7 @@ const AddressTab = ({
             name="state"
             onChange={handleInputChange}>
             <option>Estado</option>
-            <option>...</option>
+            <option>BA</option>
           </select>
         </div>
         <div className="col-6 col-md-6">
@@ -92,7 +93,7 @@ const AddressTab = ({
             value={addressData.number}
             onChange={handleInputChange}
             name="number"
-            onFocus={e => handleAddressInputFocus(e, addressData, "address")}
+            // onFocus={e => handleAddressInputFocus(e, addressData, "address")}
           />
         </div>
         <div className="col-md-12">
@@ -100,7 +101,7 @@ const AddressTab = ({
             value={addressData.complement}
             onChange={handleInputChange}
             name="complement"
-            onFocus={e => handleAddressInputFocus(e, addressData, "address")}
+            // onFocus={e => handleAddressInputFocus(e, addressData, "address")}
           />
         </div>
         <div className="col-12">
@@ -117,6 +118,7 @@ const AddressTab = ({
         handlePreviousTab={handlePreviousTab}
         handleNextTab={handleNextTab}
         handleSubmit={handleSubmit}
+        handleBuyButton={handleBuyButton}
       />
     </form>
   )

@@ -38,6 +38,14 @@ h1 {
   height: 550px;
 }
 
+.mw-650px {
+  max-width: 650px;
+}
+
+.mw-805px {
+  max-width: 805px;
+}
+
 .h-574 {
   height: 574px;
 }

@@ -7,6 +7,7 @@ disabledNextTab,
 handlePreviousTab,
 handleNextTab,
 handleSubmit,
+handleBuyButton
 }) => {
     return (
         <>
@@ -41,6 +42,7 @@ handleSubmit,
           handlePreviousTab={handlePreviousTab}
           handleNextTab={handleNextTab}
           handleSubmit={handleSubmit}
+          handleBuyButton={handleBuyButton}
         />
       </>
     )
