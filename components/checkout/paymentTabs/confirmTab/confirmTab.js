@@ -1,6 +1,6 @@
-import ConfirmTabCC from '../confirmTabCC';
-import ConfirmTabDC from '../confirmTabDC';
-import ConfirmTabBoleto from '../confirmTabBoleto';
+import ConfirmTabCC from './confirmTabCC';
+import ConfirmTabDC from './confirmTabDC';
+import ConfirmTabBoleto from './confirmTabBoleto';
 
 
 const ConfirmTab = ({
