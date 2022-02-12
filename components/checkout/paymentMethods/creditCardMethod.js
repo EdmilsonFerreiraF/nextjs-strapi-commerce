@@ -1,5 +1,5 @@
 import Card from 'react-credit-cards';
-import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
+import PaymentTabsControl from '../paymentTabsControl';
 
 const CreditCardMethod = ({
     creditCardData,

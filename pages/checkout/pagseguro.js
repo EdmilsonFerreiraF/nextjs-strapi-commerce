@@ -15,12 +15,12 @@ import GlobalContext from "../../context/GlobalContext";
 import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 import AddressTab from '../../components/checkout/paymentTabs/addressTab';
 import BackToPaymentMethod from '../../components/checkout/backToPaymentMethod';
-import CreditCardMethod from '../../components/checkout/creditCardMethod';
-import DebitCardMethod from '../../components/checkout/debitCardMethod';
+import CreditCardMethod from '../../components/checkout/paymentMethods/creditCardMethod';
+import DebitCardMethod from '../../components/checkout/paymentMethods/debitCardMethod';
 import ConfirmTab from '../../components/checkout/paymentTabs/confirmTab';
 import PaymentTabsControl from '../../components/checkout/paymentTabsControl';
 import PaymentMethods from '../../components/checkout/paymentTabs/paymentMethods';
-import BoletoMethod from '../../components/checkout/boletoMethod';
+import BoletoMethod from '../../components/checkout/paymentMethods/boletoMethod';
 
 const Checkout = ({ categories }) => {
   const globalContext = useContext(GlobalContext);
