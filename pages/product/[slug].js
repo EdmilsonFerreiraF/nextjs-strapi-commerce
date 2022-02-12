@@ -10,9 +10,9 @@ import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
-import CarouselIndicators from "../../components/carouselIndicators";
-import CarouselItem from "../../components/carouselItem";
-import CarouselControls from "../../components/carouselControls";
+import CarouselIndicators from "../../components/carousel/carouselIndicators";
+import CarouselItem from "../../components/carousel/carouselItem";
+import CarouselControls from "../../components/carousel/carouselControls";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
