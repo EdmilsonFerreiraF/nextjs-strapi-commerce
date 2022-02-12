@@ -1,5 +1,6 @@
 import ConfirmTabCC from '../../components/checkout/confirmTabCC';
 import ConfirmTabDC from '../../components/checkout/confirmTabDC';
+import ConfirmTabBoleto from '../../components/checkout/confirmTabBoleto';
 
 
 const ConfirmTab = ({
@@ -58,11 +59,9 @@ boletoFormData,
 
                     {
                         boletoFormData &&
-                        <>
-                            <p>Nome: <span className="fw-bold">{boletoFormData.name}</span></p>
-                            <p>CPF: <span className="fw-bold">{boletoFormData.taxId}</span></p>
-                            <p>Email: <span className="fw-bold">{boletoFormData.email}</span></p>
-                        </>
+                        <ConfirmTabBoleto
+                        boletoFormData={boletoFormData}
+                        />
                     }
                 </div>
             </div>
