@@ -10,6 +10,7 @@ import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
+import CarouselIndicators from "../../components/carouselIndicators";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -44,12 +45,7 @@ const Product = ({ product, categories }) => {
         </h1>
         <div className="card-footer container-sm d-flex">
           <div id="carouselExampleIndicators" className="carousel slide col-6" data-bs-interval="false">
-            <div className="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            </div>
+            <CarouselIndicators />
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />

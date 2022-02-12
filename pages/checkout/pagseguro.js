@@ -161,8 +161,7 @@ const Checkout = ({ categories }) => {
           quantity: item.quantity,
           unit_amount: 1,
         }
-      }
-      ),
+      }),
       qr_code: {
         amount: {
           value: cart.total
@@ -414,16 +413,16 @@ const Checkout = ({ categories }) => {
       }, {});
 
     if (entity === "credit_card") {
-      setCreditCardData({ ...creditCardData, creditCardFormData: {...creditCardData, formData } });
+      setCreditCardData({ ...creditCardData, creditCardFormData: { ...creditCardData, formData } });
     } else if (entity === "debit_card") {
-      setDebitCardData({ ...debitCardData, debitCardFormData: {...debitCardData, formData } });
+      setDebitCardData({ ...debitCardData, debitCardFormData: { ...debitCardData, formData } });
     } else if (entity === "boleto") {
       console.log('boletoData', boletoData)
       console.log('formData', formData)
-      setBoletoData({ ...boletoData, boletoFormData: {...boletoData, formData } });
+      setBoletoData({ ...boletoData, boletoFormData: { ...boletoData, formData } });
     } else {
 
-      setAddressData({ ...addressData, addressFormData: formData } );
+      setAddressData({ ...addressData, addressFormData: formData });
     }
 
     handleNextTab()
