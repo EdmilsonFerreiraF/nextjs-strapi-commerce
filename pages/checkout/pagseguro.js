@@ -376,9 +376,9 @@ const Checkout = ({ categories }) => {
             capture: true,
             soft_descriptor: softDescriptor,
             card: {
-              number: debitCardData.debitCardFormData.number,
-              exp_month: debitCardData.debitCardFormData.expiry.slice(0, 2),
-              exp_year: debitCardData.debitCardFormData.expiry.slice(2, 4),
+               number: creditCardData.creditCardFormData.number.split(" ").join(""),
+              exp_month: creditCardData.creditCardFormData.expiry.slice(0, 2),
+              exp_year: `20${creditCardData.creditCardFormData.expiry.slice(3, 5)}`,
               security_code: debitCardData.debitCardFormData.cvc,
               holder: {
                 name: debitCardData.debitCardFormData.name,
