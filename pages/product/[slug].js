@@ -12,6 +12,7 @@ import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
 import CarouselIndicators from "../../components/carouselIndicators";
 import CarouselItem from "../../components/carouselItem";
+import CarouselControls from "../../components/carouselControls";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -52,15 +53,7 @@ const Product = ({ product, categories }) => {
                 <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />
               </div>
               <CarouselItem product={product} />
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-              </button>
+              <CarouselControls />
             </div>
           </div>
 
