@@ -7,6 +7,7 @@ import {
 import GlobalContext from "../../context/GlobalContext";
 import Carousel from "../carousel/carousel"
 import AddToCart from "./addToCart"
+import RemoveFromCart from "./removeFromCart";
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
@@ -38,16 +39,7 @@ const ProductCard = ({ product }) => {
 
             {productFromCart ?
               (
-                <>
-                  <Button
-                    className="rounded-0"
-                    color="secondary"
-                    onClick={() => globalContext.removeItem(product)}
-
-                  >
-                    <i className="bi bi-cart-dash"></i>Remove from cart
-                  </Button>
-                </>
+                <RemoveFromCart product={product}  />
               )
               :
               (
