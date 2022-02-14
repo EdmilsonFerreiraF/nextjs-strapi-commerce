@@ -6,6 +6,7 @@ import {
 
 import GlobalContext from "../../context/GlobalContext";
 import Carousel from "../carousel/carousel"
+import AddToCart from "./addToCart"
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
@@ -50,13 +51,7 @@ const ProductCard = ({ product }) => {
               )
               :
               (
-                <Button
-                  className="rounded-0"
-                  color="secondary"
-                  onClick={() => globalContext.addItem(product)}
-                >
-                  <i className="bi bi-cart-plus"></i>Add to cart
-                </Button>
+                <AddToCart product={product} />
               )
             }
           </div>

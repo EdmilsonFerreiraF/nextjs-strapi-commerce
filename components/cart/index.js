@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
+import { Button, Card, CardBody, CardTitle } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
 import ItemList from "./itemList";
