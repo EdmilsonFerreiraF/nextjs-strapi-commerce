@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
+import AddItem from "./addItem";
 
 function Cart() {
   const globalContext = useContext(GlobalContext);
@@ -35,19 +36,7 @@ function Cart() {
                         <span id="item-name">&nbsp; {item.name}</span>
                       </div>
                       <div>
-                        <Button
-                          style={{
-                            height: 25,
-                            padding: 0,
-                            width: 15,
-                            marginRight: 5,
-                            marginLeft: 10,
-                          }}
-                          onClick={() => globalContext.addItem(item)}
-                          color="link"
-                        >
-                          +
-                        </Button>
+                        <AddItem />
                         <Button
                           style={{
                             height: 25,
