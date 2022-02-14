@@ -5,6 +5,7 @@ import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
 import AddItem from "./addItem";
+import ItemQuatity from "./itemQuantity";
 
 function Cart() {
   const globalContext = useContext(GlobalContext);
@@ -37,21 +38,8 @@ function Cart() {
                       </div>
                       <div>
                         <AddItem />
-                        <Button
-                          style={{
-                            height: 25,
-                            padding: 0,
-                            width: 15,
-                            marginRight: 10,
-                          }}
-                          onClick={() => globalContext.removeItem(item)}
-                          color="link"
-                        >
-                          -
-                        </Button>
-                        <span style={{ marginLeft: 5 }} id="item-quantity">
-                          {item.quantity}x
-                        </span>
+                        <RemoveItem />
+                        <ItemQuatity item={item} />
                       </div>
                     </div>
                   );
