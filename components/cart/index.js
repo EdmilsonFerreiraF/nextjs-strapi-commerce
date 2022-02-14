@@ -5,7 +5,7 @@ import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
 import ItemList from "./itemList";
-
+import Total from "./total";
 
 function Cart() {
   const globalContext = useContext(GlobalContext);
@@ -27,10 +27,7 @@ function Cart() {
             {isAuthenticated ? (
               cart.items.length > 0 ? (
                 <div>
-                  <Badge style={{ width: 200, padding: 10 }} color="light">
-                    <h5 style={{ fontWeight: 100, color: "gray" }}>Total:</h5>
-                    <h3>${globalContext.cart.total.toFixed(2)}</h3>
-                  </Badge>
+                  <Total />
                   {router.pathname === "/restaurants" && (
                     <div
                       style={{
