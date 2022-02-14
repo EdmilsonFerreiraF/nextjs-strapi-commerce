@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { Button, Card, CardBody, CardTitle, Badge } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
-import AddItem from "./addItem";
-import ItemQuatity from "./itemQuantity";
+import ItemList from "./itemList";
+
 
 function Cart() {
   const globalContext = useContext(GlobalContext);
@@ -23,29 +23,7 @@ function Cart() {
             <small>Items:</small>
           </div>
           <div>
-            {cart?.items
-              ? cart.items.map((item) => {
-                if (item.quantity > 0) {
-                  return (
-                    <div
-                      className="items-one"
-                      style={{ marginBottom: 15 }}
-                      key={item.id}
-                    >
-                      <div>
-                        <span id="item-price">&nbsp; ${item.price}</span>
-                        <span id="item-name">&nbsp; {item.name}</span>
-                      </div>
-                      <div>
-                        <AddItem />
-                        <RemoveItem />
-                        <ItemQuatity item={item} />
-                      </div>
-                    </div>
-                  );
-                }
-              })
-              : null}
+          <ItemList cart={cart} />
             {isAuthenticated ? (
               cart.items.length > 0 ? (
                 <div>
@@ -75,7 +53,7 @@ function Cart() {
                       style={{ color: "blue" }}
                       onClick={() => window.history.back()}
                     >
-                      back to restaurant
+                      back to products
                     </small>
                   )}
                 </>
