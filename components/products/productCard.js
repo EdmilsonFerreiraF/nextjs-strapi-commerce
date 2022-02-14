@@ -1,8 +1,5 @@
 import React, { useContext } from "react"
 import Link from "next/link"
-import {
-  Button
-} from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
 import Carousel from "../carousel/carousel"
