@@ -8,6 +8,7 @@ import GlobalContext from "../../context/GlobalContext";
 import { getStrapiMedia } from "../../lib/media"
 import CarouselIndicators from "../carousel/carouselIndicators"
 import CarouselPrevButton from "../carousel/carouselPrevButton"
+import CarouselNextButton from "../carousel/CarouselNextButton"
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
@@ -33,6 +34,7 @@ const ProductCard = ({ product }) => {
 
               <CarouselItem product={product} />
               <CarouselPrevButton />
+              <CarouselNextButton />
 
               <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                 <span className="carousel-control-next-icon" aria-hidden="true"></span>
