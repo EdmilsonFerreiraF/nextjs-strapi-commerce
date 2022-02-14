@@ -1,3 +1,5 @@
+import { getStrapiMedia } from "../../lib/media"
+
 const CarouselActiveitem = ({ product }) => {
     return (
         <div className="carousel-item active">

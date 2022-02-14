@@ -1,15 +1,11 @@
 import React, { useContext } from "react"
 import Link from "next/link"
 import {
-  Button, CarouselItem,
+  Button
 } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
-import { getStrapiMedia } from "../../lib/media"
-import CarouselIndicators from "../carousel/carouselIndicators"
-import CarouselPrevButton from "../carousel/carouselPrevButton"
-import CarouselNextButton from "../carousel/CarouselNextButton"
-import CarouselActiveitem from "../carousel/CarouselActiveitem"
+import Carousel from "../carousel/carousel"
 
 const ProductCard = ({ product }) => {
   const globalContext = useContext(GlobalContext);
@@ -20,16 +16,7 @@ const ProductCard = ({ product }) => {
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top">
-            <div id="carouselExampleIndicators" className="carousel slide" data-bs-interval="false">
-              <CarouselIndicators />
-              <div className="carousel-inner">
-
-                <CarouselActiveitem product={product} />
-                <CarouselItem product={product} />
-                <CarouselPrevButton />
-                <CarouselNextButton />
-              </div>
-            </div>
+            <Carousel product={product} />
           </div>
           <div className="uk-card-body">
             <p id="category" className="uk-text-uppercase">
