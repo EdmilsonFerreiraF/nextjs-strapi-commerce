@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router';
+import axios from 'axios'
 
 import Layout from "../../components/layout"
 import { fetchAPI, getStrapiURL } from "../../lib/api"
@@ -10,7 +11,6 @@ import {
   formatExpirationDate,
 } from "../../components/utils";
 import 'react-credit-cards/es/styles-compiled.css';
-import axios from 'axios'
 import GlobalContext from "../../context/GlobalContext";
 import PaymentTabsMenu from '../../components/checkout/paymentTabsMenu';
 import AddressTab from '../../components/checkout/paymentTabs/addressTab';
@@ -139,6 +139,156 @@ const Checkout = ({ categories }) => {
     const countryPhone = 55
     const countryAddress = "BRA"
     const notificationUrls = "http://localhost:3000/notifications"
+
+    const method = creditCardData.creditCardFormData || debitCardData.debitCardFormData || boletoData.boletoFormData
+
+    const address = addressData.addressFormData
+
+    let holder
+    let paymentMethod
+
+    if (method.type === "BOLETO") {
+      holder = {
+        name: method.name,
+        tax_id: method.taxId,
+        email: userEmail,
+        address: {
+          street: address.street,
+          number: address.number,
+          complement: address.complement,
+          locality: address.neighbourhood,
+          city: address.city,
+          region: address.city,
+          region_code: address.state,
+          // region: "Sao Paulo",
+          // region_code: "SP",
+          country: countryAddress,
+          postal_code: address.zip,
+        }
+      }
+
+      paymentMethod =
+      {
+        type: method.type,
+        boleto: {
+          due_date: "2024-12-31",
+          instruction_lines: {
+            line_1: "Pagamento processado para DESC Fatura",
+            line_2: "Via PagSeguro"
+          },
+          holder
+        }
+      }
+    } else if (method.type === "CREDIT_CARD") {
+      holder = {
+        name: creditCardData.creditCardFormData.name,
+      }
+
+      paymentMethod = {
+        type: method.type,
+        installments: method.installments,
+        capture: true,
+        soft_descriptor: softDescriptor,
+        card: {
+          number: method.number.split(" ").join(""),
+          exp_month: method.expiry.slice(0, 2),
+          exp_year: `20${method.expiry.slice(3, 5)}`,
+          // exp_month: "01",
+          // exp_year: "2025",
+          security_code: method.cvc,
+          holder,
+          store: method.store,
+        },
+      }
+    } else if (method.type === "DEBIT_CARD") {
+      holder = {
+        name: method.name,
+      }
+
+      paymentMethod = {
+        type: method.type,
+        installments: method.installments,
+        capture: true,
+        soft_descriptor: softDescriptor,
+        card: {
+          number: method.number.split(" ").join(""),
+          exp_month: method.expiry.slice(0, 2),
+          exp_year: `20${method.expiry.slice(3, 5)}`,
+          security_code: method.cvc,
+          holder: {
+            name: method.name,
+          },
+          store: method.store,
+        },
+        authentication_method: {
+          type: "INAPP",
+          cavv: "4251",
+          eci: "05",
+        }
+      }
+  }
+
+    const paymentData = {
+      // "reference_id": this.name,
+      customer: {
+        name: method.name,
+        email: userEmail,
+        tax_id: method.taxId,
+        phones: [
+          {
+            country: countryPhone,
+            area: address.phone.slice(0, 2),
+            number: address.phone.slice(2, 11),
+            type: phoneType
+          }
+        ]
+      },
+      items: cart.items.map(item => {
+        // reference_id: items.reference_id,
+        return {
+          name: item.attributes.title,
+          quantity: item.quantity,
+          unit_amount: 1,
+        }
+      }
+      ),
+      qr_code: {
+        amount: {
+          // value: cart.total
+          value: 500
+        }
+      },
+      shipping: {
+        address: {
+          street: address.street,
+          number: address.number,
+          complement: address.complement,
+          locality: address.neighbourhood,
+          city: address.city,
+          region_code: address.state,
+          country: countryAddress,
+          postal_code: address.zip,
+        }
+      },
+      notification_urls: [
+        notificationUrls
+      ],
+      charges: [
+        {
+          // reference_id: this.name,
+          description,
+          amount: {
+            // value: cart.total,
+            value: 500,
+            currency,
+          },
+          payment_method: paymentMethod,
+          notification_urls: [
+            "http://localhost:3000/order/notifications"
+          ]
+        }
+      ],
+    }
 
     const boleto = boletoData.boletoFormData && {
       customer: {
@@ -396,7 +546,7 @@ const Checkout = ({ categories }) => {
       ],
     }
 
-    const res = await axios.post(getStrapiURL('/api/orders/pagseguro'), (boletoData.boletoFormData && boleto) || (creditCardData.creditCardFormData && creditCard) || (debitCardData.debitCardFormData && debitCard))
+    const res = await axios.post(getStrapiURL('/api/orders/pagseguro'), paymentData)
       .then(res => { console.log(res); return res })
       .catch(err => console.error(err));
     console.log('res', res)
