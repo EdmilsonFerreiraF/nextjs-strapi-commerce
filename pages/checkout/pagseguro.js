@@ -5,8 +5,7 @@ import Layout from "../../components/layout"
 import { fetchAPI, getStrapiURL } from "../../lib/api"
 
 
-const Checkout = ({ categories }) => {
-
+const PagSeguro = ({ categories }) => {
 
   return (
     <Layout categories={categories}>
@@ -29,4 +28,4 @@ export async function getStaticProps() {
   }
 }
 
-export default Checkout;
+export default PagSeguro;

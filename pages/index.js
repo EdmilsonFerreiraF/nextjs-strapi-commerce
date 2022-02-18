@@ -4,6 +4,7 @@ import Articles from "../components/articles"
 import ProductList from "../components/product/list"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Banner from "../components/banner"
 import { fetchAPI } from "../lib/api"
 
 const Home = ({ products, articles, categories, homepage }) => {
@@ -16,28 +17,22 @@ const Home = ({ products, articles, categories, homepage }) => {
     <Layout categories={categories}>
       <Seo seo={homepage.attributes.seo} />
       <div className="uk-section">
-        <div className="uk-container uk-container-large">
-          <h1>{homepage.attributes.hero.title}</h1>
+        <Banner />
+      </div>
+
+      <div className="uk-section">
+        <div className="uk-container container">
+          <h1>Lançamentos</h1>
           <Articles articles={articles} />
         </div>
       </div>
 
       <div className="uk-section">
         <div className="uk-container uk-container-large">
-          <h1>{homepage.attributes.hero.title}</h1>
-          <div
-            className="uk-child-width-1-2@s"
-            data-uk-grid="true">
-            <div>
-              <ProductList products={leftProducts} />
-            </div>
-            <div>
-              <div
-                className="uk-child-width-1-2@m uk-grid-match"
-                data-uk-grid>
-                <ProductList products={rightProducts} />
-              </div>
-            </div>
+          <h1>Mais vendidos</h1>
+          <div className="d-flex row row-cols-5 g-3">
+            <ProductList products={leftProducts} />
+            <ProductList products={rightProducts} />
           </div>
         </div>
       </div>

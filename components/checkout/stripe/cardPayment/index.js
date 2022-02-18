@@ -5,7 +5,6 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-
 export default function CardPayment() {
   const stripe = useStripe();
   const elements = useElements();

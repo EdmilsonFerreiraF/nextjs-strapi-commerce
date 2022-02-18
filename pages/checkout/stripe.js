@@ -3,17 +3,16 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-import CardPayment from "../../components/checkout/stripe/CardPayment";
+import CardPayment from "../../components/checkout/stripe/cardPayment";
 import GlobalContext from "../../context/GlobalContext";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+import { getStrapiURL } from "../../lib/api"
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51KOP3uHbz4bukEWOFwNbJHuIKt4wYew0Pt761J42BuD7Kwu9aNR14c9HW20fZYvJ7fsxOzeKbBvRWHxZL6reHAWH00GpdQjqkg");
 
-export default function App() {
+export default function Stripe() {
   const [clientSecret, setClientSecret] = useState("");
   const globalContext = useContext(GlobalContext);
   const { cart } = globalContext;
@@ -29,13 +28,18 @@ export default function App() {
   }
 
   useEffect(() => {
-    (async () => {
+    const getClientSecret = async () => {
       // Create PaymentIntent as soon as the page loads
-      await axios.post(`${API_URL}/api/orders/stripe`, {
-      }, paymentData)
-        .then((res) => res.json())
-        .then((data) => setClientSecret(data.clientSecret));
-    })
+      await axios.post(
+
+        getStrapiURL('/api/orders/stripe'), paymentData)
+        .then((res) => {
+          setClientSecret(res.data.clientSecret)
+        })
+        .catch(err => console.error(err))
+    }
+
+    getClientSecret()
   }, [])
 
   const appearance = {
