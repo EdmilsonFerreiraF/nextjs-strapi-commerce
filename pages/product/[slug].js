@@ -43,9 +43,6 @@ const Product = ({ product, categories }) => {
           <p id="category" className="uk-text-uppercase">
             {product.attributes.category.name}
           </p>
-          <h1 className="m-5 text-center">
-            {product.attributes.title}
-          </h1>
           <div className="card-footer container-sm d-flex">
             <Carousel product={product} />
             <div className="col-6">
@@ -58,13 +55,14 @@ const Product = ({ product, categories }) => {
               </h2>
 
               <div className="col product-actions mt-5 mx-auto">
-                <div style={{ padding: 0 }}>
+                <div style={{ padding: 0, maxWidth: "310px", margin: "auto" }}>
+                  <div className="d-flex justify-content-center">
                   <Button
                     className="col-4 rounded-0"
                     color="secondary"
                     onClick={() => globalContext.removeItem(product)}
                   >
-                    <i className="bi bi-cart"></i> Buy
+                    <i className="bi bi-cart me-1"></i> Buy
                   </Button>
 
                   {productFromCart ?
@@ -76,6 +74,7 @@ const Product = ({ product, categories }) => {
                       <AddToCart product={product} />
                     )
                   }
+                  </div>
                   <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
                 </div>
               </div>

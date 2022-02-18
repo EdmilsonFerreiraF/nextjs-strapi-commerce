@@ -18,7 +18,7 @@ const Quantity = ({
             <div className="text-center my-2">
                 <span id="item-price">&nbsp; $ {product.price}</span>
             </div>
-            <Col className="mx-auto my-2" xs="3" style={{
+            <Col className="mx-auto my-2" style={{
                 padding: 0,
                 display: "flex",
                 alignItems: "center"
