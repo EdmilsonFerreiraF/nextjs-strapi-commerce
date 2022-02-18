@@ -10,12 +10,10 @@ import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
-import CarouselIndicators from "../../components/carousel/carouselIndicators";
-import CarouselItem from "../../components/carousel/carouselItem";
-import CarouselControls from "../../components/carousel/carouselControls";
 import AddToCart from "../../components/products/addToCart"
 import RemoveFromCart from "../../components/products/removeFromCart";
 import Quantity from "../../components/products/quantity";
+import Carousel from "../../components/carousel";
 
 const Product = ({ product, categories }) => {
   const globalContext = useContext(GlobalContext);
@@ -49,16 +47,7 @@ const Product = ({ product, categories }) => {
             {product.attributes.title}
           </h1>
           <div className="card-footer container-sm d-flex">
-            <div id="carouselExampleIndicators" className="carousel slide col-6" data-bs-interval="false">
-              <CarouselIndicators />
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />
-                </div>
-                <CarouselItem product={product} />
-                <CarouselControls />
-              </div>
-            </div>
+            <Carousel product={product} />
             <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
             <div className="col-6">
               <h1 className="m-2 text-center">
