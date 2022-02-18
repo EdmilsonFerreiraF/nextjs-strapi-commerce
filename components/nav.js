@@ -4,6 +4,7 @@ import { Nav as NavList, NavItem } from "reactstrap";
 
 import GlobalContext from "../context/GlobalContext";
 import User from "./user"
+import Cart from "./cart"
 
 const Nav = ({ categories }) => {
   const { user, setUser } = useContext(GlobalContext);
@@ -39,6 +40,9 @@ const Nav = ({ categories }) => {
                   <a className="nav-link">Sign in</a>
                 </Link>
               )}
+            </NavItem>
+            <NavItem className="d-flex align-items-center">
+              <Cart />
             </NavItem>
           </ul>
         </div>
