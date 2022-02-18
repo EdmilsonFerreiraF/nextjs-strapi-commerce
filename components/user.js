@@ -5,7 +5,7 @@ import { logout } from "../lib/auth";
 const User = () => {
     return (
         <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle user-options-button d-flex align-items-center" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+            <button className="btn user dropdown-toggle user-options-button d-flex align-items-center" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                 <div>
                     <img className="user-options-img" src="http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A1337%2Fuploads%2Fthe_internet_s_own_boy_458776dd00.jpg&w=1920&q=75" alt="" />
                 </div>
@@ -16,6 +16,19 @@ const User = () => {
                 <li><button className="dropdown-item" type="button">Settings</button></li>
                 <button className="dropdown-item" type="button" onClick={logout}>Logout</button>
             </ul>
+            <style jsx>
+                {`
+                    .user {
+                        background-color: #87ceeb;
+                        border-color: #70a1cd;
+                    }
+
+                    .dropdown-menu {
+                        border: 1px solid #70a1cd;
+                    }
+                `
+                }
+            </style>
         </div>
     )
 }
