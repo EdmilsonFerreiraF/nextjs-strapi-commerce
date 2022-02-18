@@ -6,6 +6,7 @@ import { Button, Card, CardBody, CardTitle } from "reactstrap";
 import GlobalContext from "../../context/GlobalContext";
 import ItemList from "./itemList";
 import Total from "./total";
+import Order from "./order";
 
 function Cart() {
   const globalContext = useContext(GlobalContext);
@@ -23,24 +24,13 @@ function Cart() {
             <small>Items:</small>
           </div>
           <div>
-          <ItemList cart={cart} />
+            <ItemList cart={cart} />
             {isAuthenticated ? (
               cart.items.length > 0 ? (
                 <div>
                   <Total />
                   {router.pathname === "/restaurants" && (
-                    <div
-                      style={{
-                        marginTop: 10,
-                        marginRight: 10,
-                      }}
-                    >
-                      <Link href="/checkout">
-                        <Button style={{ width: "100%" }} color="primary">
-                          <a>Order</a>
-                        </Button>
-                      </Link>
-                    </div>
+                    <Order />
                   )}
                 </div>
               ) : (
