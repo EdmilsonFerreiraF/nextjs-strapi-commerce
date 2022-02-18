@@ -19,9 +19,9 @@ const Home = ({ products, articles, categories, homepage }) => {
       <div className="uk-section">
         <Banner />
       </div>
-      
+
       <div className="uk-section">
-        <div className="uk-container uk-container-large">
+        <div className="uk-container container">
           <h1>Lançamentos</h1>
           <Articles articles={articles} />
         </div>
@@ -29,20 +29,10 @@ const Home = ({ products, articles, categories, homepage }) => {
 
       <div className="uk-section">
         <div className="uk-container uk-container-large">
-          <h1>{homepage.attributes.hero.title}</h1>
-          <div
-            className="uk-child-width-1-2@s"
-            data-uk-grid="true">
-            <div>
-              <ProductList products={leftProducts} />
-            </div>
-            <div>
-              <div
-                className="uk-child-width-1-2@m uk-grid-match"
-                data-uk-grid>
-                <ProductList products={rightProducts} />
-              </div>
-            </div>
+          <h1>Mais vendidos</h1>
+          <div className="d-flex row row-cols-5 g-3 my-3">
+            <ProductList products={leftProducts} />
+            <ProductList products={rightProducts} />
           </div>
         </div>
       </div>
