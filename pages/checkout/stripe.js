@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-import CheckoutForm from "../../components/checkout/CheckoutForm";
+import CardPayment from "../../components/checkout/stripe/CardPayment";
 import GlobalContext from "../../context/GlobalContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
@@ -51,7 +51,7 @@ export default function App() {
     <div className="App">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CardPayment />
         </Elements>
       )}
     </div>

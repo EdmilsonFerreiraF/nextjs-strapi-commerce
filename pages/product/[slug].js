@@ -10,9 +10,9 @@ import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
-import AddToCart from "../../components/products/addToCart"
-import RemoveFromCart from "../../components/products/removeFromCart";
-import Quantity from "../../components/products/quantity";
+import AddToCart from "../../components/product/controls/addToCart"
+import RemoveFromCart from "../../components/product/controls/removeFromCart";
+import Quantity from "../../components/product/quantity";
 import Carousel from "../../components/carousel";
 
 const Product = ({ product, categories }) => {
@@ -48,7 +48,6 @@ const Product = ({ product, categories }) => {
           </h1>
           <div className="card-footer container-sm d-flex">
             <Carousel product={product} />
-            <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
             <div className="col-6">
               <h1 className="m-2 text-center">
                 {product.attributes.title}
@@ -77,9 +76,7 @@ const Product = ({ product, categories }) => {
                       <AddToCart product={product} />
                     )
                   }
-                </div>
-                <div>
-
+                  <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
                 </div>
               </div>
             </div>

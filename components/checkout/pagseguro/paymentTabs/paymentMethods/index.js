@@ -1,4 +1,4 @@
-import PaymentTabsControl from '../paymentTabsControl';
+import Controls from '../../controls';
 
 const PaymentMethods = ({
   handlePaymentMethod,
@@ -37,7 +37,7 @@ const PaymentMethods = ({
           </div>
         </div>
       </div>
-      <PaymentTabsControl paymentTab={paymentTab}
+      <Controls paymentTab={paymentTab}
         disabledNextTab
         handlePreviousTab={handlePreviousTab}
         handleNextTab={handleNextTab}

@@ -1,4 +1,4 @@
-import PaymentTabsControl from '../controls';
+import PaymentTabsControl from '../../controls';
 
 const Address = ({
   addressData,

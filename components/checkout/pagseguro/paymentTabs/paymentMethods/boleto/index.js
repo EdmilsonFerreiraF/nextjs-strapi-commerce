@@ -1,6 +1,6 @@
-import PaymentTabsControl from '../paymentTabsControl';
+import Controls from '../../../controls';
 
-const BoletoMethod = ({
+const Boleto = ({
     paymentTab,
     handlePreviousTab,
     handleNextTab,
@@ -20,7 +20,7 @@ const BoletoMethod = ({
     } = boletoData
 
     return (
-        <form ref={c => (BoletoMethod.form = c)} onSubmit={e => handleSubmit(e, "boleto")} className="h-500">
+        <form ref={c => (Boleto.form = c)} onSubmit={e => handleSubmit(e, "boleto")} className="h-500">
             <div className="h-500">
 
                 <div className="mb-5">
@@ -72,7 +72,7 @@ const BoletoMethod = ({
                 </div>
                 <input type="hidden" name="issuer" value={issuer} />
             </div>
-            <PaymentTabsControl
+            <Controls
                 handleBuyButton={handleBuyButton}
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
@@ -83,4 +83,4 @@ const BoletoMethod = ({
     )
 }
 
-export default BoletoMethod
+export default Boleto

@@ -1,8 +1,8 @@
 import Card from 'react-credit-cards';
-import PaymentTabsControl from '../paymentTabs/controls';
+import PaymentTabsControl from '../../../controls';
 
-const CreditCard = ({
-    creditCardData,
+const DebitCard = ({
+    debitCardData,
     handleCallback,
     handleSubmit,
     handleInputChange,
@@ -24,11 +24,12 @@ const CreditCard = ({
         issuer,
         focused,
         formData,
-    } = creditCardData
+    } = debitCardData
 
     return (
-        <form ref={c => (CreditCard.form = c)} onSubmit={e => handleSubmit(e, "credit_card")} className="h-500">
+        <form ref={c => (DebitCard.form = c)} onSubmit={e => handleSubmit(e, "debit_card")} className="h-500">
             <div className="h-500">
+
                 <div className="mb-5">
                     <Card
                         number={number}
@@ -36,7 +37,7 @@ const CreditCard = ({
                         expiry={expiry}
                         cvc={cvc}
                         focused={focused}
-                        callback={(type, isValid) => handleCallback(type, isValid, "credit_card")}
+                        callback={(type, isValid) => handleCallback(type, isValid, "debit_card")}
                     />
                 </div>
                 <div className="form-group my-4">
@@ -47,7 +48,7 @@ const CreditCard = ({
                         placeholder="Card Number"
                         pattern="[\d| ]{16,22}"
                         required
-                        onChange={(e) => handleInputChange(e, "credit_card")}
+                        onChange={(e) => handleInputChange(e, "debit_card")}
                         value={number}
                         onFocus={handleCardInputFocus}
                     />
@@ -61,7 +62,7 @@ const CreditCard = ({
                             className="form-control"
                             placeholder="Name"
                             required
-                            onChange={(e) => handleInputChange(e, "credit_card")}
+                            onChange={(e) => handleInputChange(e, "debit_card")}
                             value={name}
                             onFocus={handleCardInputFocus}
                         />
@@ -70,7 +71,7 @@ const CreditCard = ({
                         <select id="inputInstallments" className="form-select"
                             value={installments}
                             name="installments"
-                            onChange={(e) => handleInputChange(e, "credit_card")}>
+                            onChange={(e) => handleInputChange(e, "debit_card")}>
                             <option>Parcelas</option>
                             <option>1</option>
                         </select>
@@ -85,7 +86,7 @@ const CreditCard = ({
                             placeholder="Valid Thru"
                             pattern="\d\d/\d\d"
                             required
-                            onChange={(e) => handleInputChange(e, "credit_card")}
+                            onChange={(e) => handleInputChange(e, "debit_card")}
                             value={expiry}
                             onFocus={handleCardInputFocus}
                         />
@@ -98,7 +99,7 @@ const CreditCard = ({
                             placeholder="CVC"
                             pattern="\d{3,4}"
                             required
-                            onChange={(e) => handleInputChange(e, "credit_card")}
+                            onChange={(e) => handleInputChange(e, "debit_card")}
                             value={cvc}
                             onFocus={handleCardInputFocus}
                         />
@@ -111,7 +112,7 @@ const CreditCard = ({
                             placeholder="CPF"
                             pattern="\d{11}"
                             required
-                            onChange={(e) => handleInputChange(e, "credit_card")}
+                            onChange={(e) => handleInputChange(e, "debit_card")}
                             value={taxId}
                             onFocus={handleCardInputFocus}
                         />
@@ -127,7 +128,6 @@ const CreditCard = ({
                 </div>
                 <input type="hidden" name="issuer" value={issuer} />
             </div>
-
             <PaymentTabsControl
                 paymentTab={paymentTab}
                 handlePreviousTab={handlePreviousTab}
@@ -139,4 +139,4 @@ const CreditCard = ({
     )
 }
 
-export default CreditCard
+export default DebitCard
