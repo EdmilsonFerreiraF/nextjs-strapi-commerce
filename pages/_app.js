@@ -117,7 +117,7 @@ const MyApp = ({ Component, pageProps }) => {
       const index = items.findIndex((i) => i.id === newItem.id);
 
       items.splice(index, 1);
-      
+
       setCart(
         { items, total: cart.total - item.price } ,
       );

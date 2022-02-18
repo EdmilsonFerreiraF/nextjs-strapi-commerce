@@ -226,7 +226,7 @@ const Checkout = ({ categories }) => {
           eci: "05",
         }
       }
-  }
+    }
 
     const paymentData = {
       // "reference_id": this.name,

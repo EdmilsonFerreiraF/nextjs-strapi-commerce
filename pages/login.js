@@ -20,7 +20,7 @@ function Login() {
   const [error, setError] = useState(false);
   const router = useRouter();
   const globalContext = useContext(GlobalContext);
-  
+
   useEffect(() => {
     if (globalContext.isAuthenticated) {
       router.push("/"); // redirect if you're already logged in

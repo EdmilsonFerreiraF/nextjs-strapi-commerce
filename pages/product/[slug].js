@@ -40,63 +40,63 @@ const Product = ({ product, categories }) => {
 
   return (
     <Layout categories={categories}>
-    <div className="uk-card uk-card-muted">
-      <div className="uk-card-body">
-        <p id="category" className="uk-text-uppercase">
-          {product.attributes.category.name}
-        </p>
-        <h1 className="m-5 text-center">
-          {product.attributes.title}
-        </h1>
-        <div className="card-footer container-sm d-flex">
-          <div id="carouselExampleIndicators" className="carousel slide col-6" data-bs-interval="false">
-            <CarouselIndicators />
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />
+      <div className="uk-card uk-card-muted">
+        <div className="uk-card-body">
+          <p id="category" className="uk-text-uppercase">
+            {product.attributes.category.name}
+          </p>
+          <h1 className="m-5 text-center">
+            {product.attributes.title}
+          </h1>
+          <div className="card-footer container-sm d-flex">
+            <div id="carouselExampleIndicators" className="carousel slide col-6" data-bs-interval="false">
+              <CarouselIndicators />
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  <img src={getStrapiMedia({ data: product.attributes.image.data[0] })} className="d-block" style={{ height: "450px" }} alt="..." />
+                </div>
+                <CarouselItem product={product} />
+                <CarouselControls />
               </div>
-              <CarouselItem product={product} />
-              <CarouselControls />
             </div>
-          </div>
-          <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
-          <div className="col-6">
-            <h1 className="m-2 text-center">
-              {product.attributes.title}
-            </h1>
+            <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
+            <div className="col-6">
+              <h1 className="m-2 text-center">
+                {product.attributes.title}
+              </h1>
 
-            <h2 id="category" className="uk-text-uppercase text-center">
-              {product.attributes.description}
-            </h2>
+              <h2 id="category" className="uk-text-uppercase text-center">
+                {product.attributes.description}
+              </h2>
 
-            <div className="col product-actions mt-5 mx-auto">
-              <div style={{ padding: 0 }}>
-                <Button
-                  className="col-4 rounded-0"
-                  color="secondary"
-                  onClick={() => globalContext.removeItem(product)}
-                >
-                  <i className="bi bi-cart"></i> Buy
-                </Button>
+              <div className="col product-actions mt-5 mx-auto">
+                <div style={{ padding: 0 }}>
+                  <Button
+                    className="col-4 rounded-0"
+                    color="secondary"
+                    onClick={() => globalContext.removeItem(product)}
+                  >
+                    <i className="bi bi-cart"></i> Buy
+                  </Button>
 
-                {productFromCart ?
-              (
-                <RemoveFromCart product={product} />
-              )
-              :
-              (
-                <AddToCart product={product} />
-              )
-            }
-              </div>
-              <div>
+                  {productFromCart ?
+                    (
+                      <RemoveFromCart product={product} />
+                    )
+                    :
+                    (
+                      <AddToCart product={product} />
+                    )
+                  }
+                </div>
+                <div>
 
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </Layout>
   )
 }

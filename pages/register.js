@@ -19,7 +19,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const globalContext = useContext(GlobalContext);
-  
+
   return (
     <Container>
       <Row>

@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import { Button, Card, CardBody, CardTitle } from "reactstrap";
 
 import GlobalContext from "../../context/GlobalContext";
-import ItemList from "./itemList";
+import ItemList from "./list";
 import Total from "./total";
-import Order from "./order";
+import Order from "./controls/order";
 
 function Cart() {
   const globalContext = useContext(GlobalContext);

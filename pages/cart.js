@@ -146,7 +146,7 @@ function Cart({ categories }) {
                     }}
                   >
                     <Link href="/checkout/pagseguro">
-                      <Button style={{ width: "100%"}} color="primary" className="btn-lg">
+                      <Button style={{ width: "100%" }} color="primary" className="btn-lg">
                         <a className="text-white">Prosseguir</a>
                       </Button>
                     </Link>
