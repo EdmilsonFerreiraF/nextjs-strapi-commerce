@@ -13,7 +13,7 @@ const Quantity = ({
     handleQuantity,
 }) => {
     return (
-        <Card style={{ padding: "10px 5px" }} className="cart">
+        <Card style={{ padding: "5px" }} className="cart">
             <CardTitle className="text-center my-2">Quantity:</CardTitle>
             <div className="text-center my-2">
                 <span id="item-price">&nbsp; $ {product.price}</span>

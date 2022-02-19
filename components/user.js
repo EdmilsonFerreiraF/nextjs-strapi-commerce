@@ -11,20 +11,19 @@ const User = () => {
                 </div>
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <Link href="/profile"><li><button className="dropdown-item" type="button">Profile</button></li></Link>
-                <li><button className="dropdown-item" type="button">Account</button></li>
-                <li><button className="dropdown-item" type="button">Settings</button></li>
-                <button className="dropdown-item" type="button" onClick={logout}>Logout</button>
+                <Link href="/profile"><li><button className="dropdown-item" type="button">Perfil</button></li></Link>
+                <Link href="/account"><li><button className="dropdown-item" type="button">Conta</button></li></Link>
+                <button className="dropdown-item" type="button" onClick={logout}>Sair</button>
             </ul>
             <style jsx>
                 {`
                     .user {
-                        background-color: #87ceeb;
-                        border-color: #70a1cd;
+                        background-color: #d9d9d9;
+                        border-color: #bdbdbd;
                     }
 
                     .dropdown-menu {
-                        border: 1px solid #70a1cd;
+                        border: 1px solid #bdbdbd;
                     }
                 `
                 }

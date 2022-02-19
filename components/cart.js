@@ -11,7 +11,7 @@ const Cart = () => {
             <style jsx>{`
                     .cart {
                         background-color: #87ceeb;
-                        border-color: #70a1cd;
+                        border-color: #5c9fdb;
                     }
 
                     .bi-cart2 {

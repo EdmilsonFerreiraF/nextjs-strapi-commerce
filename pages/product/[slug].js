@@ -10,6 +10,7 @@ import { useContext, useState } from "react"
 import { getStrapiMedia } from "../../lib/media"
 import GlobalContext from "../../context/GlobalContext";
 import Layout from "../../components/layout"
+import Buy from "../../components/product/controls/buy"
 import AddToCart from "../../components/product/controls/addToCart"
 import RemoveFromCart from "../../components/product/controls/removeFromCart";
 import Quantity from "../../components/product/quantity";
@@ -57,13 +58,7 @@ const Product = ({ product, categories }) => {
               <div className="col product-actions mt-5 mx-auto">
                 <div style={{ padding: 0, maxWidth: "310px", margin: "auto" }}>
                   <div className="d-flex justify-content-center">
-                  <Button
-                    className="col-4 rounded-0"
-                    color="secondary"
-                    onClick={() => globalContext.removeItem(product)}
-                  >
-                    <i className="bi bi-cart me-1"></i> Buy
-                  </Button>
+                  <Buy />
 
                   {productFromCart ?
                     (

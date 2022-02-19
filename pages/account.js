@@ -2,9 +2,16 @@ import Layout from "../components/layout"
 import { fetchAPI } from "../lib/api"
 
 import { useState } from "react"
+import Row from "../components/account/row"
 
 const Account = ({ categories }) => {
     let [editField, setEditField] = useState(0)
+    let [form, setForm] = useState({
+        name: '',
+        email: '',
+        password: '',
+        birthday: '',
+    })
 
     const handleEditField = (field) => {
         setEditField(field)
@@ -22,6 +29,7 @@ const Account = ({ categories }) => {
                 <div className="container-md">
                     <h1 className="m-5 text-center">My account</h1>
                     <div className="container-sm">
+                        <Row type="text" editField={editField} value="" fieldName="Name" />
                         <div class="mb-5 row">
                             <label for="staticName" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-8">

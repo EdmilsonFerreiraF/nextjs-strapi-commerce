@@ -11,7 +11,7 @@ const Card = ({ article }) => {
           <div className="uk-card-media-top">
             <NextImage image={article.attributes.image} />
           </div>
-          <div className="uk-card-body">
+          <div className="card-body">
             <p id="category" className="uk-text-uppercase">
               {article.attributes.category.name}
             </p>

@@ -23,7 +23,7 @@ const Product = ({ product }) => {
               <img key={firstImageId} src={getStrapiMedia({ data: firstImage })} className="d-block" alt="..." />
             </div>
           </div>
-          <div className="uk-card-body text-center">
+          <div className="card-body text-center">
             <p id="category" className="uk-text-uppercase">
               {product.attributes.category.name}
             </p>
