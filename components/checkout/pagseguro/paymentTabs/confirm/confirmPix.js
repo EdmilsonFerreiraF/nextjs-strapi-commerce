@@ -1,6 +1,6 @@
 const confirmDebitCard = ({ pixFormData }) => {
     return (
-        <p>
+        <>
             <p>Nome: <span className="fw-bold">{pixFormData.nome}</span></p>
             <p>CPF: <span className="fw-bold">{pixFormData.taxId}</span></p>
             <p>Total a pagar: <span className="fw-bold">{pixFormData.original}</span></p>

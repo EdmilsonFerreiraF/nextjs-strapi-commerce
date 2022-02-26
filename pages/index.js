@@ -6,15 +6,24 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Banner from "../components/banner"
 import { fetchAPI } from "../lib/api"
+import axios from 'axios'
+
+import { getStrapiURL } from "../lib/api"
 
 const Home = ({ products, articles, categories, homepage }) => {
   const leftProductsCount = Math.ceil(products.length / 5)
   const leftProducts = products.slice(0, leftProductsCount)
   const rightProducts = products.slice(leftProductsCount, products.length)
 
-  console.log('products', products)
+  const pixAuth = async () => {
+    await axios.post(getStrapiURL('/api/orders/pagseguropix'))
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
+  }
+
   return (
     <Layout categories={categories}>
+      <button onClick={pixAuth}>Autenticar</button>
       <Seo seo={homepage.attributes.seo} />
       <div className="uk-section">
         <Banner />

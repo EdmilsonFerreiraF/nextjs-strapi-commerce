@@ -1,6 +1,7 @@
-import ConfirmTabCC from './confirmCreditCard';
-import ConfirmTabDC from './confirmDebitCard';
-import ConfirmTabBoleto from './confirmBoleto';
+import ConfirmCreditCard from './confirmCreditCard';
+import ConfirmDebitCard from './confirmDebitCard';
+import ConfirmBoleto from './confirmBoleto';
+import ConfirmPix from './confirmPix';
 
 
 const ConfirmTab = ({
@@ -10,6 +11,8 @@ const ConfirmTab = ({
     creditCardData,
     debitCardData,
     boletoData,
+    pixData,
+    pixFormData,
     addressFormData }) => {
     const {
         phone,
@@ -43,24 +46,31 @@ const ConfirmTab = ({
                 </div>
                 <div>
                     <h5 className="mt-4 mb-3">Forma de pagamento</h5>
-                    <p>Tipo: <span className="fw-bold">{creditCardData?.type && "Cartão de crédito" || debitCardData?.type && "Cartão de débito" || boletoData?.type && "Boleto"}</span></p>
+                    <p>Tipo: <span className="fw-bold">{creditCardData?.type && "Cartão de crédito" || debitCardData?.type && "Cartão de débito" || boletoData?.type && "Boleto" || pixData?.type && "PIX"}</span></p>
                     {creditCardFormData &&
-                        <ConfirmTabCC
+                        <ConfirmCreditCard
                             creditCardFormData={creditCardFormData}
                         />
                     }
 
                     {
                         debitCardFormData &&
-                        <ConfirmTabDC
+                        <ConfirmDebitCard
                             debitCardFormData={debitCardFormData}
                         />
                     }
 
                     {
                         boletoFormData &&
-                        <ConfirmTabBoleto
+                        <ConfirmBoleto
                             boletoFormData={boletoFormData}
+                        />
+                    }
+
+                    {
+                        pixFormData &&
+                        <ConfirmPix
+                            pixFormData={pixFormData}
                         />
                     }
                 </div>
