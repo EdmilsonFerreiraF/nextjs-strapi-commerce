@@ -1,4 +1,4 @@
-const PrevButton = () => {
+const Previous = () => {
     return (
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -7,4 +7,4 @@ const PrevButton = () => {
     )
 }
 
-export default PrevButton
+export default Previous

@@ -1,4 +1,4 @@
-const NextButton = () => {
+const Next = () => {
   return (
     <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
       <span className="carousel-control-next-icon" aria-hidden="true"></span>
@@ -7,4 +7,4 @@ const NextButton = () => {
   )
 }
 
-export default NextButton
+export default Next

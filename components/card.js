@@ -8,7 +8,7 @@ const Card = ({ article }) => {
     <Link href={`/article/${article.attributes.slug}`}>
       <a className="uk-link-reset">
         <div className="uk-card uk-card-muted">
-          <div className="uk-card-media-top">
+          <div className="uk-card-media-top" style={{ maxWidth: "350px" }}>
             <NextImage image={article.attributes.image} />
           </div>
           <div className="card-body">

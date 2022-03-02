@@ -1,4 +1,5 @@
 import Controls from '../../../controls';
+import QrCode from './qrcode';
 
 const Pix = ({
     paymentTab,
@@ -23,12 +24,13 @@ const Pix = ({
             <div className="h-500">
                 <div className="mb-5">
                     <h5 className="mb-4">Pix</h5>
-                    <div>
-                        <img className="rounded mx-auto d-block mw-150px" src="https://logopng.com.br/logos/pix-106.png" />
+                    <div className="d-flex justify-content-center flex-column">
+                        <img className="rounded mx-auto d-block mw-150px mb-2" src="https://logopng.com.br/logos/pix-106.png" />
+                        <QrCode />
                     </div>
                 </div>
                 <div className="row my-4">
-                    <div className="form-group col-6 col-md-6">
+                    <div className="form-group col-6 col-md-6 mx-auto">
                         <input
                             type="text"
                             name="nome"
@@ -42,7 +44,7 @@ const Pix = ({
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-6 mx-auto">
                         <input
                             type="tel"
                             name="taxId"

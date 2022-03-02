@@ -16,14 +16,14 @@ const Quantity = ({
         <Card style={{ padding: "5px" }} className="cart">
             <CardTitle className="text-center my-2">Quantity:</CardTitle>
             <div className="text-center my-2">
-                <span id="item-price">&nbsp; $ {product.price}</span>
+                <span id="item-price">&nbsp; $ {product.attributes.price * quantity}</span>
             </div>
+            {console.log('product.price', product.attributes.price)}
             <Col className="mx-auto my-2" style={{
                 padding: 0,
                 display: "flex",
                 alignItems: "center"
             }}>
-
                 <div>
                     <Button
                         className="rounded-0"

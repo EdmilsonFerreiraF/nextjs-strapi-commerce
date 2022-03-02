@@ -43,8 +43,9 @@ function Cart({ categories }) {
                                 <Card className="cart">
                                   <CardTitle className="text-center my-2">Quantidade:</CardTitle>
                                   <div className="text-center my-2">
-                                    <small id="item-price" className="fw-bold">${item.attributes.price}&nbsp; 30,00</small>
+                                    <small id="item-price" className="fw-bold">${item.attributes.price * item.quantity}</small>
                                   </div>
+                                  {console.log(cart.items)}
                                   <Col className="mx-auto my-2" style={{
                                     padding: 0,
                                     display: "flex",
@@ -67,6 +68,7 @@ function Cart({ categories }) {
                                       key={item.id}
                                     >
                                       <div>
+                                        {console.log('cart', cart)}
                                         <span id="item-quantity">
                                           <input id="quantity" style={{
                                             padding: "6px",
@@ -77,7 +79,7 @@ function Cart({ categories }) {
                                             width: "40px",
                                             borderRadius: "3px",
                                             border: "1px",
-                                          }} type="number" value={item.attributes.quantity} onChange={e => handleQuantity(e)} />
+                                          }} type="number" value={item.quantity} onChange={e => handleQuantity(e)} />
                                         </span>
                                       </div>
                                     </div>
@@ -97,33 +99,6 @@ function Cart({ categories }) {
                                 </Card>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="card">
-                          <img src={getStrapiMedia({ data: item.attributes.image.data[0] })} className="card-img-top" alt="..." />
-                          <div className="card-body">
-                            <h5 className="card-title">{item.attributes.title}</h5>
-                            <p className="card-text">{item.attributes.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="card">
-                          <img src={getStrapiMedia({ data: item.attributes.image.data[0] })} className="card-img-top" alt="..." />
-                          <div className="card-body">
-                            <h5 className="card-title">{item.attributes.title}</h5>
-                            <p className="card-text">{item.attributes.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="card">
-                          <img src={getStrapiMedia({ data: item.attributes.image.data[0] })} className="card-img-top" alt="..." />
-                          <div className="card-body">
-                            <h5 className="card-title">{item.attributes.title}</h5>
-                            <p className="card-text">{item.attributes.description}</p>
                           </div>
                         </div>
                       </div>

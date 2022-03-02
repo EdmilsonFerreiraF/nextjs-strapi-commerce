@@ -19,7 +19,7 @@ const User = () => {
                 {`
                     .user {
                         background-color: #d9d9d9;
-                        border-color: #bdbdbd;
+                        border-color: #e5e5e5;
                     }
 
                     .dropdown-menu {

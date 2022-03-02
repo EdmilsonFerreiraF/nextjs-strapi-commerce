@@ -670,7 +670,6 @@ const PaymentTabs = () => {
           addressData={addressData}
           handleAddressInputFocus={handleAddressInputFocus}
           handleBuyButton={handleBuyButton}
-
           handleInputChange={e => handleInputChange(e, "address")} />
       }
 
@@ -710,7 +709,6 @@ const PaymentTabs = () => {
           {paymentMethod === 3 &&
             <Boleto
               boletoData={boletoData}
-
               handleSubmit={handleSubmit}
               handleInputChange={e => handleInputChange(e, "boleto")}
               handleCardInputFocus={handleCardInputFocus}
@@ -718,14 +716,12 @@ const PaymentTabs = () => {
               handlePreviousTab={handlePreviousTab}
               handleNextTab={handleNextTab}
               handleBuyButton={handleBuyButton}
-
             />
           }
      
           {paymentMethod === 4 &&
             <Pix
               pixData={pixData}
-
               handleSubmit={handleSubmit}
               handleInputChange={e => handleInputChange(e, "pix")}
               handleCardInputFocus={handleCardInputFocus}
@@ -733,7 +729,6 @@ const PaymentTabs = () => {
               handlePreviousTab={handlePreviousTab}
               handleNextTab={handleNextTab}
               handleBuyButton={handleBuyButton}
-
             />
           }
 
@@ -745,7 +740,6 @@ const PaymentTabs = () => {
               handlePreviousTab={handlePreviousTab}
               handleNextTab={handleNextTab}
               handleSubmit={handleSubmit}
-
             />
           }
         </div>

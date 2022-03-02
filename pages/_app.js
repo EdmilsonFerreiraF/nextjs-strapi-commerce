@@ -26,7 +26,7 @@ const MyApp = ({ Component, pageProps }) => {
 
     if (typeof cart === "string" && cart !== "undefined" && cart.length) {
       JSON.parse(cart).forEach((item) => {
-        setCart({ items: JSON.parse(cart), total: item.price * item.quantity },
+        setCart({ items: JSON.parse(cart), total: item.attributes.price * item.quantity },
         );
       });
     }
@@ -77,9 +77,13 @@ const MyApp = ({ Component, pageProps }) => {
       setCart(
         {
           items: [...items, item],
-          total: cart.total + (item.price * item.quantity),
+          total: cart.total + (item.attributes.price * item.quantity),
         },
       );
+      console.log('total: cart.total + item.attributes.price', cart.total + (item.attributes.price * item.quantity))
+      console.log('item.attributes.price', item.attributes.price)
+      console.log('item.quantity', item.quantity)
+
     } else {
       setCart(
         {
@@ -88,10 +92,14 @@ const MyApp = ({ Component, pageProps }) => {
               ? Object.assign({}, item, { quantity: item.quantity + quantity })
               : item
           ),
-          total: cart.total + (item.price * item.quantity),
+          total: cart.total + (item.attributes.price * item.quantity),
         },
 
       );
+      console.log('total: cart.total + item.attributes.price', cart.total + (item.attributes.price * item.quantity))
+      console.log('item.attributes.price', item.attributes.price)
+      console.log('item.quantity', item.quantity)
+
     }
   };
   const removeItem = (item) => {
@@ -108,10 +116,9 @@ const MyApp = ({ Component, pageProps }) => {
               ? Object.assign({}, item, { quantity: item.quantity - 1 })
               : item
           ),
-          total: cart.total - item.price,
-        },
-
-      );
+          total: cart.total - item.attributes.price,
+        }
+        );
     } else {
       const items = [...cart.items];
       const index = items.findIndex((i) => i.id === newItem.id);
@@ -119,7 +126,7 @@ const MyApp = ({ Component, pageProps }) => {
       items.splice(index, 1);
 
       setCart(
-        { items, total: cart.total - item.price } ,
+        { items, total: cart.total - item.attributes.price } ,
       );
     }
   };

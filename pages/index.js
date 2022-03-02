@@ -15,15 +15,8 @@ const Home = ({ products, articles, categories, homepage }) => {
   const leftProducts = products.slice(0, leftProductsCount)
   const rightProducts = products.slice(leftProductsCount, products.length)
 
-  const pixAuth = async () => {
-    await axios.post(getStrapiURL('/api/orders/pagseguropix'))
-    .then(res => console.log(res))
-    .catch(err => console.error(err))
-  }
-
   return (
     <Layout categories={categories}>
-      <button onClick={pixAuth}>Autenticar</button>
       <Seo seo={homepage.attributes.seo} />
       <div className="uk-section">
         <Banner />

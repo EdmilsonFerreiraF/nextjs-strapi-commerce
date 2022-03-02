@@ -66,7 +66,7 @@ const Product = ({ product, categories }) => {
                     )
                     :
                     (
-                      <AddToCart product={product} />
+                      <AddToCart product={product} quantity={quantity} />
                     )
                   }
                   </div>
