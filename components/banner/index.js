@@ -5,9 +5,8 @@ const Banner = () => {
 
             </div>
             <div className="legend">
-            <h1 className="title">LojaTech</h1>
-            <h2 className="subtitle">Equipamentos de tecnologia</h2>
-
+                <h1 className="title">LojaTech</h1>
+                <h2 className="subtitle">Equipamentos de tecnologia</h2>
             </div>
             <style jsx>
                 {`

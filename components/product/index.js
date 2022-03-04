@@ -20,6 +20,7 @@ const Product = ({ product }) => {
         <div className="uk-card uk-card-muted">
           <div className="uk-card-media-top d-flex">
             <div className="carousel-item d-block">
+              {console.log('product', product.attributes)}
               <img key={firstImageId} src={getStrapiMedia({ data: firstImage })} className="d-block" alt="..." />
             </div>
           </div>

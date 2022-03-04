@@ -1,5 +1,6 @@
 import React from "react";
 import { CardElement } from "@stripe/react-stripe-js";
+import ConfirmOrder from "./confirmOrder";
 
 function CardSection(props) {
   return (
@@ -18,9 +19,7 @@ function CardSection(props) {
                 />
               </div>
               <br />
-              <div className="order-button-wrapper">
-                <button onClick={props.submitOrder}>Confirm order</button>
-              </div>
+              <ConfirmOrder submitOrder={submitOrder}/>
               {props.stripeError ? (
                 <div>{props.stripeError.toString()}</div>
               ) : null}

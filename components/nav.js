@@ -32,7 +32,7 @@ const Nav = ({ categories }) => {
                 </li>
               )
             })}
-            <NavItem className="d-flex align-items-center">
+            <NavItem className="d-flex align-items-center bg-white">
               {user ? (
                 <User />
               ) : (

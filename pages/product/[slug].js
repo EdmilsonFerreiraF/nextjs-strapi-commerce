@@ -28,7 +28,7 @@ const Product = ({ product, categories }) => {
       setQuantity(prevState => prevState - 1)
     }
   }
-
+  console.log('product', product)
   const addQuantity = () => {
     setQuantity(prevState => prevState + 1)
   }
@@ -36,6 +36,7 @@ const Product = ({ product, categories }) => {
   const handleQuantity = (e) => {
     setQuantity(e.target.value)
   }
+  console.log('product.attributes', product.attributes)
 
   return (
     <Layout categories={categories}>
@@ -56,21 +57,22 @@ const Product = ({ product, categories }) => {
               </h2>
 
               <div className="col product-actions mt-5 mx-auto">
-                <div style={{ padding: 0, maxWidth: "310px", margin: "auto" }}>
-                  <div className="d-flex justify-content-center">
-                  <Buy />
+                <div style={{ padding: 0, maxWidth: "350px", margin: "auto" }}>
+                <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
 
-                  {productFromCart ?
-                    (
-                      <RemoveFromCart product={product} />
-                    )
-                    :
-                    (
-                      <AddToCart product={product} quantity={quantity} />
-                    )
-                  }
+                  <div className="d-flex justify-content-center">
+                    <Buy />
+
+                    {productFromCart ?
+                      (
+                        <RemoveFromCart product={product} />
+                      )
+                      :
+                      (
+                        <AddToCart product={product} quantity={quantity} />
+                      )
+                    }
                   </div>
-                  <Quantity product={product} quantity={quantity} addQuantity={addQuantity} removeQuantity={removeQuantity} handleQuantity={handleQuantity} />
                 </div>
               </div>
             </div>

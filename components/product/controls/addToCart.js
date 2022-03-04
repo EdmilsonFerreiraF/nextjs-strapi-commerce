@@ -10,11 +10,11 @@ const AddToCart = ({ product, quantity }) => {
 
   return (
     <Button
-      className="col-8 rounded-0"
+      className="col-7 rounded-0"
       color="secondary"
       onClick={() => globalContext.addItem(product, quantity)}
     >
-      <i className="bi bi-cart-plus me-2"></i>Add to cart
+      <i className="bi bi-cart-plus me-2"></i>Adic. ao carrinho
     </Button>
   )
 }

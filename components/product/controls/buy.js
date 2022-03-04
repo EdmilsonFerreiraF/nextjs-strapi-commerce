@@ -10,11 +10,11 @@ const Buy = ({ product }) => {
 
   return (
     <Button
-      className="col-4 rounded-0"
+      className="col-5 rounded-0"
       color="secondary"
       onClick={() => globalContext.removeItem(product)}
     >
-      <i className="bi bi-cart me-1"></i> Buy
+      <i className="bi bi-cart me-1"></i> Comprar
     </Button>
   )
 }

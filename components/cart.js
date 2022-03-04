@@ -10,8 +10,7 @@ const Cart = () => {
             </Link>
             <style jsx>{`
                     .cart {
-                        background-color: #87ceeb;
-                        border-color: #a2cbef;
+                        color: #0d6efd;
                     }
 
                     .bi-cart2 {

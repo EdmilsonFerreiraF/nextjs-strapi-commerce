@@ -30,11 +30,11 @@ const PaymentTabs = () => {
   let [creditCardData, setCreditCardData] = useState({
     type: "CREDIT_CARD",
     number: "",
-    name: "",
-    installments: "",
-    expiry: "",
-    cvc: "",
-    taxId: "",
+    name: "Nome do usuário",
+    installments: "parcelas",
+    expiry: "01/23",
+    cvc: "1234",
+    taxId: "62550787790",
     store: false,
     issuer: "",
     focused: "",
@@ -56,34 +56,34 @@ const PaymentTabs = () => {
   })
 
   let [addressData, setAddressData] = useState({
-    name: "dasdasd",
-    phone: "61983317580",
-    address: "asdas",
-    address2: "ghdfdfgd",
-    zip: "72020550",
-    city: "gsdfdsf",
-    neighbourhood: "hdfdfg",
-    street: "jfgfghf",
+    name: "Nome do usuário",
+    phone: "12345678910",
+    address: "Endereço do usuário",
+    address2: "Endereço do usuário 2",
+    zip: "12345678",
+    city: "Cidade do usuário",
+    neighbourhood: "Bairro do usuário",
+    street: "Rua do usuário",
     state: "BA",
-    number: "4124",
-    complement: "fsdfdsfsdf",
+    number: "1234",
+    complement: "Complemento",
     addressFormData: null
   })
 
   let [boletoData, setBoletoData] = useState({
     type: "BOLETO",
 
-    name: "",
+    name: "Nome do usuário",
     taxId: "",
     email: "",
     boletoFormData: null
   })
 
   let [pixData, setPixData] = useState({
-    expiracao: "",
+    expiracao: "01/23",
     type: "PIX",
-    taxId: "",
-    nome: "",
+    taxId: "12345678910",
+    nome: "Nome do usuário",
     original: "",
     chave: "",
     solicitacaoPagador: "",
@@ -564,7 +564,7 @@ const PaymentTabs = () => {
       ],
     }
 
-    const pix = {
+    const pix = pixData.pixFormData &&  {
         calendario: {
             expiracao: "3600"
         },

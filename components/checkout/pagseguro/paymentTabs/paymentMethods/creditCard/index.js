@@ -44,7 +44,7 @@ const CreditCard = ({
                         type="tel"
                         name="number"
                         className="form-control"
-                        placeholder="Card Number"
+                        placeholder="Número"
                         pattern="[\d| ]{16,22}"
                         required
                         onChange={(e) => handleInputChange(e, "credit_card")}
@@ -59,7 +59,7 @@ const CreditCard = ({
                             type="text"
                             name="name"
                             className="form-control"
-                            placeholder="Name"
+                            placeholder="Nome"
                             required
                             onChange={(e) => handleInputChange(e, "credit_card")}
                             value={name}
@@ -73,6 +73,17 @@ const CreditCard = ({
                             onChange={(e) => handleInputChange(e, "credit_card")}>
                             <option>Parcelas</option>
                             <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
                         </select>
                     </div>
                 </div>
@@ -82,7 +93,7 @@ const CreditCard = ({
                             type="tel"
                             name="expiry"
                             className="form-control"
-                            placeholder="Valid Thru"
+                            placeholder="Expiração"
                             pattern="\d\d/\d\d"
                             required
                             onChange={(e) => handleInputChange(e, "credit_card")}

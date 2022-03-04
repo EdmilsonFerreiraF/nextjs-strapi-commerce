@@ -29,10 +29,10 @@ const Account = ({ categories }) => {
                 <div className="container-md">
                     <h1 className="m-5 text-center">Minha conta</h1>
                     <div className="container-sm">
-                        <Row type="text" editField={editField} id="1" value="dasd" fieldName="Nome" handleFocusField={handleFocusField} />
-                        <Row type="email" editField={editField} id="2" value="gsdfsdf" fieldName="E-mail" handleFocusField={handleFocusField} />
-                        <Row type="password" editField={editField} id="3" value="gsdfsdf" fieldName="Senha" handleFocusField={handleFocusField} />
-                        <Row type="date" editField={editField} id="4" value="gsdfsdf" fieldName="Data de nascimento" handleFocusField={handleFocusField} />
+                        <Row type="text" editField={editField} id="1" value="Nome do usuário" fieldName="Nome" handleFocusField={handleFocusField} />
+                        <Row type="email" editField={editField} id="2" value="E-mail do usuário" fieldName="E-mail" handleFocusField={handleFocusField} />
+                        <Row type="password" editField={editField} id="3" value="Senha do usuário" fieldName="Senha" handleFocusField={handleFocusField} />
+                        <Row type="date" editField={editField} id="4" value="Date de nascimento do usuário" fieldName="Data de nascimento" handleFocusField={handleFocusField} />
                     </div>
                 </div>
             </Layout>

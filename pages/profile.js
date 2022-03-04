@@ -1,14 +1,25 @@
 import { useState, useContext } from "react"
 
 import Layout from "../components/layout"
-import { fetchAPI } from "../lib/api"
+import { fetchAPI, getStrapiURL } from "../lib/api"
 import GlobalContext from "../context/GlobalContext";
+import axios from 'axios';
 
 const Profile = ({ categories }) => {
     let [activeTab, setActiveTab] = useState(0)
 
     const handleActiveTab = (tab) => {
         setActiveTab(tab)
+    }
+
+    const getOrders = async () => {
+        const res = await axios.get(getStrapiURL('/api/orders'))
+            .then(res => {
+                console.log('res', res)
+
+                return res
+            })
+            .catch(err => console.log('err', err.response.data.error_messages))
     }
 
     const globalContext = useContext(GlobalContext);
@@ -20,7 +31,7 @@ const Profile = ({ categories }) => {
             <div className="container-md">
                 <h1 className="mt-5 text-center">Meu perfil</h1>
                 <ul className="nav nav-pills mt-5">
-                    <li className="nav-item">
+                    <li className="nav-item text-white">
                         <a className={`nav-link${!activeTab ? " active" : ""}`} onClick={() => handleActiveTab(0)} aria-current="page" href="#">Comprados</a>
                     </li>
                     <li className="nav-item">
@@ -46,6 +57,7 @@ const Profile = ({ categories }) => {
                                     </div> */}
                                 </a>
                             </div>
+                            {console.log('getOrders()', getOrders())}
                             <div className="w-100">
                                 <div className="d-flex w-100 col-sm-auto justify-content-between">
                                     <h5 className="mb-1">Mouse Gamer</h5>
@@ -74,21 +86,20 @@ const Profile = ({ categories }) => {
                     </a>
                 </div>
                 <style jsx>{`
-                .nav-link.active {
-                    background: #87ceeb;
-                    color: black;
-                }
-                .nav-link {
-                    color: #5a5a5a;
-                }
-                .list-group-item.active {
-                    background: #87ceeb;
-                    border: none;
-                    color: inherit;
-                }
-                .buyed-item-link {
-                    border: 1px solid #e1e1e1;
-                }
+                    .nav-link.active {
+                        background: #0d6efd;
+                    }
+                    .nav-link {
+                        color: #5a5a5a;
+                    }
+                    .list-group-item.active {
+                        background: #f1f1f1;
+                        border: 1px solid #0d6efd;
+                        color: inherit;
+                    }
+                    .buyed-item-link {
+                        border: 1px solid #e1e1e1;
+                    }
                 `}
                 </style>
             </div>

@@ -17,11 +17,6 @@ const User = () => {
             </ul>
             <style jsx>
                 {`
-                    .user {
-                        background-color: #d9d9d9;
-                        border-color: #e5e5e5;
-                    }
-
                     .dropdown-menu {
                         border: 1px solid #bdbdbd;
                     }
