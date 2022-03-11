@@ -34,16 +34,7 @@ function Cart() {
                   )}
                 </div>
               ) : (
-                <>
-                  {router.pathname === "/checkout" && (
-                    <small
-                      style={{ color: "blue" }}
-                      onClick={() => window.history.back()}
-                    >
-                      back to products
-                    </small>
-                  )}
-                </>
+                <Back />
               )
             ) : (
               <h5>Login to Order</h5>
